@@ -225,6 +225,57 @@ h1 {
   border-radius: var(--radius);
 }
 
+.portrait-frame {
+  position: relative;
+  overflow: hidden;
+  min-height: 520px;
+  border-radius: 22px;
+  border: 1px solid rgba(22, 33, 44, 0.08);
+  background:
+    linear-gradient(180deg, rgba(15, 25, 34, 0.05), rgba(15, 25, 34, 0.22)),
+    linear-gradient(145deg, rgba(255, 255, 255, 0.42), rgba(255, 255, 255, 0.12));
+}
+
+.portrait-frame::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background:
+    linear-gradient(180deg, rgba(11, 19, 26, 0.02), rgba(11, 19, 26, 0.34) 85%),
+    radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 30%);
+  pointer-events: none;
+}
+
+.portrait-image {
+  display: block;
+  width: 100%;
+  height: 100%;
+  min-height: 520px;
+  object-fit: cover;
+  object-position: 58% center;
+  filter: saturate(0.95) contrast(1.03);
+}
+
+.portrait-badge {
+  position: absolute;
+  left: 18px;
+  right: 18px;
+  bottom: 18px;
+  z-index: 1;
+  padding: 16px 18px;
+  border: 1px solid rgba(255, 255, 255, 0.18);
+  border-radius: 18px;
+  color: #f8f2e7;
+  background: linear-gradient(180deg, rgba(10, 18, 25, 0.2), rgba(10, 18, 25, 0.72));
+  backdrop-filter: blur(10px);
+  box-shadow: 0 18px 30px rgba(10, 18, 25, 0.24);
+}
+
+.portrait-badge .panel-label {
+  color: rgba(248, 242, 231, 0.76);
+  margin-bottom: 6px;
+}
+
 .panel-card {
   border-radius: 18px;
   padding: 18px;
@@ -393,6 +444,11 @@ h1 {
 
   h1 {
     max-width: 9ch;
+  }
+
+  .portrait-frame,
+  .portrait-image {
+    min-height: 420px;
   }
 
   .topbar-links {
