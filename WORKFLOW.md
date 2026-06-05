@@ -83,6 +83,22 @@ Check the draft for:
 
 If the role asks for a supporting statement, adapt the same evidence-first approach to that format instead of forcing a cover-letter shape.
 
+## 4b. Generate the preparation pack
+
+After evaluation, generate or refresh the role-specific preparation files.
+
+Suggested command:
+
+```bash
+python3 jobgarden_cli.py prepare --application-dir documents/applications/<application-id>
+```
+
+This should produce:
+
+- `cv_brief.md`
+- `cover_letter_brief.md`
+- `interview_questions.md`
+
 ## 4a. Review the real application form
 
 Before any future form-fill or submit step, create a structured form-review sheet.

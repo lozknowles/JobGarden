@@ -582,6 +582,74 @@ def supporting_statement_prompts(job_text: str) -> list[str]:
     return prompts
 
 
+def infer_focus_themes(job_text: str) -> list[str]:
+    lowered = job_text.lower()
+    themes: list[tuple[str, tuple[str, ...]]] = [
+        ("Product strategy and roadmap ownership", ("roadmap", "product strategy", "product vision", "priorities")),
+        ("HR and payroll domain credibility", ("hr", "payroll", "hris", "hcm", "people platform")),
+        ("Implementation and delivery confidence", ("implementation", "delivery", "rollout", "launch")),
+        ("Stakeholder leadership", ("stakeholder", "communication", "influence", "present updates")),
+        ("Data-led decision making", ("data", "analytics", "kpi", "insight", "metrics")),
+        ("Commercial and customer outcomes", ("customer", "commercial", "growth", "value")),
+        ("Cross-functional collaboration", ("sales", "marketing", "support", "engineering", "architects", "qa")),
+    ]
+
+    selected = [label for label, phrases in themes if any(phrase in lowered for phrase in phrases)]
+    return selected[:5] or ["Transferable product, delivery, and leadership strengths"]
+
+
+def infer_cv_emphasis(job_text: str) -> list[str]:
+    lowered = job_text.lower()
+    bullets: list[str] = [
+        "Lead with HR software, payroll, and SaaS product credibility near the top of the CV.",
+        "Keep the CV outcome-led, with measurable change, growth, migration, delivery, or transformation results.",
+    ]
+    if any(term in lowered for term in ("roadmap", "product owner", "product manager", "okr")):
+        bullets.append("Bring roadmap ownership, prioritisation, and product-direction decisions into the opening profile and key roles.")
+    if any(term in lowered for term in ("implementation", "delivery", "professional services")):
+        bullets.append("Show implementation oversight and delivery-risk reduction as a differentiator, not just operational detail.")
+    if any(term in lowered for term in ("data", "analytics", "kpi", "insight")):
+        bullets.append("Include at least one example of data-led decision making or analytics-informed product direction.")
+    if any(term in lowered for term in ("team", "mentor", "lead")):
+        bullets.append("Make leadership and mentoring visible if the role expects team guidance or product-owner leadership.")
+    return bullets
+
+
+def infer_cover_letter_angles(job_text: str) -> list[str]:
+    lowered = job_text.lower()
+    angles = [
+        "Open with direct relevance to the employer's HR, payroll, or people-software context.",
+        "Link product judgement to commercial credibility and customer outcomes.",
+    ]
+    if any(term in lowered for term in ("implementation", "delivery", "launch")):
+        angles.append("Frame implementation oversight as a strength that improves adoption and reduces delivery risk.")
+    if any(term in lowered for term in ("stakeholder", "sales", "marketing", "support")):
+        angles.append("Show that cross-functional communication is a practical strength, not a soft generic claim.")
+    if any(term in lowered for term in ("startup", "fast-paced", "high-velocity")):
+        angles.append("Address pace carefully: show adaptability without pretending this is identical to every past environment.")
+    return angles
+
+
+def infer_interview_questions(metadata: dict, evaluation: Evaluation) -> list[str]:
+    role = metadata.get("role", "this role")
+    company = metadata.get("company", "the company")
+    questions = [
+        f"What attracted you to {role} at {company}?",
+        "How do you decide what belongs on a product roadmap when stakeholder demands compete?",
+        "Tell us about a time you improved the outcome of an HR, payroll, or people-technology initiative.",
+        "How do you balance strategic product thinking with delivery reality?",
+        "Describe a situation where you had to influence senior stakeholders with different priorities.",
+    ]
+    if "data-led decisions" in evaluation.business_outcomes:
+        questions.append("Tell us about a decision you made using data, KPIs, or customer insight.")
+    if any("seniority mismatch" in warning.lower() for warning in evaluation.warnings):
+        questions.append("This role may look narrower than parts of your background. Why is it still a strong fit for you now?")
+    if any("pace and culture" in warning.lower() for warning in evaluation.warnings):
+        questions.append("How do you adapt your leadership style in fast-paced or evolving environments?")
+    questions.append("What questions would you ask us before deciding this role is the right fit?")
+    return questions
+
+
 def build_evaluation(job_text: str, location: str | None) -> Evaluation:
     technical = keyword_score(job_text, TECHNICAL_KEYWORDS)
     experience = keyword_score(job_text, EXPERIENCE_KEYWORDS)
@@ -722,6 +790,128 @@ def render_submission_markdown(metadata: dict, app_slug: str) -> str:
 - Contact person:
 - Notes:
 """
+
+
+def render_cv_brief_markdown(metadata: dict, evaluation: Evaluation) -> str:
+    focus_themes = "\n".join(f"- {item}" for item in infer_focus_themes(metadata.get("job_text", "")))
+    emphasis = "\n".join(f"- {item}" for item in infer_cv_emphasis(metadata.get("job_text", "")))
+    return f"""# Tailored CV Brief
+
+## Role
+- Company: {metadata.get('company', '')}
+- Role: {metadata.get('role', '')}
+- Role family: {labelise(metadata.get('role_family', 'unknown'))}
+- Overall fit: {evaluation.overall}/100 ({evaluation.verdict})
+
+## Lead With
+{focus_themes}
+
+## CV Emphasis
+{emphasis}
+
+## Evidence To Pull Forward
+- Use the strongest examples from HR software, payroll, SaaS, product leadership, implementation assurance, and senior stakeholder influence.
+- Prefer results, transitions, growth, delivery confidence, customer outcomes, and transformation evidence.
+- Keep examples relevant to the role shape rather than listing every past responsibility.
+
+## CV Editing Checklist
+- [ ] Rewrite the profile summary for this role
+- [ ] Bring the most relevant achievements into the first page
+- [ ] Reduce lower-value legacy detail
+- [ ] Make role-family fit obvious within 10 seconds of reading
+- [ ] Check British English and naming consistency
+"""
+
+
+def render_cover_letter_brief_markdown(metadata: dict, evaluation: Evaluation) -> str:
+    prompts = "\n".join(f"- {item}" for item in supporting_statement_prompts(metadata.get("job_text", "")))
+    angles = "\n".join(f"- {item}" for item in infer_cover_letter_angles(metadata.get("job_text", "")))
+    warnings = "\n".join(f"- {item}" for item in evaluation.warnings) or "- No major structural warning identified."
+    return f"""# Tailored Cover Letter Brief
+
+## Role
+- Company: {metadata.get('company', '')}
+- Role: {metadata.get('role', '')}
+- Channel: {metadata.get('channel', '')}
+
+## Core Angles
+{angles}
+
+## Supporting Statement Prompts
+{prompts}
+
+## Risks To Handle Carefully
+{warnings}
+
+## Suggested Structure
+1. Why this company and role
+2. Why Lawrence's background is relevant
+3. Evidence of product / delivery / stakeholder impact
+4. Close with practical fit and direct interest
+
+## Cover Letter Checklist
+- [ ] Tailor the opening sentence to the employer
+- [ ] Match the strongest three requirements directly
+- [ ] Use evidence, not adjectives
+- [ ] Keep tone specific and commercially credible
+- [ ] End cleanly without overclaiming
+"""
+
+
+def render_interview_questions_markdown(metadata: dict, evaluation: Evaluation) -> str:
+    questions = "\n".join(f"- {item}" for item in infer_interview_questions(metadata, evaluation))
+    business_outcomes = "\n".join(f"- {item}" for item in evaluation.business_outcomes)
+    return f"""# Interview Questions
+
+## Role
+- Company: {metadata.get('company', '')}
+- Role: {metadata.get('role', '')}
+
+## Likely Questions
+{questions}
+
+## Themes To Prepare
+- Role family: {labelise(metadata.get('role_family', 'unknown'))}
+- Business outcomes to emphasise:
+{business_outcomes}
+
+## Preparation Notes
+- Prepare STAR examples around product direction, stakeholder influence, implementation confidence, and business outcomes.
+- Be ready to explain why this role is the right level and shape.
+- Be ready to connect HR/payroll domain knowledge to the employer's actual product context.
+"""
+
+
+def write_preparation_pack(app_dir: Path, metadata: dict, evaluation: Evaluation) -> None:
+    (app_dir / "cv_brief.md").write_text(
+        render_cv_brief_markdown(metadata, evaluation),
+        encoding="utf-8",
+    )
+    (app_dir / "cover_letter_brief.md").write_text(
+        render_cover_letter_brief_markdown(metadata, evaluation),
+        encoding="utf-8",
+    )
+    (app_dir / "interview_questions.md").write_text(
+        render_interview_questions_markdown(metadata, evaluation),
+        encoding="utf-8",
+    )
+
+
+def refresh_preparation_pack(args: argparse.Namespace) -> int:
+    app_dir, metadata = load_application_dir(args.application_dir)
+    evaluation = build_evaluation(metadata.get("job_text", ""), metadata.get("location"))
+    metadata["fit_rating"] = evaluation.verdict
+    metadata["role_family"] = evaluation.role_family
+    write_json(app_dir / "application.json", metadata)
+    (app_dir / "evaluation.md").write_text(
+        render_evaluation_markdown(metadata.get("company", ""), metadata.get("role", ""), evaluation, metadata),
+        encoding="utf-8",
+    )
+    write_preparation_pack(app_dir, metadata, evaluation)
+    print(app_dir / "cv_brief.md")
+    print(app_dir / "cover_letter_brief.md")
+    print(app_dir / "interview_questions.md")
+    return 0
 
 
 def render_form_review_markdown(metadata: dict, form_path: Path) -> str:
@@ -873,6 +1063,7 @@ def create_application_workspace(
         render_submission_markdown(metadata, app_slug),
         encoding="utf-8",
     )
+    write_preparation_pack(app_dir, metadata, evaluation)
 
     if original_file:
         target = app_dir / f"job_ad{original_file.suffix or '.txt'}"
@@ -1113,6 +1304,13 @@ def build_parser() -> argparse.ArgumentParser:
     )
     form_review_parser.add_argument("--force", action="store_true", help="Overwrite an existing form review file")
     form_review_parser.set_defaults(func=create_form_review)
+
+    prepare_parser = subparsers.add_parser(
+        "prepare",
+        help="Generate or refresh the tailored CV brief, cover letter brief, and interview-question pack",
+    )
+    prepare_parser.add_argument("--application-dir", required=True, help="Application folder path")
+    prepare_parser.set_defaults(func=refresh_preparation_pack)
 
     list_parser = subparsers.add_parser(
         "list",

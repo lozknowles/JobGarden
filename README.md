@@ -88,6 +88,13 @@ python3 jobgarden_cli.py form-review \
   --application-dir documents/applications/2026-06-05-example-hr-ltd-product-manager
 ```
 
+Generate or refresh the tailored preparation pack:
+
+```bash
+python3 jobgarden_cli.py prepare \
+  --application-dir documents/applications/2026-06-05-example-hr-ltd-product-manager
+```
+
 List tracked applications:
 
 ```bash

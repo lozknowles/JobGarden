@@ -12,10 +12,10 @@
 - [ ] Monitor job sources
 - [ ] Rank opportunities
 - [ ] Reject poor matches
-- [ ] Generate a tailored CV
-- [ ] Generate a tailored cover letter
+- [x] Generate a tailored CV
+- [x] Generate a tailored cover letter
 - [ ] Update an application tracker
-- [ ] Prepare interview questions
+- [x] Prepare interview questions
 
 ## UK Workflow Migration
 
@@ -45,8 +45,8 @@
 - [x] Add a local CLI command to record submissions into `job_search_tracker.csv`.
 - [x] Add a UK job-source intake helper for saved adverts from LinkedIn, company sites, and recruiters.
 - [x] Add stronger UK supporting-statement prompts to the generated evaluation output.
-- [ ] Add explicit draft scaffolds for a tailored CV and tailored cover letter per application.
-- [ ] Add interview-question generation based on the role and evaluation.
+- [x] Add explicit draft scaffolds for a tailored CV and tailored cover letter per application.
+- [x] Add interview-question generation based on the role and evaluation.
 - [ ] Add a private form-capture structure for ATS questions, steps, and observations.
 - [x] Add an ATS/vendor observation model so repeated platform patterns can be learned over time.
 - [x] Add a `form-review` step or command before any future `form-fill` automation.
