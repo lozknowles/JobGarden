@@ -1,6 +1,6 @@
 # JobGarden
 
-Goal: a UK-focused local job-search workspace for Lawrence that supports intake, evaluation, drafting, tracking, and public portfolio work without mixing private application material into the live site.
+Goal: a UK-focused local job-search workspace for Lawrence that supports intake, ranking, tailored CV and cover-letter drafting, tracking, interview prep, and public portfolio work without mixing private application material into the live site.
 
 Current phase:
 
@@ -8,6 +8,15 @@ Current phase:
 - local CLI workflow exists for advert intake, application creation, and submission tracking
 - application intelligence guidance now exists for ATS and form learning
 - one live target-sector role has been run through the workflow as a validation check
+
+First MVP scope:
+
+1. monitor job sources
+2. rank opportunities
+3. reject poor matches
+4. generate a tailored CV and cover letter
+5. update an application tracker
+6. prepare interview questions
 
 What we learned from the first live validation:
 
@@ -19,8 +28,8 @@ What we learned from the first live validation:
 Next step:
 
 1. Validate the workflow on a genuinely UK-based role.
-2. Add a private form-capture workflow for real ATS applications.
-3. Review whether `job_search_tracker.csv` needs extra fields for UK applications and ATS observations.
-4. Decide whether to add AI-assisted drafting hooks to `jobgarden_cli.py`.
-5. Review CV and cover-letter templates against the target roles.
+2. Add explicit draft scaffolds for tailored CVs and tailored cover letters.
+3. Add interview-question preparation based on the advert and fit evaluation.
+4. Keep `job_search_tracker.csv` focused on MVP value first.
+5. Treat ATS form capture and form-fill as later-phase work.
 6. Keep `DECISIONS_LOG.md` updated whenever workflow defaults change.

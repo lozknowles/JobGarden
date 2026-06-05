@@ -224,3 +224,44 @@ Introduce a structured `form-review` step before any future automated `form-fill
 ### Do not repeat
 
 - Do not jump straight from advert evaluation to automated form filling without capturing the real form first.
+
+---
+
+## 2026-06-05: The first MVP should stay 80/20
+
+### Context
+
+The project could expand quickly into ATS capture, form automation, scoring heuristics, and execution workflows.
+
+### Decision
+
+Keep the first MVP focused on the smallest workflow that delivers most of the value.
+
+### MVP scope
+
+The first MVP should:
+
+1. monitor job sources
+2. rank opportunities
+3. reject poor matches
+4. generate a tailored CV
+5. generate a tailored cover letter
+6. update an application tracker
+7. prepare interview questions
+
+### Why
+
+- This gets most of the practical benefit without waiting for computer-use tooling.
+- It keeps the workflow useful even when application forms are hard to automate.
+- It creates a strong preparation layer before execution complexity is added.
+
+### Current implementation direction
+
+- intake and ranking are already partially in place
+- application tracking is in place
+- tailored document drafting and interview preparation are now confirmed MVP work
+- deeper ATS and form-fill automation are later-phase work
+
+### Do not repeat
+
+- Do not let advanced automation delay the core preparation workflow.

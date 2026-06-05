@@ -1,6 +1,6 @@
 # JobGarden
 
-JobGarden is a UK-focused AI job-search workspace for Lawrence. It helps turn real career evidence into tailored job applications, interview prep, and learning plans.
+JobGarden is a UK-focused AI job-search workspace for Lawrence. It helps turn real career evidence into ranked opportunities, tailored CVs and cover letters, interview prep, and practical application tracking.
 
 ## What this is
 
@@ -8,7 +8,8 @@ This repository keeps the useful parts of the original job-search system:
 
 - a structured candidate profile
 - job-fit evaluation before drafting
-- tailored CV and supporting documents
+- tailored CVs and cover letters
+- supporting statements when needed
 - application-form and ATS learning over time
 - interview preparation
 - application tracking
@@ -22,10 +23,10 @@ The workflow is designed for Codex and for UK applications. It prefers pasted or
 2. Update the candidate profile and evaluation notes
 3. Create a job workspace from a saved or pasted job ad
 4. Review the generated fit evaluation and decide whether it is a sensible fit
-5. Review the real application form and capture what it asks for
-6. Draft a UK-appropriate CV and cover letter or supporting statement
+5. Reject poor matches early
+6. Draft a tailored UK-appropriate CV and tailored cover letter or supporting statement
 7. Track the application and capture the outcome
-8. Feed the result back into the profile, prompts, and learning loop
+8. Prepare likely interview questions and feed the result back into the learning loop
 
 ## Getting started
 
@@ -92,6 +93,21 @@ List tracked applications:
 ```bash
 python3 jobgarden_cli.py list
 ```
+
+## First MVP
+
+The first MVP is intentionally narrow and should deliver most of the value with modest complexity.
+
+It should:
+
+1. monitor job sources
+2. rank opportunities
+3. reject poor matches
+4. generate a tailored CV and cover letter
+5. update an application tracker
+6. prepare interview questions
+
+Everything else, including deeper ATS automation and form-fill execution, is a later phase.
 
 ## Repository layout
 
