@@ -26,24 +26,32 @@ const workItems = [
     title: "Independent oversight for complex HR software programmes",
     body:
       "Supporting delivery confidence through structured review, risk reduction, and better decision making.",
+    image: "/work-implementation.png",
+    alt: "Lawrence Knowles in an implementation assurance discussion with a client",
   },
   {
     label: "Product strategy",
     title: "Roadmaps that align customer needs with commercial goals",
     body:
       "Helping teams connect product direction, adoption, and practical delivery outcomes.",
+    image: "/work-strategy.png",
+    alt: "Lawrence Knowles in a product strategy workshop",
   },
   {
     label: "Stakeholder alignment",
     title: "Clear communication across leadership, product, and delivery",
     body:
       "Translating complexity into decisions that customers, sponsors, and teams can act on.",
+    image: "/work-alignment.png",
+    alt: "Lawrence Knowles facilitating a stakeholder alignment meeting",
   },
   {
     label: "HR software insight",
     title: "Experience across payroll, SaaS, and enterprise HR systems",
     body:
       "Bringing long-term sector knowledge to strategy, implementation, and assurance conversations.",
+    image: "/work-insight.png",
+    alt: "Lawrence Knowles reviewing HR software insight with a colleague",
   },
 ];
 ---
@@ -59,7 +67,7 @@ const workItems = [
         <a href="#top">Home</a>
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
-        <a href="#work">Selected Work</a>
+        <a href="#work">Examples</a>
         <a href="#contact">Contact</a>
       </div>
       <a class="button primary topbar-cta" href="#contact">Let's Talk</a>
@@ -79,7 +87,7 @@ const workItems = [
 
         <div class="hero-actions">
           <a class="button primary" href="#contact">Let's Talk</a>
-          <a class="button ghost" href="#work">View Selected Work</a>
+          <a class="button ghost" href="#work">View Examples</a>
         </div>
 
         <div class="social-links" aria-label="Public links">
@@ -155,15 +163,17 @@ const workItems = [
     <section class="section work-section" id="work">
       <div class="section-header">
         <div>
-          <p class="section-kicker">Selected Work</p>
-          <h2>Public examples and current focus</h2>
+          <p class="section-kicker">Examples</p>
+          <h2>Examples and current focus</h2>
         </div>
       </div>
 
       <div class="work-grid">
         {workItems.map((item, index) => (
           <article class="work-card">
-            <div class={`work-preview preview-${index + 1}`}></div>
+            <div class="work-preview">
+              <img class="work-preview-image" src={item.image} alt={item.alt} loading="lazy" />
+            </div>
             <div class="work-body">
               <span class="work-label">{item.label}</span>
               <h3>{item.title}</h3>
@@ -604,37 +614,42 @@ const workItems = [
     border: 1px solid rgba(120, 132, 164, 0.12);
     background: rgba(255, 255, 255, 0.94);
     box-shadow: 0 14px 30px rgba(126, 143, 194, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 44px rgba(126, 143, 194, 0.14);
   }
 
   .work-preview {
-    height: 150px;
+    position: relative;
+    height: 210px;
     border-bottom: 1px solid rgba(120, 132, 164, 0.08);
-    background-size: cover;
-    background-position: center;
+    background: linear-gradient(180deg, rgba(249, 250, 251, 0.8), rgba(255, 255, 255, 0.95));
   }
 
-  .preview-1 {
+  .work-preview::after {
+    content: "";
+    position: absolute;
+    inset: 0;
     background:
-      radial-gradient(circle at 70% 30%, rgba(77, 107, 255, 0.34), transparent 22%),
-      linear-gradient(135deg, #101828, #1d2939 70%, #334155);
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.08)),
+      linear-gradient(180deg, transparent 40%, rgba(255, 255, 255, 0.14));
+    pointer-events: none;
   }
 
-  .preview-2 {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.62), rgba(255, 255, 255, 0.1)),
-      linear-gradient(135deg, #f4f7ff, #eef2ff 58%, #dbe8ff);
+  .work-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: grayscale(1) contrast(1.04) brightness(1.01);
+    transition: transform 0.35s ease;
   }
 
-  .preview-3 {
-    background:
-      radial-gradient(circle at 30% 25%, rgba(89, 109, 255, 0.3), transparent 20%),
-      linear-gradient(135deg, #eef2ff, #f5f3ff 62%, #ecfeff);
-  }
-
-  .preview-4 {
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.5), rgba(255, 255, 255, 0.08)),
-      linear-gradient(135deg, #ffffff, #f4f7ff 58%, #e6efff);
+  .work-card:hover .work-preview-image {
+    transform: scale(1.04);
   }
 
   .work-body {
