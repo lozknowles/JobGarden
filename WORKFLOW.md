@@ -16,7 +16,21 @@ Useful sources:
 
 ## 2. Evaluate the job first
 
-Before drafting anything, compare the job ad against the profile.
+Before drafting anything, create a job workspace and compare the job ad against the profile.
+
+Suggested command:
+
+```bash
+python3 jobgarden_cli.py create --company "Company" --role "Role" --job-ad-file /path/to/job-ad.txt
+```
+
+This creates:
+
+- an application folder under `documents/applications/`
+- a saved copy of the advert
+- `application.json`
+- `evaluation.md`
+- `submission.md`
 
 Check:
 
@@ -57,6 +71,12 @@ Record the application in `job_search_tracker.csv` and add notes about:
 - what the employer seemed to value
 - what to improve next time
 
+Suggested command:
+
+```bash
+python3 jobgarden_cli.py submit --application-dir documents/applications/<application-id>
+```
+
 ## 6. Feed lessons back in
 
 Use the outcome to update:
@@ -65,4 +85,3 @@ Use the outcome to update:
 - the evaluation framework
 - the interview prep notes
 - the upskill plan
-
