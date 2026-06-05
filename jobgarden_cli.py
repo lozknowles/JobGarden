@@ -151,6 +151,7 @@ SECTOR_HINTS = {
 }
 
 ROLE_FAMILY_PATTERNS = [
+    ("ai_enablement", ("ai integration", "automation", "emerging technology", "prompt engineering", "ai tools", "train and support employees", "workshops", "adoption of ai")),
     ("data_migration_analyst", ("data migration", "migration analyst", "data mapping", "data reconciliation", "data cleansing", "successfactors")),
     ("product_marketing", ("product marketing", "go to market", "gtm", "positioning", "messaging")),
     ("functional_analyst", ("functional analyst", "functional consultant", "requirements gathering", "configuration")),
@@ -444,11 +445,17 @@ def infer_application_form_type(*sources: str, text: str = "") -> str:
 def logistics_status(text: str, location: str | None) -> tuple[str, list[str]]:
     lowered = text.lower()
     notes: list[str] = []
+    location_lower = (location or "").lower()
 
     if "visa" in lowered or "sponsorship" in lowered:
         return "FLAG", ["Check right-to-work wording and whether sponsorship is expected."]
 
-    if any(place in lowered for place in ("australia", "sydney", "new south wales", "united states", "usa")):
+    uk_location_known = any(
+        token in location_lower
+        for token in ("uk", "england", "scotland", "wales", "northern ireland", "newark", "nottinghamshire", "leeds", "london", "manchester", "birmingham")
+    )
+
+    if not uk_location_known and any(place in lowered for place in ("australia", "sydney", "new south wales", "united states", "usa")):
         notes.append(
             "Advert appears to be anchored outside the UK; check whether remote hiring genuinely includes UK candidates."
         )
@@ -515,6 +522,8 @@ def infer_warnings(job_text: str, role_family: str) -> list[str]:
 
     if role_family == "product_marketing":
         warnings.append("This advert may be product marketing-led rather than true product ownership.")
+    if role_family == "ai_enablement":
+        warnings.append("This advert is centred on practical AI enablement and cross-business adoption rather than classic product management.")
     if role_family == "data_migration_analyst":
         warnings.append("This advert is a data-migration analyst role rather than a target product-management role.")
     if role_family == "functional_analyst":
@@ -588,6 +597,7 @@ def supporting_statement_prompts(job_text: str) -> list[str]:
 def infer_focus_themes(job_text: str) -> list[str]:
     lowered = job_text.lower()
     themes: list[tuple[str, tuple[str, ...]]] = [
+        ("AI enablement and workflow improvement", ("ai integration", "ai tools", "automation", "workflow", "productivity", "staff training", "adoption")),
         ("Data migration, validation, and reconciliation", ("data migration", "data mapping", "data modelling", "reconciliation", "cleansing", "validation")),
         ("Product strategy and roadmap ownership", ("roadmap", "product strategy", "product vision", "priorities")),
         ("HR and payroll domain credibility", ("hr", "payroll", "hris", "hcm", "people platform")),
@@ -608,6 +618,8 @@ def infer_cv_emphasis(job_text: str) -> list[str]:
         "Lead with HR software, payroll, and SaaS product credibility near the top of the CV.",
         "Keep the CV outcome-led, with measurable change, growth, migration, delivery, or transformation results.",
     ]
+    if any(term in lowered for term in ("ai integration", "automation", "prompt engineering", "workshops", "adoption of ai", "chatgpt", "claude", "gemini", "midjourney")):
+        bullets.append("Make AI-tool adoption, workflow improvement, training, and practical experimentation highly visible.")
     if any(term in lowered for term in ("data migration", "data mapping", "reconciliation", "cleansing", "successfactors", "uat", "parallel payroll")):
         bullets.append("Make any direct data-migration, audit, validation, or implementation-governance evidence easy to spot.")
     if any(term in lowered for term in ("roadmap", "product owner", "product manager", "okr")):
@@ -627,6 +639,8 @@ def infer_cover_letter_angles(job_text: str) -> list[str]:
         "Open with direct relevance to the employer's HR, payroll, or people-software context.",
         "Link product judgement to commercial credibility and customer outcomes.",
     ]
+    if any(term in lowered for term in ("ai integration", "automation", "prompt engineering", "workshops", "adoption of ai")):
+        angles.append("Emphasise practical AI enablement: workflow improvement, adoption, training, and measurable business usefulness.")
     if any(term in lowered for term in ("data migration", "data mapping", "validation", "reconciliation", "cleansing")):
         angles.append("Address data migration credibility directly, especially validation, reconciliation, risk reduction, and stakeholder communication.")
     if any(term in lowered for term in ("implementation", "delivery", "launch")):
@@ -649,6 +663,14 @@ def infer_interview_questions(metadata: dict, evaluation: Evaluation) -> list[st
             "How do you approach data mapping between a legacy system and a target platform?",
             "Describe how you would explain migration defects or risks to non-technical stakeholders.",
             "Tell us about a time you supported testing, validation, or business readiness in a system change.",
+        ]
+    elif role_family == "ai_enablement":
+        questions = [
+            f"What attracted you to {role} at {company}?",
+            "Tell us about a time you introduced an AI or automation tool that improved workflow or productivity.",
+            "How do you help non-technical colleagues adopt new AI tools with confidence?",
+            "Describe how you decide whether an AI tool is genuinely useful rather than just interesting.",
+            "Tell us about a time you trained or influenced teams across different functions.",
         ]
     else:
         questions = [
