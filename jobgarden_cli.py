@@ -151,6 +151,7 @@ SECTOR_HINTS = {
 }
 
 ROLE_FAMILY_PATTERNS = [
+    ("data_migration_analyst", ("data migration", "migration analyst", "data mapping", "data reconciliation", "data cleansing", "successfactors")),
     ("product_marketing", ("product marketing", "go to market", "gtm", "positioning", "messaging")),
     ("functional_analyst", ("functional analyst", "functional consultant", "requirements gathering", "configuration")),
     ("implementation_assurance", ("implementation", "assurance", "audit", "programme assurance", "program assurance")),
@@ -514,6 +515,8 @@ def infer_warnings(job_text: str, role_family: str) -> list[str]:
 
     if role_family == "product_marketing":
         warnings.append("This advert may be product marketing-led rather than true product ownership.")
+    if role_family == "data_migration_analyst":
+        warnings.append("This advert is a data-migration analyst role rather than a target product-management role.")
     if role_family == "functional_analyst":
         warnings.append("This advert may be closer to functional analysis or configuration than product leadership.")
     if role_family == "service_operations":
@@ -585,6 +588,7 @@ def supporting_statement_prompts(job_text: str) -> list[str]:
 def infer_focus_themes(job_text: str) -> list[str]:
     lowered = job_text.lower()
     themes: list[tuple[str, tuple[str, ...]]] = [
+        ("Data migration, validation, and reconciliation", ("data migration", "data mapping", "data modelling", "reconciliation", "cleansing", "validation")),
         ("Product strategy and roadmap ownership", ("roadmap", "product strategy", "product vision", "priorities")),
         ("HR and payroll domain credibility", ("hr", "payroll", "hris", "hcm", "people platform")),
         ("Implementation and delivery confidence", ("implementation", "delivery", "rollout", "launch")),
@@ -604,6 +608,8 @@ def infer_cv_emphasis(job_text: str) -> list[str]:
         "Lead with HR software, payroll, and SaaS product credibility near the top of the CV.",
         "Keep the CV outcome-led, with measurable change, growth, migration, delivery, or transformation results.",
     ]
+    if any(term in lowered for term in ("data migration", "data mapping", "reconciliation", "cleansing", "successfactors", "uat", "parallel payroll")):
+        bullets.append("Make any direct data-migration, audit, validation, or implementation-governance evidence easy to spot.")
     if any(term in lowered for term in ("roadmap", "product owner", "product manager", "okr")):
         bullets.append("Bring roadmap ownership, prioritisation, and product-direction decisions into the opening profile and key roles.")
     if any(term in lowered for term in ("implementation", "delivery", "professional services")):
@@ -621,6 +627,8 @@ def infer_cover_letter_angles(job_text: str) -> list[str]:
         "Open with direct relevance to the employer's HR, payroll, or people-software context.",
         "Link product judgement to commercial credibility and customer outcomes.",
     ]
+    if any(term in lowered for term in ("data migration", "data mapping", "validation", "reconciliation", "cleansing")):
+        angles.append("Address data migration credibility directly, especially validation, reconciliation, risk reduction, and stakeholder communication.")
     if any(term in lowered for term in ("implementation", "delivery", "launch")):
         angles.append("Frame implementation oversight as a strength that improves adoption and reduces delivery risk.")
     if any(term in lowered for term in ("stakeholder", "sales", "marketing", "support")):
@@ -633,13 +641,23 @@ def infer_cover_letter_angles(job_text: str) -> list[str]:
 def infer_interview_questions(metadata: dict, evaluation: Evaluation) -> list[str]:
     role = metadata.get("role", "this role")
     company = metadata.get("company", "the company")
-    questions = [
-        f"What attracted you to {role} at {company}?",
-        "How do you decide what belongs on a product roadmap when stakeholder demands compete?",
-        "Tell us about a time you improved the outcome of an HR, payroll, or people-technology initiative.",
-        "How do you balance strategic product thinking with delivery reality?",
-        "Describe a situation where you had to influence senior stakeholders with different priorities.",
-    ]
+    role_family = metadata.get("role_family", "unknown")
+    if role_family == "data_migration_analyst":
+        questions = [
+            f"What attracted you to {role} at {company}?",
+            "Tell us about a time you found and resolved a data-quality or reconciliation issue.",
+            "How do you approach data mapping between a legacy system and a target platform?",
+            "Describe how you would explain migration defects or risks to non-technical stakeholders.",
+            "Tell us about a time you supported testing, validation, or business readiness in a system change.",
+        ]
+    else:
+        questions = [
+            f"What attracted you to {role} at {company}?",
+            "How do you decide what belongs on a product roadmap when stakeholder demands compete?",
+            "Tell us about a time you improved the outcome of an HR, payroll, or people-technology initiative.",
+            "How do you balance strategic product thinking with delivery reality?",
+            "Describe a situation where you had to influence senior stakeholders with different priorities.",
+        ]
     if "data-led decisions" in evaluation.business_outcomes:
         questions.append("Tell us about a decision you made using data, KPIs, or customer insight.")
     if any("seniority mismatch" in warning.lower() for warning in evaluation.warnings):
