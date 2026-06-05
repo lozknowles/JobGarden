@@ -1,18 +1,22 @@
 # JobGarden
 
-Goal: UK-focused AI job-search assistant for Lawrence.
+Goal: a UK-focused local job-search workspace for Lawrence that supports intake, evaluation, drafting, tracking, and public portfolio work without mixing private application material into the live site.
 
-Based on MadsLorentzen/ai-job-search, but adapted for:
-- UK jobs
-- pasted/manual job ads first
-- tailored CV + statement of interest PDFs
-- application tracker
-- Codex/local workflow instead of Claude-only workflow
+Current phase:
 
-Current phase: repo cloned and renamed locally.
+- portfolio site is live on `lozknowles.com`
+- local CLI workflow exists for advert intake, application creation, and submission tracking
+- one live target-sector role has been run through the workflow as a validation check
+
+What we learned from the first live validation:
+
+1. Saved advert import is valuable, especially for HTML job pages.
+2. Supporting-statement prompts are more useful when generated directly inside `evaluation.md`.
+3. Real adverts quickly expose metadata issues like location, channel, and geography assumptions.
 
 Next step:
-1. Keep the public portfolio site and live-hosting policy in sync with `PROJECT_ARCHITECTURE.md`.
-2. Inspect repo structure.
-3. Create Lawrence profile files.
-4. Replace Danish job-board logic with UK/manual workflow.
+
+1. Validate the workflow on a genuinely UK-based role.
+2. Review whether `job_search_tracker.csv` needs extra fields for UK applications.
+3. Decide whether to add AI-assisted drafting hooks to `jobgarden_cli.py`.
+4. Review CV and cover-letter templates against the target roles.

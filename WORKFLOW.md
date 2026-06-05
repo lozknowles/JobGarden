@@ -14,6 +14,18 @@ Useful sources:
 - reference letters
 - past applications and outcomes
 
+## 1a. Import the advert cleanly
+
+If the role is saved as HTML, copied from LinkedIn, or forwarded from a recruiter, import it first.
+
+Suggested command:
+
+```bash
+python3 jobgarden_cli.py import --input-file /path/to/saved-job.html --create
+```
+
+This keeps a cleaned plain-text version in `job_scraper/imports/` and can also create the application workspace immediately.
+
 ## 2. Evaluate the job first
 
 Before drafting anything, create a job workspace and compare the job ad against the profile.
@@ -31,6 +43,14 @@ This creates:
 - `application.json`
 - `evaluation.md`
 - `submission.md`
+
+The generated `evaluation.md` now includes:
+
+- a first-pass fit score
+- strengths and gaps
+- logistics notes
+- UK supporting-statement prompts
+- a suggested supporting-statement structure
 
 Check:
 

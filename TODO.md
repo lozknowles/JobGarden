@@ -9,7 +9,7 @@
 ## UK Workflow Migration
 
 - [x] Replace Danish job-board search logic with UK sources or a manual pasted-job-ad workflow.
-- [ ] Update the job-evaluation guidance for UK application norms, including supporting statements and CV expectations.
+- [x] Update the job-evaluation guidance for UK application norms, including supporting statements and CV expectations.
 - [ ] Check the application tracker fields against the way UK applications are actually managed.
 - [ ] Confirm the CV and cover-letter templates still fit UK conventions and target roles.
 - [x] Create a simple portfolio page on `lozknowles.com` that highlights HR software leadership, implementation assurance, and selected projects.
@@ -22,13 +22,15 @@
 
 ## Validation
 
-- [ ] Run one end-to-end UK application through the updated CLI workflow.
-- [ ] Record what worked and what felt clunky.
+- [x] Run one end-to-end live role through the updated CLI workflow and review the generated evaluation wording.
+- [ ] Repeat the validation on a UK-located role, not just a target-sector live role.
+- [x] Record what worked and what felt clunky.
 - [ ] Update `PROJECT_MAP.md` and the workflow docs after the first real test.
 
 ## Coding
 
 - [x] Add a local CLI to create application workspaces from pasted or saved job adverts.
 - [x] Add a local CLI command to record submissions into `job_search_tracker.csv`.
-- [ ] Add a UK job-source intake helper for saved adverts from LinkedIn, company sites, and recruiters.
+- [x] Add a UK job-source intake helper for saved adverts from LinkedIn, company sites, and recruiters.
+- [x] Add stronger UK supporting-statement prompts to the generated evaluation output.
 - [ ] Decide whether to extend the CLI with AI-assisted drafting hooks or keep drafting agent-led.

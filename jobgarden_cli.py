@@ -11,11 +11,13 @@ from __future__ import annotations
 
 import argparse
 import csv
+import html
 import json
 import re
 import shutil
 from dataclasses import dataclass
 from datetime import UTC, date, datetime
+from html.parser import HTMLParser
 from pathlib import Path
 from typing import Iterable
 
@@ -23,6 +25,7 @@ from typing import Iterable
 ROOT = Path(__file__).resolve().parent
 APPLICATIONS_DIR = ROOT / "documents" / "applications"
 TRACKER_FILE = ROOT / "job_search_tracker.csv"
+IMPORTS_DIR = ROOT / "job_scraper" / "imports"
 
 
 TRACKER_FIELDS = [
@@ -109,6 +112,7 @@ ROLE_TYPE_HINTS = {
     "freelance": "contract",
     "permanent": "permanent",
     "full time": "permanent",
+    "full-time": "permanent",
     "part time": "part-time",
     "part-time": "part-time",
 }
@@ -137,6 +141,63 @@ class Evaluation:
     notes: list[str]
 
 
+class JobAdHTMLExtractor(HTMLParser):
+    """Minimal HTML-to-text extractor for saved job adverts."""
+
+    BLOCK_TAGS = {
+        "article",
+        "br",
+        "div",
+        "footer",
+        "h1",
+        "h2",
+        "h3",
+        "h4",
+        "h5",
+        "h6",
+        "header",
+        "li",
+        "main",
+        "p",
+        "section",
+        "title",
+        "tr",
+        "ul",
+        "ol",
+    }
+
+    def __init__(self) -> None:
+        super().__init__()
+        self.parts: list[str] = []
+        self.skip_depth = 0
+
+    def handle_starttag(self, tag: str, attrs: list[tuple[str, str | None]]) -> None:
+        if tag in {"script", "style", "noscript"}:
+            self.skip_depth += 1
+            return
+        if tag in self.BLOCK_TAGS:
+            self.parts.append("\n")
+
+    def handle_endtag(self, tag: str) -> None:
+        if tag in {"script", "style", "noscript"} and self.skip_depth:
+            self.skip_depth -= 1
+            return
+        if tag in self.BLOCK_TAGS:
+            self.parts.append("\n")
+
+    def handle_data(self, data: str) -> None:
+        if self.skip_depth:
+            return
+        cleaned = normalise_whitespace(html.unescape(data))
+        if cleaned:
+            self.parts.append(cleaned)
+
+    def get_text(self) -> str:
+        raw = "\n".join(self.parts)
+        lines = [normalise_whitespace(line) for line in raw.splitlines()]
+        return "\n".join(line for line in lines if line)
+
+
 def normalise_whitespace(value: str) -> str:
     return re.sub(r"\s+", " ", value).strip()
 
@@ -147,12 +208,124 @@ def slugify(value: str) -> str:
     return value.strip("-")[:80] or "job"
 
 
+def strip_html_to_text(raw_html: str) -> str:
+    parser = JobAdHTMLExtractor()
+    parser.feed(raw_html)
+    return parser.get_text()
+
+
+def read_text_file(path: Path) -> str:
+    suffix = path.suffix.lower()
+    raw = path.read_text(encoding="utf-8")
+    if suffix in {".html", ".htm"}:
+        return strip_html_to_text(raw)
+    return raw.strip()
+
+
 def read_job_text(args: argparse.Namespace) -> str:
     if args.job_ad_file:
-        return Path(args.job_ad_file).read_text(encoding="utf-8").strip()
+        return read_text_file(Path(args.job_ad_file))
     if args.job_ad_text:
         return args.job_ad_text.strip()
     raise SystemExit("Provide either --job-ad-file or --job-ad-text.")
+
+
+def infer_channel(*sources: str, path: Path | None = None) -> str:
+    haystack = " ".join([*sources, str(path or "")]).lower()
+    if "linkedin" in haystack:
+        return "LinkedIn"
+    if "employmenthero" in haystack:
+        return "Employment Hero"
+    if "greenhouse" in haystack:
+        return "Greenhouse"
+    if "lever" in haystack:
+        return "Lever"
+    if "workday" in haystack:
+        return "Workday"
+    if "recruiter" in haystack or "recruitment" in haystack:
+        return "Recruiter"
+    if "indeed" in haystack:
+        return "Indeed"
+    if "email" in haystack or path and path.suffix.lower() in {".eml", ".msg"}:
+        return "Email"
+    return "unknown"
+
+
+def title_from_html(path: Path) -> str:
+    if path.suffix.lower() not in {".html", ".htm"}:
+        return ""
+    raw = path.read_text(encoding="utf-8")
+    match = re.search(r"<title[^>]*>(.*?)</title>", raw, flags=re.IGNORECASE | re.DOTALL)
+    if not match:
+        return ""
+    return normalise_whitespace(html.unescape(match.group(1)))
+
+
+def leading_lines(text: str, limit: int = 20) -> list[str]:
+    return [line for line in text.splitlines()[:limit] if line]
+
+
+def parse_title_metadata(title: str) -> tuple[str, str, str]:
+    if not title:
+        return "", "", ""
+
+    patterns = [
+        r"^(?P<role>.+?)\s+Job at\s+(?P<company>.+)$",
+        r"^(?P<role>.+?)\s+at\s+(?P<company>.+)$",
+        r"^(?P<role>.+?),\s+(?P<location>.+?)\s+\|\s+(?P<company>.+?)(?:\s+Careers)?$",
+        r"^(?P<role>.+?)\s+\|\s+(?P<company>.+?)(?:\s+Careers)?$",
+    ]
+    for pattern in patterns:
+        match = re.match(pattern, title)
+        if match:
+            groups = match.groupdict()
+            return (
+                normalise_whitespace(groups.get("role", "")),
+                normalise_whitespace(groups.get("company", "")),
+                normalise_whitespace(groups.get("location", "")),
+            )
+    return "", "", ""
+
+
+def infer_metadata_from_text(text: str, path: Path | None = None) -> dict[str, str]:
+    title = title_from_html(path) if path else ""
+    role, company, location = parse_title_metadata(title)
+    lines = leading_lines(text)
+
+    if not role:
+        for line in lines:
+            if line.lower().startswith("product owner") or line.lower().startswith("product manager"):
+                role = line
+                break
+    if not company:
+        for idx, line in enumerate(lines):
+            if line.lower().startswith("at ") and len(line) < 120:
+                company = line[3:].strip()
+                break
+            if line.lower() == "at" and idx + 1 < len(lines):
+                company = lines[idx + 1].strip()
+                break
+    if not location:
+        for line in lines:
+            lowered = line.lower()
+            if "job at" in lowered:
+                continue
+            if line == role or line == title or lowered.startswith("at "):
+                continue
+            if "•" in line or "|" in line:
+                location = line
+                break
+            if "united kingdom" in lowered or "remote" in lowered or "hybrid" in lowered or "australia" in lowered:
+                location = line
+                break
+
+    return {
+        "role": role,
+        "company": company,
+        "location": location,
+        "channel": infer_channel(title, text[:200], path=path),
+        "title": title,
+    }
 
 
 def keyword_score(text: str, keywords: dict[str, int], floor: int = 20) -> int:
@@ -186,6 +359,11 @@ def logistics_status(text: str, location: str | None) -> tuple[str, list[str]]:
 
     if "visa" in lowered or "sponsorship" in lowered:
         return "FLAG", ["Check right-to-work wording and whether sponsorship is expected."]
+
+    if any(place in lowered for place in ("australia", "sydney", "new south wales", "united states", "usa")):
+        notes.append(
+            "Advert appears to be anchored outside the UK; check whether remote hiring genuinely includes UK candidates."
+        )
 
     if "remote" in lowered:
         notes.append("Remote wording appears in the advert.")
@@ -237,8 +415,43 @@ def infer_gaps(job_text: str) -> list[str]:
         gaps.append("Check the practical level of travel expected.")
     if "startup" in lowered:
         gaps.append("Test whether the culture and pace are the right fit.")
+    if any(term in lowered for term in ("2 - 5 years", "2 – 5 years", "fewer than 6 years", "associate", "junior")):
+        gaps.append("Check for a seniority mismatch or overqualification risk.")
 
     return gaps or ["No major gap is obvious from the advert; validate through research and tailoring."]
+
+
+def supporting_statement_prompts(job_text: str) -> list[str]:
+    lowered = job_text.lower()
+    prompts = [
+        "Open with a concise reason for targeting this role and why the employer's HR or payroll product space is relevant.",
+        "Match the strongest three requirements from the advert to concrete evidence from Lawrence's HR software, product, and implementation background.",
+    ]
+
+    if any(term in lowered for term in ("roadmap", "product vision", "strategy", "backlog")):
+        prompts.append(
+            "Include an example of shaping product direction, roadmap priorities, or delivery trade-offs."
+        )
+    if any(term in lowered for term in ("implementation", "rollout", "professional services", "delivery")):
+        prompts.append(
+            "Show how implementation oversight or customer delivery experience reduces risk and improves outcomes."
+        )
+    if any(term in lowered for term in ("stakeholder", "communication", "sales", "marketing", "support")):
+        prompts.append(
+            "Demonstrate cross-functional communication across executives, product, delivery, sales, or customer teams."
+        )
+    if any(term in lowered for term in ("data", "analytics", "metrics", "insight")):
+        prompts.append(
+            "Reference a data-led example where analysis or metrics informed a product or commercial decision."
+        )
+
+    prompts.extend(
+        [
+            "Keep the tone UK-appropriate: specific, evidence-led, and free of inflated claims.",
+            "Close by confirming right to work, notice period if useful, and practical location fit only if the advert makes it relevant.",
+        ]
+    )
+    return prompts
 
 
 def build_evaluation(job_text: str, location: str | None) -> Evaluation:
@@ -290,6 +503,7 @@ def render_evaluation_markdown(
     strengths = "\n".join(f"- {item}" for item in evaluation.strengths)
     gaps = "\n".join(f"- {item}" for item in evaluation.gaps)
     notes = "\n".join(f"- {item}" for item in evaluation.notes)
+    statement_prompts = "\n".join(f"- {item}" for item in supporting_statement_prompts(metadata.get("job_text", "")))
 
     return f"""# Job Fit Evaluation: {role} at {company}
 
@@ -315,6 +529,15 @@ def render_evaluation_markdown(
 
 ## Logistics Notes
 {notes}
+
+## Supporting Statement Prompts
+{statement_prompts}
+
+## Suggested UK Supporting Statement Shape
+- Opening: why this role, why this employer, and why now.
+- Evidence match: two or three short paragraphs aligned to the advert's core requirements.
+- Delivery credibility: a concrete example of product, implementation, or stakeholder impact.
+- Closing: practical fit, motivation, and a direct expression of interest.
 
 ## Role Metadata
 - Company: {company}
@@ -358,30 +581,40 @@ def render_submission_markdown(metadata: dict, app_slug: str) -> str:
 """
 
 
-def create_application(args: argparse.Namespace) -> int:
-    job_text = read_job_text(args)
+def create_application_workspace(
+    company: str,
+    role: str,
+    job_text: str,
+    channel: str,
+    source: str,
+    location: str,
+    sector: str,
+    role_type: str,
+    original_file: Path | None = None,
+) -> tuple[Path, Evaluation]:
     created = date.today().isoformat()
-    app_slug = f"{created}-{slugify(args.company)}-{slugify(args.role)}"
+    app_slug = f"{created}-{slugify(company)}-{slugify(role)}"
     app_dir = APPLICATIONS_DIR / app_slug
 
     if app_dir.exists():
         raise SystemExit(f"Application directory already exists: {app_dir}")
 
     app_dir.mkdir(parents=True, exist_ok=False)
-    evaluation = build_evaluation(job_text, args.location)
+    evaluation = build_evaluation(job_text, location)
 
     metadata = {
         "application_id": app_slug,
-        "company": normalise_whitespace(args.company),
-        "role": normalise_whitespace(args.role),
-        "channel": normalise_whitespace(args.channel or "unknown"),
-        "source": args.source or "",
-        "location": args.location or "",
-        "role_type": args.role_type or infer_role_type(job_text),
-        "sector": args.sector or infer_sector(job_text),
+        "company": normalise_whitespace(company),
+        "role": normalise_whitespace(role),
+        "channel": normalise_whitespace(channel or "unknown"),
+        "source": source or "",
+        "location": location or "",
+        "role_type": role_type or infer_role_type(job_text),
+        "sector": sector or infer_sector(job_text),
         "created_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "status": "draft",
         "fit_rating": evaluation.verdict,
+        "job_text": job_text,
     }
 
     write_json(app_dir / "application.json", metadata)
@@ -394,15 +627,91 @@ def create_application(args: argparse.Namespace) -> int:
         encoding="utf-8",
     )
 
-    if args.job_ad_file:
-        source_path = Path(args.job_ad_file)
-        target = app_dir / f"job_ad{source_path.suffix or '.txt'}"
-        shutil.copyfile(source_path, target)
+    if original_file:
+        target = app_dir / f"job_ad{original_file.suffix or '.txt'}"
+        shutil.copyfile(original_file, target)
     else:
         (app_dir / "job_ad.txt").write_text(job_text + "\n", encoding="utf-8")
 
+    return app_dir, evaluation
+
+
+def create_application(args: argparse.Namespace) -> int:
+    job_text = read_job_text(args)
+    app_dir, evaluation = create_application_workspace(
+        company=args.company,
+        role=args.role,
+        job_text=job_text,
+        channel=args.channel or "unknown",
+        source=args.source or "",
+        location=args.location or "",
+        sector=args.sector or "",
+        role_type=args.role_type or "",
+        original_file=Path(args.job_ad_file) if args.job_ad_file else None,
+    )
+
     print(app_dir)
     print(f"Overall fit: {evaluation.overall}/100 ({evaluation.verdict})")
+    return 0
+
+
+def import_application(args: argparse.Namespace) -> int:
+    input_path = Path(args.input_file)
+    if not input_path.exists():
+        raise SystemExit(f"Input file not found: {input_path}")
+
+    text = read_text_file(input_path)
+    inferred = infer_metadata_from_text(text, input_path)
+
+    role = args.role or inferred.get("role") or "Unknown role"
+    company = args.company or inferred.get("company") or "Unknown company"
+    location = args.location or inferred.get("location") or ""
+    source = args.source or str(input_path)
+    inferred_channel = inferred.get("channel", "")
+    channel = args.channel or (
+        inferred_channel
+        if inferred_channel and inferred_channel != "unknown"
+        else infer_channel(source, inferred.get("title", ""), text[:200], path=input_path)
+    )
+
+    IMPORTS_DIR.mkdir(parents=True, exist_ok=True)
+    stamp = datetime.now(UTC).strftime("%Y%m%d-%H%M%S")
+    import_slug = f"{stamp}-{slugify(company)}-{slugify(role)}"
+    import_text_path = IMPORTS_DIR / f"{import_slug}.txt"
+    import_meta_path = IMPORTS_DIR / f"{import_slug}.json"
+
+    import_text_path.write_text(text + "\n", encoding="utf-8")
+    write_json(
+        import_meta_path,
+        {
+            "company": company,
+            "role": role,
+            "location": location,
+            "channel": channel,
+            "source": source,
+            "input_file": str(input_path),
+            "page_title": inferred.get("title", ""),
+        },
+    )
+
+    print(import_text_path)
+    print(import_meta_path)
+
+    if args.create:
+        app_dir, evaluation = create_application_workspace(
+            company=company,
+            role=role,
+            job_text=text,
+            channel=channel,
+            source=source,
+            location=location,
+            sector=args.sector or "",
+            role_type=args.role_type or "",
+            original_file=input_path,
+        )
+        print(app_dir)
+        print(f"Overall fit: {evaluation.overall}/100 ({evaluation.verdict})")
+
     return 0
 
 
@@ -504,6 +813,25 @@ def build_parser() -> argparse.ArgumentParser:
     create_parser.add_argument("--job-ad-file", help="Path to a saved job advert")
     create_parser.add_argument("--job-ad-text", help="Job advert text")
     create_parser.set_defaults(func=create_application)
+
+    import_parser = subparsers.add_parser(
+        "import",
+        help="Import a saved advert or recruiter note and optionally create an application workspace",
+    )
+    import_parser.add_argument("--input-file", required=True, help="Path to saved HTML, text, or email-style note")
+    import_parser.add_argument("--company", help="Override the inferred company name")
+    import_parser.add_argument("--role", help="Override the inferred role title")
+    import_parser.add_argument("--channel", help="Override the inferred channel")
+    import_parser.add_argument("--source", help="Source URL or note")
+    import_parser.add_argument("--location", help="Override the inferred location")
+    import_parser.add_argument("--sector", help="Override the inferred sector")
+    import_parser.add_argument("--role-type", help="Override the inferred role type")
+    import_parser.add_argument(
+        "--create",
+        action="store_true",
+        help="Create an application workspace immediately after import",
+    )
+    import_parser.set_defaults(func=import_application)
 
     submit_parser = subparsers.add_parser(
         "submit",

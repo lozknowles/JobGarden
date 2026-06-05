@@ -14,6 +14,12 @@ Use saved adverts or pasted text from:
 Then create a structured workspace with:
 
 ```bash
+python3 jobgarden_cli.py import --input-file /path/to/saved-job.html --create
+```
+
+You can still use the direct path if you already have clean text:
+
+```bash
 python3 jobgarden_cli.py create --company "Company" --role "Role" --job-ad-file /path/to/job-ad.txt
 ```
 

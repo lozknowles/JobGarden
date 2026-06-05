@@ -47,6 +47,14 @@ See [documents/README.md](/fast/repos/JobGarden/documents/README.md) for the exp
 
 ### 4. Use the CLI workflow
 
+Import a saved advert first:
+
+```bash
+python3 jobgarden_cli.py import \
+  --input-file /path/to/saved-job.html \
+  --create
+```
+
 Create an application workspace from a job advert:
 
 ```bash
@@ -99,6 +107,7 @@ python3 jobgarden_cli.py list
 
 - Use British English in new content.
 - Prefer manual job ads or UK-friendly sources over region-specific scrapers.
+- Saved HTML adverts, recruiter notes, and imported intake files stay out of Git by default.
 - Keep claims grounded in the documents and tracker, not in guesswork.
 - If a job asks for a supporting statement rather than a cover letter, use the same evidence-first approach and adapt the format.
 
