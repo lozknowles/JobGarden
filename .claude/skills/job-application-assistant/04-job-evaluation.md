@@ -1,6 +1,6 @@
 # Job Evaluation Framework
 
-<!-- SETUP: Skill match areas and career goals are personalized by running /setup -->
+<!-- Populate the scoring guidance with the candidate's real profile and UK job-market priorities. -->
 
 ## Scoring Dimensions
 
@@ -34,32 +34,33 @@ Does work history align with what they're looking for?
 **Moderate:** [YOUR_ADJACENT_EXPERIENCE]
 **Entry-level:** [ROLES_WITH_LIMITED_EXPERIENCE]
 
-### 3. Behavioral/Culture Fit (0-100)
-Does the role and company culture match the behavioral profile?
+### 3. Behavioural/Culture Fit (0-100)
+Does the role and company culture match the behavioural profile?
 
 | Score | Meaning |
 |-------|---------|
-| 80-100 | Culture strongly matches behavioral preferences |
+| 80-100 | Culture strongly matches behavioural preferences |
 | 60-79 | Mixed signals but mostly compatible |
 | 40-59 | Some friction areas |
 | 0-39 | Significant culture mismatch |
 
-**Red flags to research:** Department disorganization, work dominated by maintenance over development, poor chemistry with leadership, culture mismatches. Check reviews, media coverage, LinkedIn connections, and network contacts for insider perspective.
+**Red flags to research:** Department disorganisation, work dominated by maintenance over development, poor chemistry with leadership, culture mismatches. Check reviews, media coverage, LinkedIn connections, and network contacts for insider perspective.
 
-### 4. Location & Logistics (Pass/Fail + Notes)
-- Within commute range: PASS
+### 4. Location, Right to Work & Logistics (Pass/Fail + Notes)
+- Within commute range or suitable hybrid pattern: PASS
 - Remote with occasional office: PASS
-- Requires relocation: FAIL (deal-breaker)
-- Frequent international travel: FLAG (discuss with user)
+- Requires relocation or impossible commute: FAIL unless the user wants to consider it
+- Needs visa sponsorship when unavailable: FAIL
+- Frequent travel or irregular hours: FLAG
 
 ### 5. Career Alignment & Motivation (0-100)
-Does this role advance career goals and contain tasks that energize?
+Does this role advance career goals and contain tasks that energise?
 
 | Score | Meaning |
 |-------|---------|
 | 80-100 | Strongly aligned with career direction, clear growth path |
 | 60-79 | Good role but only partially aligned with long-term goals |
-| 40-59 | Decent job but doesn't build toward career goals |
+| 40-59 | Decent job but does not build toward career goals |
 | 0-39 | Dead end or backwards step |
 
 **Career goals:**
@@ -67,8 +68,8 @@ Does this role advance career goals and contain tasks that energize?
 - [YOUR_CAREER_GOAL_2]
 - [YOUR_CAREER_GOAL_3]
 
-**Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energize* you. Consider:
-- Tasks that energize: [YOUR_ENERGIZING_TASKS]
+**Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energise* you. Consider:
+- Tasks that energise: [YOUR_ENERGISING_TASKS]
 - Tasks that drain: [YOUR_DRAINING_TASKS]
 - Non-task factors: leadership style, department culture, company values, degree of autonomy
 
@@ -110,8 +111,8 @@ Present the evaluation as:
 |-----------|-------|-------|
 | Technical Skills | XX/100 | [brief note] |
 | Experience Match | XX/100 | [brief note] |
-| Behavioral Fit | XX/100 | [brief note] |
-| Location | PASS/FAIL | [brief note] |
+| Behavioural Fit | XX/100 | [brief note] |
+| Location / Right to Work | PASS/FAIL | [brief note] |
 | Career Alignment | XX/100 | [brief note] |
 
 **Overall Score: XX/100** (weighted average of scored dimensions)
@@ -129,7 +130,7 @@ Present the evaluation as:
 
 ### Company Research Checklist
 - [ ] Checked company website (mission, values, recent news)
-- [ ] Checked review sites (Glassdoor, Jobindex, etc.)
+- [ ] Checked review sites (Glassdoor, LinkedIn, other UK-relevant sources)
 - [ ] Checked LinkedIn for team size, recent hires, connections
 - [ ] Checked media for restructuring, growth, or workplace issues
 - [ ] Identified network contacts who may know the team/manager
@@ -138,27 +139,27 @@ Present the evaluation as:
 ## Weighting
 - Technical Skills: 30%
 - Experience Match: 25%
-- Behavioral Fit: 15%
+- Behavioural Fit: 15%
 - Career Alignment: 30%
 
-(Location is pass/fail, not weighted)
+(Location and right to work are pass/fail, not weighted)
 
 ## Thresholds
 - **Strong Fit** (75+): Definitely apply, tailor everything
-- **Good Fit** (60-74): Apply, address gaps in cover letter
+- **Good Fit** (60-74): Apply, address gaps in the cover letter or supporting statement
 - **Moderate Fit** (45-59): Consider carefully, discuss with user
 - **Weak Fit** (30-44): Probably skip unless strategic reasons
 - **Poor Fit** (<30): Skip
 
-## Pre-Application: Call the Employer (Best Practice)
+## Pre-Application: Call the Employer
 
-Before writing the application, consider whether the candidate should call the contact person listed in the posting. **Only call if there are substantive questions** - never call just to "be remembered."
+Before writing the application, consider whether the candidate should call the contact person listed in the posting. Only call if there are substantive questions.
 
 ### When to Suggest Calling
 - The posting has unclear or ambiguous requirements
-- It's unclear which competencies are essential vs. nice-to-have
+- It is unclear which competencies are essential vs. nice-to-have
 - The role description is vague about day-to-day tasks
-- There's a named contact person who invites questions
+- There is a named contact person who invites questions
 
 ### Good Questions to Ask
 - "What are the primary challenges in this role?"
@@ -167,7 +168,7 @@ Before writing the application, consider whether the candidate should call the c
 - "What does success look like in the first 6-12 months?"
 
 ### Rules for the Call
-- Prepare a 30-second "elevator pitch" about your background in case they ask
-- The call's purpose is **gathering information**, not delivering a pitch
-- Take notes - use what you learn to tailor the application
-- Reference the conversation naturally in the cover letter ("After speaking with [name], I was especially drawn to...")
+- Prepare a 30-second elevator pitch about your background in case they ask
+- The call's purpose is gathering information, not delivering a pitch
+- Take notes, then use what you learn to tailor the application
+- Reference the conversation naturally in the application if appropriate

@@ -1,31 +1,21 @@
 # Behavioral Profile
 
-<!-- SETUP: This file is populated by running /setup -->
-<!-- You can use results from PI, DISC, Myers-Briggs, StrengthsFinder, or a self-assessment -->
+<!-- Populate this file from self-assessment, references, and LinkedIn/About text. -->
 
 ## Overview
 [YOUR_NAME]'s behavioral assessment identifies them as a **[PROFILE_TYPE]** pattern. [1-2 SENTENCE_SUMMARY].
 
-## Core Behavioral Drives
+## Strongest Behavioral Traits
+- **[TRAIT_1]:** [DESCRIPTION]
+- **[TRAIT_2]:** [DESCRIPTION]
+- **[TRAIT_3]:** [DESCRIPTION]
 
-| Drive | Level | Meaning |
-|-------|-------|---------|
-| [DRIVE_1] | [LEVEL] | [DESCRIPTION] |
-| [DRIVE_2] | [LEVEL] | [DESCRIPTION] |
-| [DRIVE_3] | [LEVEL] | [DESCRIPTION] |
-| [DRIVE_4] | [LEVEL] | [DESCRIPTION] |
-
-## Strongest Behaviors
-- **[BEHAVIOR_1]:** [DESCRIPTION]
-- **[BEHAVIOR_2]:** [DESCRIPTION]
-- **[BEHAVIOR_3]:** [DESCRIPTION]
-
-## How You Work Best
+## How I Work Best
 - [ENVIRONMENT_PREFERENCE_1]
 - [ENVIRONMENT_PREFERENCE_2]
 - [ENVIRONMENT_PREFERENCE_3]
 
-## Growth Areas (frame positively in applications)
+## Growth Areas
 - **[AREA_1]:** [HOW_TO_FRAME_IT_POSITIVELY]
 - **[AREA_2]:** [HOW_TO_FRAME_IT_POSITIVELY]
 
@@ -35,7 +25,7 @@ When a job posting mentions these keywords, it's a **strong behavioral fit**:
 - [KEYWORD_OR_PHRASE_THAT_MATCHES_YOUR_STYLE]
 - [ANOTHER_KEYWORD]
 
-When a job posting mentions these, flag as **potential friction** (not deal-breaker):
+When a job posting mentions these, flag as **potential friction**:
 - [KEYWORD_OR_PHRASE_THAT_MIGHT_CLASH]
 - [ANOTHER_KEYWORD]
 
