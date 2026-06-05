@@ -10,30 +10,35 @@ Keep answers to 1-2 minutes. Be specific. End with what you learned or would do 
 
 ## Ready-Made STAR Examples
 
-<!-- These are populated by /setup from your actual experience. Below are templates showing the format. -->
+<!-- These examples are populated from Lawrence's actual experience. -->
 
-### 1. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT - what was happening, what was the problem]
-**T:** [YOUR RESPONSIBILITY - what you specifically needed to do]
-**A:** [WHAT YOU DID - specific actions, tools, methods]
-**R:** [OUTCOME - measurable results, adoption, impact]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 1. Azure platform transformation
+**S:** MidlandHR needed a next-generation platform that could support enterprise-scale HR software delivery.
+**T:** I was responsible for helping architect and deliver a cloud-based platform that was scalable, secure, and ready for SaaS delivery.
+**A:** I built the relationship with Microsoft, recruited and developed the right .Net, testing, and architecture teams, and worked through research, design, stand-ups, and board-level reporting to shape the solution.
+**R:** We delivered an enterprise-scale, multi-tenanted Microsoft Azure platform that was load-tested, security-hardened, geographically resilient, and SaaS-ready.
+**Use for:** "Tell me about a major transformation", "How do you approach cloud/platform delivery?", "How do you work with senior stakeholders?"
 
-### 2. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 2. HR and payroll implementation oversight
+**S:** At Deloitte, customers needed help with successful HR and Payroll implementations, including system selection and current-state audit.
+**T:** I needed to support the customer and business development work while ensuring implementations were practical and successful.
+**A:** I focused on the selection process, audited the current state, and oversaw implementation work so that decisions were grounded in the realities of the client environment.
+**R:** The role helped deliver successful implementations and strengthened my understanding of what makes HR technology projects succeed or fail.
+**Use for:** "How do you de-risk implementations?", "Tell me about an audit or review process", "How do you work with customers?"
 
-### 3. [PROJECT_NAME] ([SKILL_DEMONSTRATED])
-**S:** [CONTEXT]
-**T:** [YOUR RESPONSIBILITY]
-**A:** [WHAT YOU DID]
-**R:** [OUTCOME]
-**Use for:** "[QUESTION_TYPE_1]", "[QUESTION_TYPE_2]"
+### 3. Legacy-to-modern product transition
+**S:** SafeHR needed to move its product set away from legacy technology while continuing to grow the corporate division.
+**T:** As Managing Director for Corporate, I needed to support growth, improve the proposition, and modernise the platform.
+**A:** I restructured the executive team, moved the product set to .NET, introduced a more robust software development lifecycle, and overhauled the market proposition.
+**R:** Over 20% of the legacy customer base migrated to the new platform, and the work contributed to a strategic partnership with Liberata and entry into the public sector market.
+**Use for:** "How do you manage legacy modernisation?", "Tell me about a turnaround or growth story", "How do you balance product and commercial priorities?"
 
-<!-- Add more STAR examples as needed. Aim for 4-6 covering different competencies. -->
+### 4. UK market expansion and pipeline building
+**S:** A global analytics company based in Boston wanted to expand in the UK market.
+**T:** I needed to front the expansion and build a credible pipeline in the UK.
+**A:** I leveraged existing relationships and opened conversations with organisations such as the Bank of England, DCMS, the Cabinet Office, Accenture, the Department for Education, and Edinburgh University.
+**R:** I established a strong UK pipeline and demonstrated that the product had credible market potential in the region.
+**Use for:** "How do you open new markets?", "Tell me about commercial development", "How do you build trust with senior stakeholders?"
 
 ## Common Tough Questions
 

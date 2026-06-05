@@ -106,11 +106,11 @@ Write 5-7 lines that function as an "elevator pitch": a concise, compelling intr
 **Create 2-3 profile statement templates for your main role types:**
 
 <!-- SETUP: These are populated based on your background -->
-**For [YOUR_PRIMARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_1]
+**For product leadership / HR software roles:**
+> Commercial and technology leader with deep HR software experience across product strategy, cloud platform delivery, and enterprise growth. I have led teams, shaped roadmaps, and helped organisations modernise payroll and HR platforms while improving customer experience, security, and scalability.
 
-**For [YOUR_SECONDARY_ROLE_TYPE] roles:**
-> [YOUR_PROFILE_STATEMENT_TEMPLATE_2]
+**For implementation assurance / project audit roles:**
+> Senior HR software executive with hands-on experience of system selection, current-state audit, implementation oversight, and legacy-to-modern platform transitions. I help organisations reduce delivery risk, improve stakeholder alignment, and make practical decisions that lead to successful HR technology outcomes.
 
 ### Core Competencies / Skills Section (Best Practice)
 Reorder and emphasize based on the role. Use bold category labels.

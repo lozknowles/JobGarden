@@ -16,9 +16,9 @@ How well do the required/preferred skills align with the candidate's capabilitie
 | 40-59 | Partial match, significant upskilling needed |
 | 0-39 | Fundamental mismatch |
 
-**Strong match areas:** [YOUR_PRIMARY_SKILLS]
-**Moderate match areas:** [YOUR_SECONDARY_SKILLS]
-**Weak match areas:** [SKILLS_YOU_LACK]
+**Strong match areas:** HR software, payroll software, SaaS/cloud platforms, product strategy, commercial leadership, implementation oversight, stakeholder management
+**Moderate match areas:** Hands-on delivery detail, reporting/analytics tooling, direct coding contributions
+**Weak match areas:** Purely technical engineering roles, highly specialised dev-ops or infrastructure-only roles
 
 ### 2. Experience Match (0-100)
 Does work history align with what they're looking for?
@@ -30,9 +30,9 @@ Does work history align with what they're looking for?
 | 40-59 | Adjacent experience, would need to make the case |
 | 0-39 | Unrelated experience |
 
-**Strong:** [YOUR_DIRECT_EXPERIENCE_DOMAINS]
-**Moderate:** [YOUR_ADJACENT_EXPERIENCE]
-**Entry-level:** [ROLES_WITH_LIMITED_EXPERIENCE]
+**Strong:** HR software, payroll software, SaaS product leadership, implementation assurance, enterprise sales, cloud platform strategy
+**Moderate:** Public sector transformation, data analytics, board-level advisory, charitable digital projects
+**Entry-level:** Junior implementation analyst roles, junior software developer roles, roles that require deep recent hands-on coding
 
 ### 3. Behavioural/Culture Fit (0-100)
 Does the role and company culture match the behavioural profile?
@@ -64,13 +64,13 @@ Does this role advance career goals and contain tasks that energise?
 | 0-39 | Dead end or backwards step |
 
 **Career goals:**
-- [YOUR_CAREER_GOAL_1]
-- [YOUR_CAREER_GOAL_2]
-- [YOUR_CAREER_GOAL_3]
+- Lead or shape product strategy for HR software and adjacent SaaS products
+- Use commercial and implementation experience to improve customer outcomes and reduce project risk
+- Work in roles that combine product, assurance, and senior stakeholder influence
 
 **Motivation filter:** Evaluate not just whether you *can* do the tasks, but whether the tasks will *energise* you. Consider:
-- Tasks that energise: [YOUR_ENERGISING_TASKS]
-- Tasks that drain: [YOUR_DRAINING_TASKS]
+- Tasks that energise: shaping product direction, improving customer outcomes, implementation oversight, commercial growth, board-level collaboration
+- Tasks that drain: narrow administrative work, isolated coding-only tasks, low-trust environments, poorly run implementations
 - Non-task factors: leadership style, department culture, company values, degree of autonomy
 
 **Life situation alignment:** Consider personal constraints:
