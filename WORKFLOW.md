@@ -83,6 +83,25 @@ Check the draft for:
 
 If the role asks for a supporting statement, adapt the same evidence-first approach to that format instead of forcing a cover-letter shape.
 
+## 4a. Review the real application form
+
+Before any future form-fill or submit step, create a structured form-review sheet.
+
+Suggested command:
+
+```bash
+python3 jobgarden_cli.py form-review --application-dir documents/applications/<application-id>
+```
+
+Capture:
+
+- ATS vendor
+- form type
+- mandatory questions
+- gating questions
+- upload requirements
+- any signals that look weighted or biased
+
 ## 5. Track the result
 
 Record the application in `job_search_tracker.csv` and add notes about:

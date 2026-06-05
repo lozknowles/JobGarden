@@ -11,6 +11,7 @@
 - [x] Replace Danish job-board search logic with UK sources or a manual pasted-job-ad workflow.
 - [x] Update the job-evaluation guidance for UK application norms, including supporting statements and CV expectations.
 - [ ] Check the application tracker fields against the way UK applications are actually managed.
+- [x] Check the application tracker fields against the way UK applications are actually managed.
 - [ ] Confirm the CV and cover-letter templates still fit UK conventions and target roles.
 - [x] Create a simple portfolio page on `lozknowles.com` that highlights HR software leadership, implementation assurance, and selected projects.
 
@@ -35,6 +36,6 @@
 - [x] Add a UK job-source intake helper for saved adverts from LinkedIn, company sites, and recruiters.
 - [x] Add stronger UK supporting-statement prompts to the generated evaluation output.
 - [ ] Add a private form-capture structure for ATS questions, steps, and observations.
-- [ ] Add an ATS/vendor observation model so repeated platform patterns can be learned over time.
-- [ ] Add a `form-review` step or command before any future `form-fill` automation.
+- [x] Add an ATS/vendor observation model so repeated platform patterns can be learned over time.
+- [x] Add a `form-review` step or command before any future `form-fill` automation.
 - [ ] Decide whether to extend the CLI with AI-assisted drafting hooks or keep drafting agent-led.

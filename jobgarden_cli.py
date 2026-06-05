@@ -26,6 +26,7 @@ ROOT = Path(__file__).resolve().parent
 APPLICATIONS_DIR = ROOT / "documents" / "applications"
 TRACKER_FILE = ROOT / "job_search_tracker.csv"
 IMPORTS_DIR = ROOT / "job_scraper" / "imports"
+FORMS_DIR = ROOT / "job_scraper" / "forms"
 
 
 TRACKER_FIELDS = [
@@ -36,6 +37,8 @@ TRACKER_FIELDS = [
     "role_family",
     "role_type",
     "channel",
+    "ats_vendor",
+    "application_form_type",
     "status",
     "contact_person",
     "fit_rating",
@@ -289,6 +292,28 @@ def infer_channel(*sources: str, path: Path | None = None) -> str:
     return "unknown"
 
 
+def infer_ats_vendor(*sources: str, path: Path | None = None) -> str:
+    haystack = " ".join([*sources, str(path or "")]).lower()
+    patterns = [
+        ("Workday", ("workday",)),
+        ("Greenhouse", ("greenhouse", "boards.greenhouse.io")),
+        ("Lever", ("lever", "jobs.lever.co")),
+        ("SuccessFactors", ("successfactors",)),
+        ("Taleo", ("taleo",)),
+        ("SmartRecruiters", ("smartrecruiters",)),
+        ("Teamtailor", ("teamtailor",)),
+        ("Recruitee", ("recruitee",)),
+        ("Applied", ("beapplied", "applied")),
+        ("Jobtrain", ("jobtrain",)),
+        ("Indeed", ("indeed",)),
+        ("Employment Hero", ("employmenthero",)),
+    ]
+    for vendor, needles in patterns:
+        if any(needle in haystack for needle in needles):
+            return vendor
+    return "Unknown"
+
+
 def title_from_html(path: Path) -> str:
     if path.suffix.lower() not in {".html", ".htm"}:
         return ""
@@ -402,6 +427,17 @@ def infer_role_family(text: str) -> str:
     if not scores:
         return "unknown"
     return sorted(scores.items(), key=lambda item: (-item[1], item[0]))[0][0]
+
+
+def infer_application_form_type(*sources: str, text: str = "") -> str:
+    haystack = " ".join(sources).lower()
+    if any(term in haystack for term in ("workday", "greenhouse", "lever", "employmenthero", "successfactors", "teamtailor", "smartrecruiters", "jobtrain", "recruitee")):
+        return "ats-hosted"
+    if "indeed" in haystack:
+        return "job-board-hosted"
+    if any(term in text.lower() for term in ("apply now", "upload cv", "cover letter", "supporting statement")):
+        return "employer-form"
+    return "unknown"
 
 
 def logistics_status(text: str, location: str | None) -> tuple[str, list[str]]:
@@ -688,6 +724,107 @@ def render_submission_markdown(metadata: dict, app_slug: str) -> str:
 """
 
 
+def render_form_review_markdown(metadata: dict, form_path: Path) -> str:
+    ats_vendor = metadata.get("ats_vendor", "Unknown")
+    form_type = metadata.get("application_form_type", "unknown")
+    return f"""# Form Review
+
+## Role
+- Company: {metadata.get('company', '')}
+- Role: {metadata.get('role', '')}
+- Application ID: {metadata.get('application_id', '')}
+- ATS vendor: {ats_vendor}
+- Form type: {form_type}
+- Channel: {metadata.get('channel', '')}
+- Source: {metadata.get('source', '')}
+
+## Form Structure
+- Steps:
+- Account creation required: yes / no / unknown
+- CV upload required: yes / no / unknown
+- CV parsing used: yes / no / unknown
+- LinkedIn import offered: yes / no / unknown
+- Cover letter required: yes / no / unknown
+- Supporting statement required: yes / no / unknown
+- Additional free-text questions: yes / no / unknown
+- Equal opportunities section present: yes / no / unknown
+
+## Exact Questions
+- Q1:
+- Q2:
+- Q3:
+
+## Gating / Screening Questions
+- Right to work:
+- Sponsorship:
+- Location / commute:
+- Salary expectation:
+- Notice period:
+- Years of experience:
+- Domain experience:
+- Travel:
+
+## ATS / Workflow Observations
+- What looked like a knockout filter?
+- What looked weighted but not explicit?
+- What looked biased, simplistic, or risky?
+- What file formats or naming rules were enforced?
+- Did the form appear to parse the CV accurately?
+
+## Preparation Notes
+- Which CV version should be used?
+- Is a tailored cover letter enough, or is a supporting statement needed?
+- Which business outcomes should be emphasised?
+- Which gaps need careful framing?
+
+## Outcome
+- Status:
+- Submitted by:
+- Date:
+- Notes:
+
+## File
+- Private review file: {form_path.relative_to(ROOT)}
+"""
+
+
+def create_form_review(args: argparse.Namespace) -> int:
+    app_dir, metadata = load_application_dir(args.application_dir)
+    FORMS_DIR.mkdir(parents=True, exist_ok=True)
+
+    application_id = metadata.get("application_id") or app_dir.name
+    form_path = FORMS_DIR / f"{application_id}-form-review.md"
+
+    if form_path.exists() and not args.force:
+        raise SystemExit(f"Form review already exists: {form_path}. Use --force to overwrite.")
+
+    metadata["ats_vendor"] = args.ats_vendor or metadata.get("ats_vendor") or infer_ats_vendor(
+        metadata.get("source", ""),
+        metadata.get("channel", ""),
+        metadata.get("job_text", "")[:200],
+    )
+    existing_form_type = metadata.get("application_form_type", "")
+    metadata["application_form_type"] = (
+        args.application_form_type
+        or (
+            existing_form_type
+            if existing_form_type and existing_form_type != "unknown"
+            else infer_application_form_type(
+                metadata.get("source", ""),
+                metadata.get("channel", ""),
+                text=metadata.get("job_text", ""),
+            )
+        )
+    )
+    write_json(app_dir / "application.json", metadata)
+    form_path.write_text(render_form_review_markdown(metadata, form_path), encoding="utf-8")
+
+    print(form_path)
+    print(f"ATS vendor: {metadata['ats_vendor']}")
+    print(f"Form type: {metadata['application_form_type']}")
+    return 0
+
+
 def create_application_workspace(
     company: str,
     role: str,
@@ -719,6 +856,8 @@ def create_application_workspace(
         "role_type": role_type or infer_role_type(job_text),
         "role_family": evaluation.role_family,
         "sector": sector or infer_sector(job_text),
+        "ats_vendor": infer_ats_vendor(source, channel, job_text[:200], path=original_file),
+        "application_form_type": infer_application_form_type(source, channel, text=job_text),
         "created_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "status": "draft",
         "fit_rating": evaluation.verdict,
@@ -795,11 +934,13 @@ def import_application(args: argparse.Namespace) -> int:
             "company": company,
             "role": role,
             "location": location,
-            "channel": channel,
-            "source": source,
-            "input_file": str(input_path),
-            "page_title": inferred.get("title", ""),
-        },
+        "channel": channel,
+        "source": source,
+        "input_file": str(input_path),
+        "page_title": inferred.get("title", ""),
+        "ats_vendor": infer_ats_vendor(source, channel, text[:200], path=input_path),
+        "application_form_type": infer_application_form_type(source, channel, text=text),
+    },
     )
 
     print(import_text_path)
@@ -870,6 +1011,8 @@ def submit_application(args: argparse.Namespace) -> int:
         "role_family": metadata.get("role_family", ""),
         "role_type": metadata.get("role_type", ""),
         "channel": args.channel or metadata.get("channel", ""),
+        "ats_vendor": args.ats_vendor or metadata.get("ats_vendor", ""),
+        "application_form_type": args.application_form_type or metadata.get("application_form_type", ""),
         "status": args.status,
         "contact_person": args.contact_person or "",
         "fit_rating": metadata.get("fit_rating", ""),
@@ -949,12 +1092,27 @@ def build_parser() -> argparse.ArgumentParser:
     submit_parser.add_argument("--application-dir", required=True, help="Application folder path")
     submit_parser.add_argument("--status", default="submitted", help="Submission status")
     submit_parser.add_argument("--channel", help="Submission channel override")
+    submit_parser.add_argument("--ats-vendor", help="ATS vendor override")
+    submit_parser.add_argument("--application-form-type", help="Application form type override")
     submit_parser.add_argument("--date", help="Submission date YYYY-MM-DD")
     submit_parser.add_argument("--contact-person", help="Hiring contact")
     submit_parser.add_argument("--cv-file", help="CV file used")
     submit_parser.add_argument("--cover-letter-file", help="Cover letter or statement file used")
     submit_parser.add_argument("--notes", help="Tracker notes")
     submit_parser.set_defaults(func=submit_application)
+
+    form_review_parser = subparsers.add_parser(
+        "form-review",
+        help="Create a private structured review sheet for an application's real form flow",
+    )
+    form_review_parser.add_argument("--application-dir", required=True, help="Application folder path")
+    form_review_parser.add_argument("--ats-vendor", help="Override inferred ATS vendor")
+    form_review_parser.add_argument(
+        "--application-form-type",
+        help="Override inferred form type, e.g. ats-hosted, job-board-hosted, employer-form",
+    )
+    form_review_parser.add_argument("--force", action="store_true", help="Overwrite an existing form review file")
+    form_review_parser.set_defaults(func=create_form_review)
 
     list_parser = subparsers.add_parser(
         "list",

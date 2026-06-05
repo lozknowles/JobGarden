@@ -161,3 +161,14 @@ Future JobGarden workflow should likely include explicit steps for:
 - `submit`
 
 That would sit on top of the current intake and evaluation workflow, rather than replacing it.
+
+## Current CLI support
+
+Current supported commands now include:
+
+- `python3 jobgarden_cli.py import ...`
+- `python3 jobgarden_cli.py create ...`
+- `python3 jobgarden_cli.py form-review --application-dir ...`
+- `python3 jobgarden_cli.py submit ...`
+
+`form-review` is the current bridge between advert analysis and any future form-fill automation.

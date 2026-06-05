@@ -195,3 +195,32 @@ Treat JobGarden as an application-learning system, not just an advert-evaluation
 
 - Do not assume advert-only analysis is enough for real applications.
 - Do not treat ATS behaviour as incidental; it is part of the application environment.
+
+---
+
+## 2026-06-05: Form review must come before any future form-fill automation
+
+### Context
+
+The workflow is moving toward real application execution, but direct form filling without a review step would be brittle and easy to get wrong.
+
+### Decision
+
+Introduce a structured `form-review` step before any future automated `form-fill` or submit workflow.
+
+### Why
+
+- It captures the exact questions and gating logic first.
+- It creates a human-checkable preparation step.
+- It reduces the risk of misfilling forms or missing required uploads.
+- It gives us consistent ATS learning data over time.
+
+### Current implementation
+
+- `python3 jobgarden_cli.py form-review --application-dir ...`
+- private review files live in `job_scraper/forms/`
+- tracker schema now has `ats_vendor` and `application_form_type`
+
+### Do not repeat
+
+- Do not jump straight from advert evaluation to automated form filling without capturing the real form first.
