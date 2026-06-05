@@ -141,6 +141,13 @@ a:hover {
   color: var(--accent-2);
 }
 
+.intro-line {
+  margin: 0 0 10px;
+  color: var(--muted);
+  font-size: 1.15rem;
+  font-weight: 500;
+}
+
 h1,
 h2,
 h3,
