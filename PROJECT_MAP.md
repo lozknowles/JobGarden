@@ -15,6 +15,7 @@ The main migration work is to remove Claude-specific wiring, replace Danish job-
 |---|---|---:|---:|---|
 | `CLAUDE.md` | Transitional repo note describing the UK direction and current priorities | Yes, by name and by framing | Keep the content as migration guidance for now | Rename or replace with a Codex-oriented `WORKFLOW.md` or `PROFILE.md`; remove Claude branding once the migration is stable |
 | `README.md` | High-level project overview and legacy Claude-oriented usage instructions | Yes, heavily | Keep the project description and structure | Rewrite for UK Codex usage, manual job-ad intake, and British spelling |
+| `PROJECT_ARCHITECTURE.md` | Development, hosting, deployment, and portfolio-site policy for the repo | No | Yes | Keep as the authoritative reference for live-site and infrastructure decisions |
 | `SETUP.md` | Setup instructions for the legacy workflow | Partly | Keep the installation and LaTeX guidance | Replace Claude-specific startup instructions and any Denmark-specific tooling |
 | `.claude/` | Claude Code commands, skills, and agent instructions | Yes | Keep the ideas and content only if they are still useful | Move the useful parts into Codex-friendly docs or prompts; retire the Claude command layer |
 | `.claude/settings.local.json` | Claude Code permissions/settings | Yes | Usually no | Remove or archive for Codex workflow |
@@ -40,6 +41,7 @@ The main migration work is to remove Claude-specific wiring, replace Danish job-
 | `tools/` | Supporting utilities such as salary conversion | Mostly no | Yes | Keep the useful tools; reframe them for UK use and current data sources |
 | `salary_lookup.py` | Salary benchmarking helper | No | Yes | Keep if you can feed it UK salary data; otherwise make it optional by default |
 | `tools/convert_salary_excel.py` | Converts salary spreadsheets into the JSON used by the lookup tool | No | Yes | Keep if salary benchmarking remains useful |
+| `portfolio/` | Public static portfolio page for `lozknowles.com` | No | Yes | Keep public-only content here and deploy it separately from private application material |
 | `upskill/` | Saved learning plans and gap reports | No | Yes | Keep |
 | `claude_animation.gif` | Branding image for the original Claude-based workflow | Yes | Low priority | Remove or replace with neutral project branding |
 
@@ -87,4 +89,3 @@ Replace these first:
 3. Replace Danish job-board search with a UK/manual application intake path.
 4. Update the tracker and templates for UK application language, spelling, and hiring conventions.
 5. Run one end-to-end test application and use the outcome to refine the workflow.
-

@@ -2,9 +2,12 @@
 
 This repository is a UK-focused job-search workspace for Codex agents.
 
+Before making infrastructure, deployment, credential, GitHub, or portfolio-site changes, read `PROJECT_ARCHITECTURE.md` as well as this file.
+
 ## Working Principles
 
 - Read `PROJECT_MAP.md` first when you need to understand the repo.
+- Read `PROJECT_ARCHITECTURE.md` before any deployment or hosting changes.
 - Use the existing source documents as the ground truth, not assumptions.
 - Prefer British English spelling and UK hiring conventions in new content.
 - Keep edits narrow and targeted. Do not rewrite large files unless the task truly needs it.
@@ -36,6 +39,17 @@ These files can still be useful as reference material, but they should not defin
 - Keep `documents/` as the source of truth for actual career evidence.
 - Prefer manual pasted job ads or UK-friendly sources over region-specific scrapers.
 - If you add new planning or workflow docs, make them neutral and Codex-friendly.
+- Treat `https://lozknowles.com` as a public portfolio site hosted on `cottageserver`.
+- Keep public portfolio material separate from private application notes, tracker data, generated CVs, and statements of interest.
+- Ask for confirmation before deploying anything to `cottageserver`.
+
+## Portfolio Site
+
+- The public portfolio page for this project lives at `https://lozknowles.com`.
+- It is hosted on `cottageserver`, so deployment changes should follow the same careful process used for any other live site.
+- Public portfolio content may include selected CV/profile highlights, project work, application-support tooling, public examples, and links to relevant projects.
+- Never publish private job applications, personal profile notes, tracker data, generated CVs, or statements of interest without explicit approval.
+- Update `NEXT_STEPS.md` after portfolio, infrastructure, or deployment changes.
 
 ## Migration Notes
 
@@ -43,4 +57,3 @@ These files can still be useful as reference material, but they should not defin
 - Replace Danish search assumptions with UK job-source assumptions.
 - Remove duplicate or accidental template files when you confirm they are not needed.
 - Keep anything that helps with application quality, evidence tracking, or review.
-

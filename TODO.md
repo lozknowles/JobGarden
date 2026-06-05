@@ -12,6 +12,7 @@
 - [ ] Update the job-evaluation guidance for UK application norms, including supporting statements and CV expectations.
 - [ ] Check the application tracker fields against the way UK applications are actually managed.
 - [ ] Confirm the CV and cover-letter templates still fit UK conventions and target roles.
+- [x] Create a simple portfolio page on `lozknowles.com` that highlights HR software leadership, implementation assurance, and selected projects.
 
 ## Clean-up
 
@@ -24,4 +25,3 @@
 - [ ] Run one end-to-end UK application through the updated workflow.
 - [ ] Record what worked and what felt clunky.
 - [ ] Update `PROJECT_MAP.md` and the workflow docs after the first real test.
-

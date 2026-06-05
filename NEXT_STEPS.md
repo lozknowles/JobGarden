@@ -12,6 +12,7 @@ Based on MadsLorentzen/ai-job-search, but adapted for:
 Current phase: repo cloned and renamed locally.
 
 Next step:
-1. Inspect repo structure.
-2. Create Lawrence profile files.
-3. Replace Danish job-board logic with UK/manual workflow.
+1. Keep the public portfolio site and live-hosting policy in sync with `PROJECT_ARCHITECTURE.md`.
+2. Inspect repo structure.
+3. Create Lawrence profile files.
+4. Replace Danish job-board logic with UK/manual workflow.
