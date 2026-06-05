@@ -165,3 +165,33 @@ Validate workflow changes against real adverts before trusting them.
 ### Do not repeat
 
 - Do not mark intake or evaluation work “done” without testing on a live advert.
+
+---
+
+## 2026-06-05: Application-form learning is part of the product
+
+### Context
+
+Following the advert alone is not enough. Many employers and agencies use ATS platforms with their own questions, gating fields, and progression logic.
+
+### Decision
+
+Treat JobGarden as an application-learning system, not just an advert-evaluation and drafting tool.
+
+### Why
+
+- The real application form often asks more than the advert reveals.
+- ATS workflows may apply hidden or semi-hidden filtering logic.
+- Repeated question types can guide better preparation, better document shaping, and better fit decisions.
+- We need a durable memory of what different platforms and employers actually ask.
+
+### Current implementation
+
+- `APPLICATION_INTELLIGENCE.md` defines what to capture and how to learn from it
+- private form captures should live in `job_scraper/forms/`
+- durable lessons should be summarised back into this log and the workflow/code
+
+### Do not repeat
+
+- Do not assume advert-only analysis is enough for real applications.
+- Do not treat ATS behaviour as incidental; it is part of the application environment.

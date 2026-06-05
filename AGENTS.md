@@ -28,10 +28,11 @@ These files can still be useful as reference material, but they should not defin
 
 1. Build or update the candidate profile from documents and past applications.
 2. Evaluate each job against the profile before drafting anything.
-3. Draft a UK-appropriate CV and supporting statement or cover letter.
-4. Check that the document language matches the job ad and the role level.
-5. Track the application and capture the outcome.
-6. Feed lessons back into the profile, evaluation rules, and upskilling notes.
+3. Review the real application form when possible, not just the advert.
+4. Draft a UK-appropriate CV and supporting statement or cover letter.
+5. Check that the document language matches the job ad, the application form, and the role level.
+6. Track the application and capture the outcome.
+7. Feed lessons back into the profile, evaluation rules, ATS learning, and upskilling notes.
 
 ## Repository Conventions
 
@@ -39,6 +40,7 @@ These files can still be useful as reference material, but they should not defin
 - Keep `job_search_tracker.csv` as the central application record.
 - Keep `documents/` as the source of truth for actual career evidence.
 - Prefer manual pasted job ads or UK-friendly sources over region-specific scrapers.
+- Treat ATS and application-form behaviour as first-class workflow inputs, not optional extras.
 - If you add new planning or workflow docs, make them neutral and Codex-friendly.
 - Treat `https://lozknowles.com` as a public portfolio site hosted on `cottageserver`.
 - Keep public portfolio material separate from private application notes, tracker data, generated CVs, and statements of interest.

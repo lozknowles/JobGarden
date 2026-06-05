@@ -9,6 +9,7 @@ This repository keeps the useful parts of the original job-search system:
 - a structured candidate profile
 - job-fit evaluation before drafting
 - tailored CV and supporting documents
+- application-form and ATS learning over time
 - interview preparation
 - application tracking
 - skill-gap and upskilling notes
@@ -21,9 +22,10 @@ The workflow is designed for Codex and for UK applications. It prefers pasted or
 2. Update the candidate profile and evaluation notes
 3. Create a job workspace from a saved or pasted job ad
 4. Review the generated fit evaluation and decide whether it is a sensible fit
-5. Draft a UK-appropriate CV and cover letter or supporting statement
-6. Track the application and capture the outcome
-6. Feed the result back into the profile and learning plan
+5. Review the real application form and capture what it asks for
+6. Draft a UK-appropriate CV and cover letter or supporting statement
+7. Track the application and capture the outcome
+8. Feed the result back into the profile, prompts, and learning loop
 
 ## Getting started
 
@@ -32,6 +34,7 @@ The workflow is designed for Codex and for UK applications. It prefers pasted or
 - [PROJECT_MAP.md](/fast/repos/JobGarden/PROJECT_MAP.md)
 - [AGENTS.md](/fast/repos/JobGarden/AGENTS.md)
 - [DECISIONS_LOG.md](/fast/repos/JobGarden/DECISIONS_LOG.md)
+- [APPLICATION_INTELLIGENCE.md](/fast/repos/JobGarden/APPLICATION_INTELLIGENCE.md)
 - [WORKFLOW.md](/fast/repos/JobGarden/WORKFLOW.md)
 
 ### 2. Add your source documents
@@ -90,6 +93,7 @@ python3 jobgarden_cli.py list
 | `PROJECT_MAP.md` | Folder-by-folder migration guide |
 | `AGENTS.md` | Operating rules for Codex agents |
 | `DECISIONS_LOG.md` | Durable workflow decisions and lessons learned |
+| `APPLICATION_INTELLIGENCE.md` | How JobGarden learns from ATS flows and application forms |
 | `WORKFLOW.md` | Current job-application workflow |
 | `README.md` | Entry point and repo overview |
 | `SETUP.md` | Environment and source-document setup |

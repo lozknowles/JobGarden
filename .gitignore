@@ -25,6 +25,8 @@ job_scraper/*.md
 !job_scraper/README.md
 job_scraper/imports/**
 !job_scraper/imports/.gitkeep
+job_scraper/forms/**
+!job_scraper/forms/.gitkeep
 *_BehavioralReport.pdf
 linkedin_Profile.pdf
 

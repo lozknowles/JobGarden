@@ -26,6 +26,7 @@
 - [ ] Repeat the validation on a UK-located role, not just a target-sector live role.
 - [x] Record what worked and what felt clunky.
 - [ ] Update `PROJECT_MAP.md` and the workflow docs after the first real test.
+- [ ] Validate the workflow against a real ATS application form, not just the advert.
 
 ## Coding
 
@@ -33,4 +34,7 @@
 - [x] Add a local CLI command to record submissions into `job_search_tracker.csv`.
 - [x] Add a UK job-source intake helper for saved adverts from LinkedIn, company sites, and recruiters.
 - [x] Add stronger UK supporting-statement prompts to the generated evaluation output.
+- [ ] Add a private form-capture structure for ATS questions, steps, and observations.
+- [ ] Add an ATS/vendor observation model so repeated platform patterns can be learned over time.
+- [ ] Add a `form-review` step or command before any future `form-fill` automation.
 - [ ] Decide whether to extend the CLI with AI-assisted drafting hooks or keep drafting agent-led.
