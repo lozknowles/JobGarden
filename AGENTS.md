@@ -8,6 +8,7 @@ Before making infrastructure, deployment, credential, GitHub, or portfolio-site 
 
 - Read `PROJECT_MAP.md` first when you need to understand the repo.
 - Read `PROJECT_ARCHITECTURE.md` before any deployment or hosting changes.
+- Read `DECISIONS_LOG.md` before changing workflow, intake, evaluation, or tracking behaviour.
 - Use the existing source documents as the ground truth, not assumptions.
 - Prefer British English spelling and UK hiring conventions in new content.
 - Keep edits narrow and targeted. Do not rewrite large files unless the task truly needs it.
@@ -42,6 +43,7 @@ These files can still be useful as reference material, but they should not defin
 - Treat `https://lozknowles.com` as a public portfolio site hosted on `cottageserver`.
 - Keep public portfolio material separate from private application notes, tracker data, generated CVs, and statements of interest.
 - Ask for confirmation before deploying anything to `cottageserver`.
+- Update `DECISIONS_LOG.md` when a durable workflow decision changes.
 
 ## Portfolio Site
 

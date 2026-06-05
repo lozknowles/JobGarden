@@ -20,3 +20,4 @@ Next step:
 2. Review whether `job_search_tracker.csv` needs extra fields for UK applications.
 3. Decide whether to add AI-assisted drafting hooks to `jobgarden_cli.py`.
 4. Review CV and cover-letter templates against the target roles.
+5. Keep `DECISIONS_LOG.md` updated whenever workflow defaults change.

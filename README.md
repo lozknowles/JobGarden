@@ -31,6 +31,7 @@ The workflow is designed for Codex and for UK applications. It prefers pasted or
 
 - [PROJECT_MAP.md](/fast/repos/JobGarden/PROJECT_MAP.md)
 - [AGENTS.md](/fast/repos/JobGarden/AGENTS.md)
+- [DECISIONS_LOG.md](/fast/repos/JobGarden/DECISIONS_LOG.md)
 - [WORKFLOW.md](/fast/repos/JobGarden/WORKFLOW.md)
 
 ### 2. Add your source documents
@@ -88,6 +89,7 @@ python3 jobgarden_cli.py list
 |---|---|
 | `PROJECT_MAP.md` | Folder-by-folder migration guide |
 | `AGENTS.md` | Operating rules for Codex agents |
+| `DECISIONS_LOG.md` | Durable workflow decisions and lessons learned |
 | `WORKFLOW.md` | Current job-application workflow |
 | `README.md` | Entry point and repo overview |
 | `SETUP.md` | Environment and source-document setup |

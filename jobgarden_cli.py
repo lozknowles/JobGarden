@@ -33,6 +33,7 @@ TRACKER_FIELDS = [
     "company",
     "sector",
     "role",
+    "role_family",
     "role_type",
     "channel",
     "status",
@@ -50,6 +51,15 @@ TECHNICAL_KEYWORDS = {
     "hris": 10,
     "hcm": 8,
     "payroll": 10,
+    "payroll bureau": 7,
+    "payroll services": 7,
+    "compliance": 9,
+    "benefits": 8,
+    "workforce management": 7,
+    "time and attendance": 7,
+    "people platform": 7,
+    "managed services": 7,
+    "integrations": 7,
     "saas": 8,
     "product": 8,
     "product strategy": 10,
@@ -77,6 +87,11 @@ EXPERIENCE_KEYWORDS = {
     "program": 6,
     "board": 6,
     "strategy": 8,
+    "go to market": 5,
+    "gtm": 5,
+    "functional": 5,
+    "process improvement": 6,
+    "service delivery": 7,
 }
 
 BEHAVIOURAL_KEYWORDS = {
@@ -97,6 +112,11 @@ ALIGNMENT_KEYWORDS = {
     "hr": 10,
     "people": 6,
     "payroll": 10,
+    "benefits": 8,
+    "compliance": 8,
+    "hr technology": 9,
+    "hr tech": 9,
+    "managed services": 7,
     "product": 10,
     "software": 7,
     "saas": 8,
@@ -123,8 +143,17 @@ SECTOR_HINTS = {
     "payroll": "Payroll / HR software",
     "saas": "SaaS",
     "software": "Software",
+    "benefits": "HR software",
     "public sector": "Public sector",
 }
+
+ROLE_FAMILY_PATTERNS = [
+    ("product_marketing", ("product marketing", "go to market", "gtm", "positioning", "messaging")),
+    ("functional_analyst", ("functional analyst", "functional consultant", "requirements gathering", "configuration")),
+    ("implementation_assurance", ("implementation", "assurance", "audit", "programme assurance", "program assurance")),
+    ("service_operations", ("service delivery", "operations", "process improvement", "shared services", "managed services")),
+    ("product_management", ("product manager", "product owner", "roadmap", "backlog", "product strategy")),
+]
 
 
 @dataclass
@@ -136,9 +165,12 @@ class Evaluation:
     logistics: str
     overall: int
     verdict: str
+    role_family: str
     strengths: list[str]
     gaps: list[str]
     notes: list[str]
+    warnings: list[str]
+    business_outcomes: list[str]
 
 
 class JobAdHTMLExtractor(HTMLParser):
@@ -206,6 +238,12 @@ def slugify(value: str) -> str:
     value = value.lower()
     value = re.sub(r"[^a-z0-9]+", "-", value)
     return value.strip("-")[:80] or "job"
+
+
+def labelise(value: str) -> str:
+    if not value:
+        return "Unknown"
+    return value.replace("_", " ").title()
 
 
 def strip_html_to_text(raw_html: str) -> str:
@@ -353,6 +391,19 @@ def infer_sector(text: str) -> str:
     return "Unknown"
 
 
+def infer_role_family(text: str) -> str:
+    lowered = text.lower()
+    scores: dict[str, int] = {}
+    for family, phrases in ROLE_FAMILY_PATTERNS:
+        score = sum(1 for phrase in phrases if phrase in lowered)
+        if score:
+            scores[family] = score
+
+    if not scores:
+        return "unknown"
+    return sorted(scores.items(), key=lambda item: (-item[1], item[0]))[0][0]
+
+
 def logistics_status(text: str, location: str | None) -> tuple[str, list[str]]:
     lowered = text.lower()
     notes: list[str] = []
@@ -421,6 +472,47 @@ def infer_gaps(job_text: str) -> list[str]:
     return gaps or ["No major gap is obvious from the advert; validate through research and tailoring."]
 
 
+def infer_warnings(job_text: str, role_family: str) -> list[str]:
+    lowered = job_text.lower()
+    warnings: list[str] = []
+
+    if role_family == "product_marketing":
+        warnings.append("This advert may be product marketing-led rather than true product ownership.")
+    if role_family == "functional_analyst":
+        warnings.append("This advert may be closer to functional analysis or configuration than product leadership.")
+    if role_family == "service_operations":
+        warnings.append("This advert may lean toward service operations rather than core product strategy.")
+    if role_family == "implementation_assurance":
+        warnings.append("This advert leans toward delivery or implementation assurance; tailor accordingly.")
+    if any(term in lowered for term in ("up to 4-5 years", "junior product manager", "junior product owner", "associate")):
+        warnings.append("Potential seniority mismatch: advert may be aimed below Lawrence's likely level.")
+    if any(term in lowered for term in ("startup", "high-velocity", "fast-paced")):
+        warnings.append("Check whether the pace and culture fit what Lawrence wants now.")
+
+    return warnings
+
+
+def infer_business_outcomes(job_text: str) -> list[str]:
+    lowered = job_text.lower()
+    outcomes: list[str] = []
+
+    mapping = [
+        ("customer value", ("customer", "user value", "customer needs")),
+        ("commercial growth", ("commercial", "revenue", "growth", "go to market", "market share")),
+        ("operational efficiency", ("efficiency", "process improvement", "continuous improvement", "service delivery")),
+        ("delivery confidence", ("implementation", "delivery", "rollout", "launch", "risk")),
+        ("compliance and control", ("compliance", "governance", "audit", "policy")),
+        ("adoption and engagement", ("adoption", "engagement", "usage", "retention")),
+        ("data-led decisions", ("data", "analytics", "kpi", "insight", "metrics")),
+    ]
+
+    for label, phrases in mapping:
+        if any(phrase in lowered for phrase in phrases):
+            outcomes.append(label)
+
+    return outcomes or ["customer value"]
+
+
 def supporting_statement_prompts(job_text: str) -> list[str]:
     lowered = job_text.lower()
     prompts = [
@@ -460,6 +552,7 @@ def build_evaluation(job_text: str, location: str | None) -> Evaluation:
     behavioural = keyword_score(job_text, BEHAVIOURAL_KEYWORDS)
     alignment = keyword_score(job_text, ALIGNMENT_KEYWORDS)
     logistics, logistics_notes = logistics_status(job_text, location)
+    role_family = infer_role_family(job_text)
 
     overall = round(
         technical * 0.30
@@ -476,9 +569,12 @@ def build_evaluation(job_text: str, location: str | None) -> Evaluation:
         logistics=logistics,
         overall=overall,
         verdict=verdict_for_score(overall),
+        role_family=role_family,
         strengths=infer_strengths(job_text),
         gaps=infer_gaps(job_text),
         notes=logistics_notes,
+        warnings=infer_warnings(job_text, role_family),
+        business_outcomes=infer_business_outcomes(job_text),
     )
 
 
@@ -504,6 +600,8 @@ def render_evaluation_markdown(
     gaps = "\n".join(f"- {item}" for item in evaluation.gaps)
     notes = "\n".join(f"- {item}" for item in evaluation.notes)
     statement_prompts = "\n".join(f"- {item}" for item in supporting_statement_prompts(metadata.get("job_text", "")))
+    warnings = "\n".join(f"- {item}" for item in evaluation.warnings) or "- No structural warning identified."
+    business_outcomes = "\n".join(f"- {item}" for item in evaluation.business_outcomes)
 
     return f"""# Job Fit Evaluation: {role} at {company}
 
@@ -521,11 +619,19 @@ def render_evaluation_markdown(
 
 **Verdict:** {evaluation.verdict}
 
+**Role Family:** {labelise(evaluation.role_family)}
+
 ## Key Strengths
 {strengths}
 
 ## Gaps To Check
 {gaps}
+
+## Structural Warnings
+{warnings}
+
+## Business Outcomes To Lead With
+{business_outcomes}
 
 ## Logistics Notes
 {notes}
@@ -542,6 +648,7 @@ def render_evaluation_markdown(
 ## Role Metadata
 - Company: {company}
 - Role: {role}
+- Role family: {labelise(evaluation.role_family)}
 - Channel: {metadata.get('channel', 'unknown')}
 - Source: {metadata.get('source', '')}
 - Location: {metadata.get('location', '')}
@@ -610,6 +717,7 @@ def create_application_workspace(
         "source": source or "",
         "location": location or "",
         "role_type": role_type or infer_role_type(job_text),
+        "role_family": evaluation.role_family,
         "sector": sector or infer_sector(job_text),
         "created_at": datetime.now(UTC).replace(microsecond=0).isoformat().replace("+00:00", "Z"),
         "status": "draft",
@@ -759,6 +867,7 @@ def submit_application(args: argparse.Namespace) -> int:
         "company": metadata.get("company", ""),
         "sector": metadata.get("sector", ""),
         "role": metadata.get("role", ""),
+        "role_family": metadata.get("role_family", ""),
         "role_type": metadata.get("role_type", ""),
         "channel": args.channel or metadata.get("channel", ""),
         "status": args.status,

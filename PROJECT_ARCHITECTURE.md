@@ -8,6 +8,8 @@ It is intended to be referenced from `AGENTS.md`.
 
 Agents should read this file before making infrastructure, deployment, credential, GitHub, or portfolio-site changes.
 
+Durable workflow decisions that are not purely infrastructure-related should be recorded in `DECISIONS_LOG.md`.
+
 ---
 
 ## Public Portfolio Site
