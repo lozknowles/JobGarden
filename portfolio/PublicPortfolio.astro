@@ -20,6 +20,41 @@ const experienceItems = [
   },
 ];
 
+const professionalItems = [
+  {
+    label: "Implementation assurance",
+    title: "Independent oversight for complex HR software programmes",
+    body:
+      "Supporting delivery confidence through structured review, risk reduction, and better decision making.",
+    image: "/work-implementation.png",
+    alt: "Lawrence Knowles in an implementation assurance discussion with a client",
+  },
+  {
+    label: "Product strategy",
+    title: "Roadmaps that align customer needs with commercial goals",
+    body:
+      "Helping teams connect product direction, adoption, and practical delivery outcomes.",
+    image: "/work-strategy.png",
+    alt: "Lawrence Knowles in a product strategy workshop",
+  },
+  {
+    label: "Stakeholder alignment",
+    title: "Clear communication across leadership, product, and delivery",
+    body:
+      "Translating complexity into decisions that customers, sponsors, and teams can act on.",
+    image: "/work-alignment.png",
+    alt: "Lawrence Knowles facilitating a stakeholder alignment meeting",
+  },
+  {
+    label: "HR software insight",
+    title: "Experience across payroll, SaaS, and enterprise HR systems",
+    body:
+      "Bringing long-term sector knowledge to strategy, implementation, and assurance conversations.",
+    image: "/work-insight.png",
+    alt: "Lawrence Knowles reviewing HR software insight with a colleague",
+  },
+];
+
 const workItems = [
   {
     label: "Featured project",
@@ -116,7 +151,8 @@ const nowSignals = [
         <a href="#top">Home</a>
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
-        <a href="#work">Examples</a>
+        <a href="#professional">Portfolio</a>
+        <a href="#tech-ai">Tech &amp; AI</a>
         <a href="#contact">Contact</a>
       </div>
       <a class="button primary topbar-cta" href="#contact">Let's Talk</a>
@@ -205,6 +241,31 @@ const nowSignals = [
                 <h3>{item.title}</h3>
                 <span>{item.period}</span>
               </div>
+              <p>{item.body}</p>
+            </div>
+          </article>
+        ))}
+      </div>
+    </section>
+
+    <section class="section" id="professional">
+      <div class="section-header">
+        <div>
+          <p class="section-kicker">Professional portfolio</p>
+          <h2>Core disciplines and experience</h2>
+        </div>
+      </div>
+
+      <div class="work-grid">
+        {professionalItems.map((item) => (
+          <article class="work-card work-card-professional">
+            <div class="work-preview">
+              <img class="work-preview-image" src={item.image} alt={item.alt} loading="lazy" />
+              <div class="work-preview-overlay" aria-hidden="true"></div>
+            </div>
+            <div class="work-body">
+              <span class="work-label">{item.label}</span>
+              <h3>{item.title}</h3>
               <p>{item.body}</p>
             </div>
           </article>
@@ -701,6 +762,22 @@ const nowSignals = [
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .work-card-professional {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-card-professional {
+    display: flex;
+    flex-direction: column;
+  }
+
   .work-card-featured {
     box-shadow: 0 18px 42px rgba(126, 143, 194, 0.14);
   }
@@ -712,6 +789,12 @@ const nowSignals = [
 
   .work-card:hover .work-preview-image {
     transform: scale(1.03);
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
   }
 
   .work-preview {

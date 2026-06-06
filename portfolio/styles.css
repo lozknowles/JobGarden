@@ -418,6 +418,17 @@ h1 {
   scroll-snap-align: start;
 }
 
+.work-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 18px;
+}
+
+.work-card-professional {
+  display: flex;
+  flex-direction: column;
+}
+
 .project-carousel {
   display: grid;
   grid-template-columns: repeat(6, minmax(280px, 1fr));
