@@ -38,6 +38,7 @@
 - [x] Record what worked and what felt clunky.
 - [ ] Update `PROJECT_MAP.md` and the workflow docs after the first real test.
 - [ ] Validate the workflow against a real ATS application form, not just the advert.
+- [ ] Replace the portfolio carousel's temporary YouTube/GitHub links with the real project URLs from the next turn.
 
 ## Coding
 

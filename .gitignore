@@ -34,6 +34,7 @@ linkedin_Profile.pdf
 *.jpg
 *.jpeg
 *.png
+!portfolio/project-*.png
 !cover_letters/OpenFonts/fonts/**
 
 # OS files

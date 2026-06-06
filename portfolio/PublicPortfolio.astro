@@ -22,36 +22,85 @@ const experienceItems = [
 
 const workItems = [
   {
-    label: "Implementation assurance",
-    title: "Independent oversight for complex HR software programmes",
+    label: "Featured project",
+    title: "Flower Detection Using Vision Processing",
     body:
-      "Supporting delivery confidence through structured review, risk reduction, and better decision making.",
-    image: "/work-implementation.png",
-    alt: "Lawrence Knowles in an implementation assurance discussion with a client",
+      "A visual demo that uses computer vision to identify flowers and present the result clearly.",
+    image: "/project-flower-detection.png",
+    alt: "Computer vision interface detecting flowers with highlighted bounding boxes and analytics panels",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "Watch the video",
+    preview: "linear-gradient(135deg, rgba(33, 94, 99, 0.28), rgba(15, 23, 42, 0.86))",
   },
   {
-    label: "Product strategy",
-    title: "Roadmaps that align customer needs with commercial goals",
+    label: "Video project",
+    title: "Hand Mapping Using AI Vision",
     body:
-      "Helping teams connect product direction, adoption, and practical delivery outcomes.",
-    image: "/work-strategy.png",
-    alt: "Lawrence Knowles in a product strategy workshop",
+      "An AI vision experiment focused on hand mapping and interactive visual feedback.",
+    image: "/project-hand-mapping.png",
+    alt: "AI vision interface showing hand landmark tracking and a control dashboard",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "Open on YouTube",
+    preview: "linear-gradient(135deg, rgba(164, 93, 42, 0.34), rgba(15, 23, 42, 0.82))",
   },
   {
-    label: "Stakeholder alignment",
-    title: "Clear communication across leadership, product, and delivery",
+    label: "Design project",
+    title: "Archive Automation Using AI OCR",
     body:
-      "Translating complexity into decisions that customers, sponsors, and teams can act on.",
-    image: "/work-alignment.png",
-    alt: "Lawrence Knowles facilitating a stakeholder alignment meeting",
+      "A workflow demo showing how OCR can speed up archive handling and reduce manual effort.",
+    image: "/project-archive-ocr.png",
+    alt: "Document processing interface with OCR extraction boxes and archive automation controls",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "View project",
+    preview: "linear-gradient(135deg, rgba(92, 108, 255, 0.32), rgba(34, 44, 72, 0.88))",
   },
   {
-    label: "HR software insight",
-    title: "Experience across payroll, SaaS, and enterprise HR systems",
+    label: "Public project",
+    title: "Timelapse Dashboard Using AI",
     body:
-      "Bringing long-term sector knowledge to strategy, implementation, and assurance conversations.",
-    image: "/work-insight.png",
-    alt: "Lawrence Knowles reviewing HR software insight with a colleague",
+      "A dashboard-led project that turns time-based activity into something easier to read at a glance.",
+    image: "/project-timelapse-dashboard.png",
+    alt: "Analytics dashboard with timelines, event markers, and AI summary panels",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "Open on YouTube",
+    preview: "linear-gradient(135deg, rgba(14, 94, 121, 0.34), rgba(11, 18, 32, 0.9))",
+  },
+  {
+    label: "Case study",
+    title: "Collingham.org",
+    body:
+      "Community-focused digital work with an emphasis on organisation, clarity, and public usefulness.",
+    image: "/project-collingham.png",
+    alt: "Community website homepage with archive tiles and editorial navigation",
+    link: "https://collingham.org",
+    linkLabel: "Visit site",
+    preview: "linear-gradient(135deg, rgba(122, 92, 255, 0.3), rgba(20, 28, 48, 0.88))",
+  },
+  {
+    label: "Current work",
+    title: "Space Bike Simulator - 6502 Game",
+    body:
+      "A retro-inspired game project that shows programming range as well as playful problem solving.",
+    image: "/project-space-bike.png",
+    alt: "Retro game interface with a space bike simulator and pixel-art starfield",
+    link: "https://github.com/lozknowles",
+    linkLabel: "View GitHub",
+    preview: "linear-gradient(135deg, rgba(45, 132, 110, 0.26), rgba(15, 23, 42, 0.84))",
+  },
+];
+
+const nowSignals = [
+  {
+    label: "Now",
+    value: "Turning public work into a more editorial, image-led portfolio.",
+  },
+  {
+    label: "Format",
+    value: "Using carousel-style cards, subtle motion, and stronger visual hierarchy.",
+  },
+  {
+    label: "Focus",
+    value: "Keeping the site calm, current, and easy to scan on mobile.",
   },
 ];
 ---
@@ -87,13 +136,15 @@ const workItems = [
 
         <div class="hero-actions">
           <a class="button primary" href="#contact">Let's Talk</a>
-          <a class="button ghost" href="#work">View Examples</a>
         </div>
 
-        <div class="social-links" aria-label="Public links">
-          <a href="https://github.com/lozknowles" target="_blank" rel="noreferrer">GitHub</a>
-          <a href="https://uk.linkedin.com/in/lozknowles" target="_blank" rel="noreferrer">LinkedIn</a>
-          <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">YouTube</a>
+        <div class="signal-strip" aria-label="Current site signals">
+          {nowSignals.map((item) => (
+            <article class="signal-card">
+              <span>{item.label}</span>
+              <p>{item.value}</p>
+            </article>
+          ))}
         </div>
       </div>
 
@@ -114,13 +165,13 @@ const workItems = [
         </div>
 
         <div class="floating-card card-trust">
-          <strong>Trusted by leaders</strong>
-          <p>Across HR software and enterprise delivery environments</p>
+          <strong>Selected work</strong>
+          <p>Six public projects, one cohesive visual story</p>
         </div>
 
         <div class="floating-card card-years">
-          <strong>20+ years</strong>
-          <p>Experience</p>
+          <strong>Live now</strong>
+          <p>Portfolio refresh in progress</p>
         </div>
       </aside>
     </section>
@@ -164,20 +215,26 @@ const workItems = [
       <div class="section-header">
         <div>
           <p class="section-kicker">Examples</p>
-          <h2>Examples and current focus</h2>
+          <h2>Featured projects</h2>
         </div>
       </div>
 
-      <div class="work-grid">
+      <div class="work-carousel" tabindex="0" aria-label="Project carousel">
         {workItems.map((item, index) => (
-          <article class="work-card">
-            <div class="work-preview">
+          <article class:list={["work-card", index === 0 ? "work-card-featured" : ""]}>
+            <div class="work-preview" style={`--preview-bg: ${item.preview};`}>
               <img class="work-preview-image" src={item.image} alt={item.alt} loading="lazy" />
+              <div class="work-preview-overlay" aria-hidden="true"></div>
+              <div class="work-number">0{index + 1}</div>
             </div>
             <div class="work-body">
               <span class="work-label">{item.label}</span>
               <h3>{item.title}</h3>
               <p>{item.body}</p>
+              <div class="work-links">
+                <span class="muted">Screenshot-led case study</span>
+                <a href={item.link} target="_blank" rel="noreferrer">{item.linkLabel}</a>
+              </div>
             </div>
           </article>
         ))}
@@ -408,13 +465,35 @@ const workItems = [
     box-shadow: 0 10px 24px rgba(15, 23, 42, 0.06);
   }
 
-  .social-links {
-    display: flex;
-    flex-wrap: wrap;
-    gap: 20px;
+  .signal-strip {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
     margin-top: 22px;
-    color: #101828;
-    font-weight: 600;
+  }
+
+  .signal-card {
+    display: grid;
+    gap: 8px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(120, 132, 164, 0.12);
+    background: rgba(255, 255, 255, 0.82);
+    box-shadow: 0 14px 28px rgba(126, 143, 194, 0.08);
+  }
+
+  .signal-card span {
+    color: #5c6cff;
+    text-transform: uppercase;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
+    font-weight: 800;
+  }
+
+  .signal-card p {
+    margin: 0;
+    color: #475467;
+    font-size: 0.95rem;
   }
 
   .hero-visual {
@@ -489,13 +568,13 @@ const workItems = [
   .card-trust {
     left: 14px;
     bottom: 94px;
-    max-width: 240px;
+    max-width: 260px;
   }
 
   .card-years {
     right: -6px;
     bottom: 146px;
-    max-width: 150px;
+    max-width: 180px;
   }
 
   .section {
@@ -602,13 +681,17 @@ const workItems = [
     margin-bottom: 22px;
   }
 
-  .work-grid {
+  .work-carousel {
     display: grid;
-    grid-template-columns: repeat(4, minmax(0, 1fr));
+    grid-template-columns: repeat(6, minmax(280px, 1fr));
     gap: 18px;
+    overflow-x: auto;
+    padding-bottom: 8px;
+    scroll-snap-type: x mandatory;
   }
 
   .work-card {
+    scroll-snap-align: start;
     overflow: hidden;
     border-radius: 20px;
     border: 1px solid rgba(120, 132, 164, 0.12);
@@ -617,26 +700,27 @@ const workItems = [
     transition: transform 0.2s ease, box-shadow 0.2s ease;
   }
 
+  .work-card-featured {
+    box-shadow: 0 18px 42px rgba(126, 143, 194, 0.14);
+  }
+
   .work-card:hover {
     transform: translateY(-4px);
     box-shadow: 0 22px 44px rgba(126, 143, 194, 0.14);
   }
 
-  .work-preview {
-    position: relative;
-    height: 210px;
-    border-bottom: 1px solid rgba(120, 132, 164, 0.08);
-    background: linear-gradient(180deg, rgba(249, 250, 251, 0.8), rgba(255, 255, 255, 0.95));
+  .work-card:hover .work-preview-image {
+    transform: scale(1.03);
   }
 
-  .work-preview::after {
-    content: "";
-    position: absolute;
-    inset: 0;
-    background:
-      linear-gradient(180deg, rgba(255, 255, 255, 0.02), rgba(255, 255, 255, 0.08)),
-      linear-gradient(180deg, transparent 40%, rgba(255, 255, 255, 0.14));
-    pointer-events: none;
+  .work-preview {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: 220px;
+    border-bottom: 1px solid rgba(120, 132, 164, 0.08);
+    background: var(--preview-bg);
+    overflow: hidden;
   }
 
   .work-preview-image {
@@ -644,21 +728,50 @@ const workItems = [
     height: 100%;
     object-fit: cover;
     display: block;
-    filter: grayscale(1) contrast(1.04) brightness(1.01);
+    filter: saturate(1.02) contrast(1.02);
     transition: transform 0.35s ease;
   }
 
-  .work-card:hover .work-preview-image {
-    transform: scale(1.04);
+  .work-preview-overlay {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.1)),
+      linear-gradient(180deg, transparent 42%, rgba(11, 18, 32, 0.22));
+    pointer-events: none;
+  }
+
+  .work-preview::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .work-number {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+    padding: 8px 10px;
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(10, 18, 25, 0.4);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
   }
 
   .work-body {
+    display: grid;
+    gap: 10px;
     padding: 18px;
   }
 
   .work-label {
     display: inline-block;
-    margin-bottom: 10px;
     color: #5c6cff;
     font-size: 0.8rem;
     font-weight: 700;
@@ -672,9 +785,24 @@ const workItems = [
   }
 
   .work-body p {
-    margin: 10px 0 0;
+    margin: 0;
     color: #667085;
     font-size: 0.96rem;
+  }
+
+  .work-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
+    color: #475467;
+    font-size: 0.92rem;
+  }
+
+  .work-links a {
+    white-space: nowrap;
+    font-weight: 700;
   }
 
   .contact-section {
@@ -746,8 +874,8 @@ const workItems = [
       grid-template-columns: 1fr;
     }
 
-    .work-grid {
-      grid-template-columns: repeat(2, minmax(0, 1fr));
+    .signal-strip {
+      grid-template-columns: 1fr;
     }
 
     .experience-list {
@@ -788,7 +916,6 @@ const workItems = [
       inset: 24px 10px 12px 24px;
     }
 
-    .work-grid,
     .form-row {
       grid-template-columns: 1fr;
     }
@@ -804,6 +931,15 @@ const workItems = [
       display: grid;
       justify-items: center;
       gap: 12px;
+    }
+
+    .work-carousel {
+      grid-template-columns: repeat(6, minmax(84vw, 1fr));
+    }
+
+    .work-links {
+      flex-direction: column;
+      align-items: flex-start;
     }
   }
 </style>

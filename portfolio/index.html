@@ -35,7 +35,21 @@
 
             <div class="hero-actions">
               <a class="button primary" href="#contact">Let's Talk</a>
-              <a class="button ghost" href="https://github.com/lozknowles" target="_blank" rel="noreferrer">GitHub</a>
+            </div>
+
+            <div class="signal-strip" aria-label="Current site signals">
+              <article class="signal-card">
+                <span>Now</span>
+                <p>Turning public work into a more editorial, image-led portfolio.</p>
+              </article>
+              <article class="signal-card">
+                <span>Format</span>
+                <p>Using carousel-style cards, subtle motion, and stronger visual hierarchy.</p>
+              </article>
+              <article class="signal-card">
+                <span>Focus</span>
+                <p>Keeping the site calm, current, and easy to scan on mobile.</p>
+              </article>
             </div>
 
             <ul class="hero-tags" aria-label="Highlights">
@@ -69,13 +83,9 @@
               <p>Commercial, strategic, relationship-led, and comfortable working with senior stakeholders and leadership teams.</p>
             </div>
             <div class="panel-card">
-              <span class="panel-label">Public links</span>
+              <span class="panel-label">Live now</span>
               <p>
-                <a href="https://uk.linkedin.com/in/lozknowles" target="_blank" rel="noreferrer">LinkedIn</a>
-                <span aria-hidden="true">·</span>
-                <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">YouTube</a>
-                <span aria-hidden="true">·</span>
-                <a href="https://collingham.org" target="_blank" rel="noreferrer">Collingham.org</a>
+                Portfolio refresh in progress, with more visual project stories and stronger current work.
               </p>
             </div>
           </aside>
@@ -157,56 +167,122 @@
         <section class="section" id="projects">
           <div class="section-heading">
             <p class="eyebrow">Selected work</p>
-            <h2>Public examples and current focus</h2>
+            <h2>Featured projects</h2>
           </div>
 
-          <div class="card-grid two-up">
+          <div class="project-carousel" tabindex="0" aria-label="Project carousel">
+            <article class="card project-card project-card-featured">
+              <div class="work-preview" style="--preview-bg: linear-gradient(135deg, rgba(33, 94, 99, 0.28), rgba(15, 23, 42, 0.86));">
+                <img class="work-preview-image" src="./project-flower-detection.png" alt="Computer vision interface detecting flowers with highlighted bounding boxes and analytics panels" loading="lazy" />
+                <div class="work-preview-overlay" aria-hidden="true"></div>
+                <div class="work-number">01</div>
+              </div>
+              <div class="project-body">
+                <span class="pill">Featured project</span>
+                <h3>Flower Detection Using Vision Processing</h3>
+                <p>
+                  A visual demo that uses computer vision to identify flowers and present the result clearly.
+                </p>
+                <div class="project-links">
+                  <span class="muted">Screenshot-led case study</span>
+                  <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">Watch the video</a>
+                </div>
+              </div>
+            </article>
+
             <article class="card project-card">
-              <div class="card-topline">
+              <div class="work-preview" style="--preview-bg: linear-gradient(135deg, rgba(164, 93, 42, 0.34), rgba(15, 23, 42, 0.82));">
+                <img class="work-preview-image" src="./project-hand-mapping.png" alt="AI vision interface showing hand landmark tracking and a control dashboard" loading="lazy" />
+                <div class="work-preview-overlay" aria-hidden="true"></div>
+                <div class="work-number">02</div>
+              </div>
+              <div class="project-body">
+                <span class="pill">Video project</span>
+                <h3>Hand Mapping Using AI Vision</h3>
+                <p>
+                  An AI vision experiment focused on hand mapping and interactive visual feedback.
+                </p>
+                <div class="project-links">
+                  <span class="muted">Screenshot-led case study</span>
+                  <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">Open on YouTube</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card project-card">
+              <div class="work-preview" style="--preview-bg: linear-gradient(135deg, rgba(92, 108, 255, 0.32), rgba(34, 44, 72, 0.88));">
+                <img class="work-preview-image" src="./project-archive-ocr.png" alt="Document processing interface with OCR extraction boxes and archive automation controls" loading="lazy" />
+                <div class="work-preview-overlay" aria-hidden="true"></div>
+                <div class="work-number">03</div>
+              </div>
+              <div class="project-body">
+                <span class="pill">Design project</span>
+                <h3>Archive Automation Using AI OCR</h3>
+                <p>
+                  A workflow demo showing how OCR can speed up archive handling and reduce manual effort.
+                </p>
+                <div class="project-links">
+                  <span class="muted">Screenshot-led case study</span>
+                  <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">View project</a>
+                </div>
+              </div>
+            </article>
+
+            <article class="card project-card">
+              <div class="work-preview" style="--preview-bg: linear-gradient(135deg, rgba(14, 94, 121, 0.34), rgba(11, 18, 32, 0.9));">
+                <img class="work-preview-image" src="./project-timelapse-dashboard.png" alt="Analytics dashboard with timelines, event markers, and AI summary panels" loading="lazy" />
+                <div class="work-preview-overlay" aria-hidden="true"></div>
+                <div class="work-number">04</div>
+              </div>
+              <div class="project-body">
                 <span class="pill">Public project</span>
-                <a href="https://collingham.org" target="_blank" rel="noreferrer">Visit site</a>
+                <h3>Timelapse Dashboard Using AI</h3>
+                <p>
+                  A dashboard-led project that turns time-based activity into something easier to read at a glance.
+                </p>
+                <div class="project-links">
+                  <span class="muted">Screenshot-led case study</span>
+                  <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">Open on YouTube</a>
+                </div>
               </div>
-              <h3>Collingham.org</h3>
-              <p>
-                Community and local-history focused digital work that demonstrates practical
-                organisation, content care, and public communication.
-              </p>
             </article>
 
             <article class="card project-card">
-              <div class="card-topline">
-                <span class="pill">Public channel</span>
-                <a href="https://www.youtube.com/@LawrenceKnowles-cr9ml" target="_blank" rel="noreferrer">Open channel</a>
+              <div class="work-preview" style="--preview-bg: linear-gradient(135deg, rgba(122, 92, 255, 0.3), rgba(20, 28, 48, 0.88));">
+                <img class="work-preview-image" src="./project-collingham.png" alt="Community website homepage with archive tiles and editorial navigation" loading="lazy" />
+                <div class="work-preview-overlay" aria-hidden="true"></div>
+                <div class="work-number">05</div>
               </div>
-              <h3>YouTube presence</h3>
-              <p>
-                A public channel used for selected examples and supporting material. More portfolio
-                items can be added here over time.
-              </p>
+              <div class="project-body">
+                <span class="pill">Case study</span>
+                <h3>Collingham.org</h3>
+                <p>
+                  Community-focused digital work with an emphasis on organisation, clarity, and public usefulness.
+                </p>
+                <div class="project-links">
+                  <span class="muted">Screenshot-led case study</span>
+                  <a href="https://collingham.org" target="_blank" rel="noreferrer">Visit site</a>
+                </div>
+              </div>
             </article>
 
             <article class="card project-card">
-              <div class="card-topline">
-                <span class="pill">Code profile</span>
-                <a href="https://github.com/lozknowles" target="_blank" rel="noreferrer">View GitHub</a>
+              <div class="work-preview" style="--preview-bg: linear-gradient(135deg, rgba(45, 132, 110, 0.26), rgba(15, 23, 42, 0.84));">
+                <img class="work-preview-image" src="./project-space-bike.png" alt="Retro game interface with a space bike simulator and pixel-art starfield" loading="lazy" />
+                <div class="work-preview-overlay" aria-hidden="true"></div>
+                <div class="work-number">06</div>
               </div>
-              <h3>GitHub profile</h3>
-              <p>
-                Selected code, experiments, and technical examples will appear here as the
-                portfolio continues to grow.
-              </p>
-            </article>
-
-            <article class="card project-card">
-              <div class="card-topline">
-                <span class="pill">Advisory work</span>
-                <span class="muted">Selected capability</span>
+              <div class="project-body">
+                <span class="pill">Current work</span>
+                <h3>Space Bike Simulator - 6502 Game</h3>
+                <p>
+                  A retro-inspired game project that shows programming range as well as playful problem solving.
+                </p>
+                <div class="project-links">
+                  <span class="muted">Screenshot-led case study</span>
+                  <a href="https://github.com/lozknowles" target="_blank" rel="noreferrer">View GitHub</a>
+                </div>
               </div>
-              <h3>Strategic and delivery support</h3>
-              <p>
-                From product direction to implementation oversight, this work focuses on helping
-                teams make sound decisions and deliver with confidence.
-              </p>
             </article>
           </div>
         </section>
