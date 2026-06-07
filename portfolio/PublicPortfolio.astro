@@ -175,30 +175,17 @@ const nowSignals = [
       </div>
 
       <aside class="profile-panel" aria-label="Profile and quick facts">
-        <div class="hero-feature">
-          <span class="panel-label">Public portfolio</span>
-          <strong>Product leadership, implementation assurance, and technical experiments in one view.</strong>
-          <p>
-            A self-contained visual panel that keeps the site resilient while still feeling
-            image-led and current.
-          </p>
-          <div class="hero-feature-grid" aria-label="Portfolio highlights">
-            <div>
-              <span>Focus</span>
-              <strong>HR software</strong>
-            </div>
-            <div>
-              <span>Style</span>
-              <strong>Editorial / calm</strong>
-            </div>
-            <div>
-              <span>Output</span>
-              <strong>Selected work</strong>
-            </div>
-            <div>
-              <span>Context</span>
-              <strong>UK portfolio</strong>
-            </div>
+        <div class="hero-image-frame">
+          <img
+            class="hero-image"
+            src="/project-workspace-hero.png"
+            alt="Modern workspace with an open laptop, strategy papers, notebook, and editorial styling"
+            loading="eager"
+          />
+          <div class="hero-image-overlay" aria-hidden="true"></div>
+          <div class="hero-image-caption">
+            <span>Editorial workspace</span>
+            <strong>Strategy, delivery, and implementation thinking made visible.</strong>
           </div>
         </div>
         <div class="panel-card accent">
@@ -336,6 +323,84 @@ const nowSignals = [
     </section>
   </main>
 </section>
+
+<script is:inline>
+  const initCarouselAutoplay = () => {
+    const carousel = document.querySelector('.work-carousel');
+    if (!carousel) return;
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    if (prefersReducedMotion.matches) return;
+
+    let timer = null;
+    let userInteracting = false;
+
+    const getStep = () => {
+      const firstCard = carousel.querySelector('.work-card');
+      if (!firstCard) return carousel.clientWidth * 0.8;
+      const cardWidth = firstCard.getBoundingClientRect().width;
+      const styles = window.getComputedStyle(carousel);
+      const gap = parseFloat(styles.columnGap || styles.gap || '0') || 0;
+      return cardWidth + gap;
+    };
+
+    const maxScrollLeft = () => Math.max(carousel.scrollWidth - carousel.clientWidth, 0);
+
+    const advance = () => {
+      if (userInteracting) return;
+      const maxScroll = maxScrollLeft();
+      if (maxScroll <= 4) return;
+
+      const next = carousel.scrollLeft + getStep();
+      if (next >= maxScroll - 8) {
+        carousel.scrollTo({ left: 0, behavior: 'smooth' });
+      } else {
+        carousel.scrollTo({ left: next, behavior: 'smooth' });
+      }
+    };
+
+    const start = () => {
+      if (timer || prefersReducedMotion.matches) return;
+      timer = window.setInterval(advance, 3200);
+    };
+
+    const stop = () => {
+      if (!timer) return;
+      window.clearInterval(timer);
+      timer = null;
+    };
+
+    carousel.addEventListener('pointerenter', stop);
+    carousel.addEventListener('pointerleave', start);
+    carousel.addEventListener('focusin', stop);
+    carousel.addEventListener('focusout', start);
+
+    carousel.addEventListener('pointerdown', () => {
+      userInteracting = true;
+      stop();
+      window.setTimeout(() => {
+        userInteracting = false;
+        start();
+      }, 7000);
+    });
+
+    prefersReducedMotion.addEventListener?.('change', (event) => {
+      if (event.matches) {
+        stop();
+      } else {
+        start();
+      }
+    });
+
+    start();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initCarouselAutoplay, { once: true });
+  } else {
+    initCarouselAutoplay();
+  }
+</script>
 
 <style is:global>
   :global(body.bg-black) {
@@ -532,63 +597,68 @@ const nowSignals = [
     border-radius: 24px;
   }
 
-  .hero-feature {
-    display: grid;
-    gap: 14px;
-    padding: 24px;
+  .hero-image-frame {
+    position: relative;
+    overflow: hidden;
     min-height: 520px;
     border-radius: 22px;
     border: 1px solid rgba(22, 33, 44, 0.08);
+    background: linear-gradient(180deg, rgba(15, 25, 34, 0.05), rgba(15, 25, 34, 0.18));
+    box-shadow:
+      inset 0 1px 0 rgba(255, 255, 255, 0.38),
+      0 20px 50px rgba(22, 33, 44, 0.12);
+  }
+
+  .hero-image {
+    display: block;
+    width: 100%;
+    height: 100%;
+    min-height: 520px;
+    object-fit: cover;
+    object-position: center top;
+    filter: saturate(0.98) contrast(1.04);
+    transform: scale(1.01);
+  }
+
+  .hero-image-overlay {
+    position: absolute;
+    inset: 0;
     background:
-      linear-gradient(180deg, rgba(15, 25, 34, 0.05), rgba(15, 25, 34, 0.16)),
-      linear-gradient(145deg, rgba(255, 255, 255, 0.54), rgba(255, 255, 255, 0.18));
-    box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.46);
+      linear-gradient(180deg, rgba(10, 18, 25, 0.02), rgba(10, 18, 25, 0.28) 90%),
+      radial-gradient(circle at top right, rgba(255, 255, 255, 0.22), transparent 24%);
+    pointer-events: none;
   }
 
-  .hero-feature strong {
-    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
-    font-size: clamp(1.55rem, 2.6vw, 2.1rem);
-    line-height: 1.05;
-    letter-spacing: -0.04em;
-    color: #0f172a;
-  }
-
-  .hero-feature p {
-    margin: 0;
-    max-width: 34ch;
-    color: #52606d;
-    font-size: 1rem;
-  }
-
-  .hero-feature-grid {
+  .hero-image-caption {
+    position: absolute;
+    left: 18px;
+    right: 18px;
+    bottom: 18px;
+    z-index: 1;
     display: grid;
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    gap: 12px;
-    margin-top: auto;
+    gap: 8px;
+    padding: 16px 18px;
+    border-radius: 18px;
+    color: #f8f2e7;
+    background: linear-gradient(180deg, rgba(10, 18, 25, 0.16), rgba(10, 18, 25, 0.66));
+    backdrop-filter: blur(12px);
+    box-shadow: 0 20px 34px rgba(10, 18, 25, 0.22);
   }
 
-  .hero-feature-grid div {
-    display: grid;
-    gap: 4px;
-    padding: 14px 16px;
-    border-radius: 16px;
-    border: 1px solid rgba(22, 33, 44, 0.08);
-    background: rgba(255, 255, 255, 0.76);
-  }
-
-  .hero-feature-grid span {
-    color: #5c6cff;
+  .hero-image-caption span {
+    color: rgba(248, 242, 231, 0.76);
     text-transform: uppercase;
-    letter-spacing: 0.12em;
-    font-size: 0.7rem;
+    letter-spacing: 0.14em;
+    font-size: 0.72rem;
     font-weight: 800;
   }
 
-  .hero-feature-grid strong {
-    font-family: inherit;
-    font-size: 0.98rem;
-    line-height: 1.2;
-    letter-spacing: -0.01em;
+  .hero-image-caption strong {
+    font-family: "Iowan Old Style", "Palatino Linotype", "Book Antiqua", Georgia, serif;
+    font-size: clamp(1.25rem, 2vw, 1.65rem);
+    line-height: 1.08;
+    letter-spacing: -0.03em;
+    color: #fff8ef;
   }
 
   .panel-card {
@@ -1022,6 +1092,11 @@ const nowSignals = [
 
     .form-row {
       grid-template-columns: 1fr;
+    }
+
+    .hero-image-frame,
+    .hero-image {
+      min-height: 380px;
     }
 
     .work-carousel {
