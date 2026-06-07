@@ -226,12 +226,19 @@ const workItems = [
 
     <section class="section" id="professional">
       <div class="section-header">
-        <h2>Core disciplines and experience</h2>
+        <div>
+          <p class="section-kicker">Professional portfolio</p>
+          <h2>Core disciplines and experience</h2>
+        </div>
       </div>
 
-      <div class="card-grid two-up">
+      <div class="work-grid">
         {professionalItems.map((item) => (
           <article class="work-card work-card-professional">
+            <div class="work-preview">
+              <img class="work-preview-image" src={item.image} alt={item.alt} loading="lazy" />
+              <div class="work-preview-overlay" aria-hidden="true"></div>
+            </div>
             <div class="work-body">
               <span class="work-label">{item.label}</span>
               <h3>{item.title}</h3>
@@ -1272,6 +1279,35 @@ const workItems = [
   .orbit-focus-footer a {
     font-weight: 700;
     white-space: nowrap;
+  }
+
+  .work-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .work-card {
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(120, 132, 164, 0.12);
+    background: rgba(255, 255, 255, 0.94);
+    box-shadow: 0 14px 30px rgba(126, 143, 194, 0.08);
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+
+  .work-card-professional {
+    display: flex;
+    flex-direction: column;
+  }
+
+  .work-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 22px 44px rgba(126, 143, 194, 0.14);
+  }
+
+  .work-card:hover .work-preview-image {
+    transform: scale(1.03);
   }
 
   .work-preview {

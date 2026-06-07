@@ -392,6 +392,42 @@ const workItems = [
       }, 5200);
     };
 
+    const isTypingTarget = (target) => {
+      if (!target || !(target instanceof HTMLElement)) return false;
+      const tagName = target.tagName;
+      return (
+        target.isContentEditable ||
+        tagName === 'INPUT' ||
+        tagName === 'TEXTAREA' ||
+        tagName === 'SELECT'
+      );
+    };
+
+    const handleKeydown = (event) => {
+      if (isTypingTarget(event.target)) return;
+
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        pauseTemporarily();
+        nudge(1);
+      }
+
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        pauseTemporarily();
+        nudge(-1);
+      }
+
+      if (event.key === ' ' || event.key === 'Spacebar') {
+        event.preventDefault();
+        if (playing) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      }
+    };
+
     viewport.addEventListener('pointerdown', (event) => {
       if (event.button !== 0) return;
       dragState = {
@@ -427,26 +463,8 @@ const workItems = [
       }
     });
 
-    viewport.addEventListener('keydown', (event) => {
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        pauseTemporarily();
-        nudge(1);
-      }
-      if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        pauseTemporarily();
-        nudge(-1);
-      }
-      if (event.key === ' ' || event.key === 'Spacebar') {
-        event.preventDefault();
-        if (playing) {
-          stopAutoplay();
-        } else {
-          startAutoplay();
-        }
-      }
-    });
+    viewport.addEventListener('keydown', handleKeydown);
+    window.addEventListener('keydown', handleKeydown);
 
     prevButton.addEventListener('click', () => {
       pauseTemporarily();
