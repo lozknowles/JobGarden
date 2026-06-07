@@ -124,43 +124,6 @@ const workItems = [
   },
 ];
 
-const nowSignals = [
-  {
-    label: "Now",
-    value: "Turning the site into an interactive portfolio system, not a static brochure.",
-  },
-  {
-    label: "Format",
-    value: "Using 3D motion, live state, and stronger visual hierarchy.",
-  },
-  {
-    label: "Focus",
-    value: "Keeping it calm enough to scan, but obviously engineered.",
-  },
-];
-
-const systemItems = [
-  {
-    title: "Astro-first architecture",
-    body:
-      "The site ships as a fast static shell, then layers on lightweight client-side motion where it matters.",
-  },
-  {
-    title: "3D orbit engine",
-    body:
-      "The project rail is rendered as a rotating cylinder with drag, buttons, and keyboard support.",
-  },
-  {
-    title: "Image pipeline",
-    body:
-      "Hero and project imagery are generated and deployed as real assets, not placeholders.",
-  },
-  {
-    title: "Motion discipline",
-    body:
-      "Autoplay respects reduced motion and pauses on interaction, so the movement feels considered.",
-  },
-];
 ---
 
 <section class="portfolio-shell">
@@ -175,7 +138,7 @@ const systemItems = [
         <a href="#about">About</a>
         <a href="#experience">Experience</a>
         <a href="#professional">Portfolio</a>
-        <a href="#tech-ai">Tech &amp; AI</a>
+        <a href="/technology-research">Technology Research</a>
         <a href="#contact">Contact</a>
       </div>
     </nav>
@@ -193,16 +156,7 @@ const systemItems = [
 
         <div class="hero-actions">
           <a class="button primary" href="#contact">Contact</a>
-          <a class="button ghost" href="#tech-ai">Portfolio</a>
-        </div>
-
-        <div class="signal-strip" aria-label="Current signals">
-          {nowSignals.map((item) => (
-            <div class="signal-card">
-              <span>{item.label}</span>
-              <p>{item.value}</p>
-            </div>
-          ))}
+          <a class="button ghost" href="/technology-research">Technology Research</a>
         </div>
       </div>
 
@@ -231,7 +185,7 @@ const systemItems = [
         <div class="panel-card">
           <span class="panel-label">Live now</span>
           <p>
-            Portfolio refresh in progress, with more visual project stories and stronger current work.
+            Portfolio refresh in progress, with the more experimental work now moving into a dedicated Technology Research page.
           </p>
         </div>
       </aside>
@@ -288,126 +242,17 @@ const systemItems = [
       </div>
     </section>
 
-    <section class="section build-section" id="tech-ai">
+    <section class="section">
       <div class="section-header">
         <div>
-          <p class="section-kicker">Built as a system</p>
-          <h2>Visible technology, not just visible content.</h2>
+          <p class="section-kicker">Technology Research</p>
+          <h2>The experimental work has moved to its own page.</h2>
           <p class="section-note">
-            The portfolio is a static Astro shell with generated imagery, CSS 3D motion, and a small
-            interaction layer that keeps the page feeling alive.
+            That keeps this homepage focused on your role, experience, and selected work, while the
+            more technical demos get room to breathe elsewhere.
           </p>
         </div>
-      </div>
-
-      <div class="system-grid">
-        {systemItems.map((item, index) => (
-          <article class:list={["system-card", index === 1 ? "system-card-highlight" : ""]}>
-            <span class="system-index">0{index + 1}</span>
-            <h3>{item.title}</h3>
-            <p>{item.body}</p>
-          </article>
-        ))}
-
-        <article class="system-card system-card-visual">
-          <span class="system-index">05</span>
-          <h3>Interaction is part of the presentation.</h3>
-          <p>
-            The orbit, the image overlays, and the focus panel all share the same visual language
-            so the site feels designed as one object.
-          </p>
-        </article>
-      </div>
-    </section>
-
-    <section class="section orbit-section">
-      <div class="section-header orbit-header">
-        <div>
-          <p class="section-kicker">Selected work</p>
-          <h2>Project rail as a rotating cylinder.</h2>
-          <p class="section-note">
-            Drag, step, or let it move on its own. The active project lands in the centre panel, so
-            the movement has a job to do.
-          </p>
-        </div>
-        <div class="orbit-controls" aria-label="Orbit controls">
-          <button class="orbit-button" type="button" data-orbit-prev aria-label="Previous project">
-            Prev
-          </button>
-          <button class="orbit-button orbit-button-primary" type="button" data-orbit-toggle aria-pressed="true">
-            Pause
-          </button>
-          <button class="orbit-button" type="button" data-orbit-next aria-label="Next project">
-            Next
-          </button>
-        </div>
-      </div>
-
-      <div class="orbit-layout">
-        <div class="orbit-stage" aria-label="Project carousel stage">
-          <div class="orbit-viewport" tabindex="0" data-orbit-viewport>
-            <div class="orbit-grid" aria-hidden="true"></div>
-            <div class="orbit-halo" aria-hidden="true"></div>
-            <div class="orbit-ring" data-orbit-ring>
-              {workItems.map((item, index) => (
-                <article
-                  class="orbit-card"
-                  data-orbit-card
-                  data-index={index}
-                  style={`--index: ${index}; --count: ${workItems.length}; --preview-bg: ${item.preview};`}
-                >
-                  <div class="orbit-card-surface">
-                    <div class="work-preview orbit-preview">
-                      <img class="work-preview-image" src={item.image} alt={item.alt} loading="lazy" />
-                      <div class="work-preview-overlay" aria-hidden="true"></div>
-                      <div class="work-number">0{index + 1}</div>
-                    </div>
-                    <div class="work-body orbit-card-body">
-                      <span class="work-label">{item.label}</span>
-                      <h3>{item.title}</h3>
-                      <p>{item.body}</p>
-                      <div class="work-links">
-                        <span class="muted">Orbit step {String(index + 1).padStart(2, "0")}</span>
-                        <a href={item.link} target="_blank" rel="noreferrer">
-                          {item.linkLabel}
-                        </a>
-                      </div>
-                    </div>
-                  </div>
-                </article>
-              ))}
-            </div>
-          </div>
-
-          <div class="orbit-readout">
-            <span data-orbit-position>01 / 06</span>
-            <span>Space to pause. Arrow keys step through the ring.</span>
-          </div>
-        </div>
-
-        <article class="orbit-focus" data-orbit-focus>
-          <div class="orbit-focus-media">
-            <img
-              class="orbit-focus-image"
-              data-orbit-focus-image
-              src={workItems[0].image}
-              alt={workItems[0].alt}
-              loading="lazy"
-            />
-            <div class="orbit-focus-screen" aria-hidden="true"></div>
-          </div>
-          <div class="orbit-focus-copy">
-            <span class="work-label" data-orbit-focus-label>{workItems[0].label}</span>
-            <h3 data-orbit-focus-title>{workItems[0].title}</h3>
-            <p data-orbit-focus-body>{workItems[0].body}</p>
-            <div class="orbit-focus-footer">
-              <span data-orbit-focus-meta>Screenshot-led case study</span>
-              <a data-orbit-focus-link href={workItems[0].link} target="_blank" rel="noreferrer">
-                {workItems[0].linkLabel}
-              </a>
-            </div>
-          </div>
-        </article>
+        <a class="button primary" href="/technology-research">Open Technology Research</a>
       </div>
     </section>
 

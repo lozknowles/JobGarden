@@ -1,0 +1,1055 @@
+---
+const systemItems = [
+  {
+    title: "Astro-first architecture",
+    body:
+      "A static shell keeps the page fast, with motion added only where the interaction earns its place.",
+  },
+  {
+    title: "3D orbit engine",
+    body:
+      "The rail is rendered as a rotating cylinder with buttons, keyboard support, and drag input.",
+  },
+  {
+    title: "Image pipeline",
+    body:
+      "Generated imagery is shipped as real assets, so the site feels composed rather than placeholder-heavy.",
+  },
+  {
+    title: "Motion discipline",
+    body:
+      "Autoplay respects reduced motion and pauses on interaction, so the motion stays intentional.",
+  },
+];
+
+const workItems = [
+  {
+    label: "Featured project",
+    title: "Flower Detection Using Vision Processing",
+    body:
+      "A visual demo that uses computer vision to identify flowers and present the result clearly.",
+    image: "/project-flower-detection.png",
+    alt: "Computer vision interface detecting flowers with highlighted bounding boxes and analytics panels",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "Watch the video",
+    preview: "linear-gradient(135deg, rgba(33, 94, 99, 0.28), rgba(15, 23, 42, 0.86))",
+  },
+  {
+    label: "Video project",
+    title: "Hand Mapping Using AI Vision",
+    body:
+      "An AI vision experiment focused on hand mapping and interactive visual feedback.",
+    image: "/project-hand-mapping.png",
+    alt: "AI vision interface showing hand landmark tracking and a control dashboard",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "Open on YouTube",
+    preview: "linear-gradient(135deg, rgba(164, 93, 42, 0.34), rgba(15, 23, 42, 0.82))",
+  },
+  {
+    label: "Design project",
+    title: "Archive Automation Using AI OCR",
+    body:
+      "A workflow demo showing how OCR can speed up archive handling and reduce manual effort.",
+    image: "/project-archive-ocr.png",
+    alt: "Document processing interface with OCR extraction boxes and archive automation controls",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "View project",
+    preview: "linear-gradient(135deg, rgba(92, 108, 255, 0.32), rgba(34, 44, 72, 0.88))",
+  },
+  {
+    label: "Public project",
+    title: "Timelapse Dashboard Using AI",
+    body:
+      "A dashboard-led project that turns time-based activity into something easier to read at a glance.",
+    image: "/project-timelapse-dashboard.png",
+    alt: "Analytics dashboard with timelines, event markers, and AI summary panels",
+    link: "https://www.youtube.com/@LawrenceKnowles-cr9ml",
+    linkLabel: "Open on YouTube",
+    preview: "linear-gradient(135deg, rgba(14, 94, 121, 0.34), rgba(11, 18, 32, 0.9))",
+  },
+  {
+    label: "Case study",
+    title: "Collingham.org",
+    body:
+      "Community-focused digital work with an emphasis on organisation, clarity, and public usefulness.",
+    image: "/project-collingham.png",
+    alt: "Community website homepage with archive tiles and editorial navigation",
+    link: "https://collingham.org",
+    linkLabel: "Visit site",
+    preview: "linear-gradient(135deg, rgba(122, 92, 255, 0.3), rgba(20, 28, 48, 0.88))",
+  },
+  {
+    label: "Current work",
+    title: "Space Bike Simulator - 6502 Game",
+    body:
+      "A retro-inspired game project that shows programming range as well as playful problem solving.",
+    image: "/project-space-bike.png",
+    alt: "Retro game interface with a space bike simulator and pixel-art starfield",
+    link: "https://github.com/lozknowles",
+    linkLabel: "View GitHub",
+    preview: "linear-gradient(135deg, rgba(45, 132, 110, 0.26), rgba(15, 23, 42, 0.84))",
+  },
+];
+---
+
+<section class="research-shell">
+  <div class="page-glow glow-left" aria-hidden="true"></div>
+  <div class="page-glow glow-right" aria-hidden="true"></div>
+
+  <header class="research-hero">
+    <a class="back-link" href="/">Back to portfolio</a>
+    <div class="hero-copy">
+      <p class="eyebrow">Technology Research</p>
+      <h1>Built as a system, not just a page.</h1>
+      <p class="lede">
+        This is where the more technical work lives: image generation, CSS 3D motion, live state,
+        and the carousel behaviour that now stays out of the way of the main portfolio.
+      </p>
+    </div>
+  </header>
+
+  <section class="section">
+    <div class="section-header">
+      <div>
+        <p class="section-kicker">Built as a system</p>
+        <h2>Visible technology, not just visible content.</h2>
+        <p class="section-note">
+          The page is a static shell with generated imagery and a small interaction layer, so the
+          motion serves the work rather than fighting it.
+        </p>
+      </div>
+    </div>
+
+    <div class="system-grid">
+      {systemItems.map((item, index) => (
+        <article class:list={["system-card", index === 1 ? "system-card-highlight" : ""]}>
+          <span class="system-index">0{index + 1}</span>
+          <h3>{item.title}</h3>
+          <p>{item.body}</p>
+        </article>
+      ))}
+
+      <article class="system-card system-card-visual">
+        <span class="system-index">05</span>
+        <h3>Interaction is part of the presentation.</h3>
+        <p>
+          The orbit, image overlays, and focus panel all share one visual language so the research
+          page feels deliberate rather than ornamental.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section orbit-section">
+    <div class="section-header orbit-header">
+      <div>
+        <p class="section-kicker">Selected work</p>
+        <h2>Project rail as a rotating cylinder.</h2>
+        <p class="section-note">
+          Drag, step, or let it move on its own. The active project lands in the centre panel, and
+          the cards fall away into shadow as they rotate back.
+        </p>
+      </div>
+      <div class="orbit-controls" aria-label="Orbit controls">
+        <button class="orbit-button" type="button" data-orbit-prev aria-label="Previous project">
+          Prev
+        </button>
+        <button class="orbit-button orbit-button-primary" type="button" data-orbit-toggle aria-pressed="true">
+          Pause
+        </button>
+        <button class="orbit-button" type="button" data-orbit-next aria-label="Next project">
+          Next
+        </button>
+      </div>
+    </div>
+
+    <div class="orbit-layout">
+      <div class="orbit-stage" aria-label="Project carousel stage">
+        <div class="orbit-viewport" tabindex="0" data-orbit-viewport>
+          <div class="orbit-grid" aria-hidden="true"></div>
+          <div class="orbit-halo" aria-hidden="true"></div>
+          <div class="orbit-ring" data-orbit-ring>
+            {workItems.map((item, index) => (
+              <article
+                class="orbit-card"
+                data-orbit-card
+                data-index={index}
+                style={`--index: ${index}; --count: ${workItems.length}; --preview-bg: ${item.preview};`}
+              >
+                <div class="orbit-card-surface">
+                  <div class="work-preview orbit-preview">
+                    <img class="work-preview-image" src={item.image} alt={item.alt} loading="lazy" />
+                    <div class="work-preview-overlay" aria-hidden="true"></div>
+                    <div class="work-number">0{index + 1}</div>
+                  </div>
+                  <div class="work-body orbit-card-body">
+                    <span class="work-label">{item.label}</span>
+                    <h3>{item.title}</h3>
+                    <p>{item.body}</p>
+                    <div class="work-links">
+                      <span class="muted">Orbit step {String(index + 1).padStart(2, "0")}</span>
+                      <a href={item.link} target="_blank" rel="noreferrer">
+                        {item.linkLabel}
+                      </a>
+                    </div>
+                  </div>
+                </div>
+              </article>
+            ))}
+          </div>
+        </div>
+
+        <div class="orbit-readout">
+          <span data-orbit-position>01 / 06</span>
+          <span>Space to pause. Arrow keys step through the ring.</span>
+        </div>
+      </div>
+
+      <article class="orbit-focus" data-orbit-focus>
+        <div class="orbit-focus-media">
+          <img
+            class="orbit-focus-image"
+            data-orbit-focus-image
+            src={workItems[0].image}
+            alt={workItems[0].alt}
+            loading="lazy"
+          />
+          <div class="orbit-focus-screen" aria-hidden="true"></div>
+        </div>
+        <div class="orbit-focus-copy">
+          <span class="work-label" data-orbit-focus-label>{workItems[0].label}</span>
+          <h3 data-orbit-focus-title>{workItems[0].title}</h3>
+          <p data-orbit-focus-body>{workItems[0].body}</p>
+          <div class="orbit-focus-footer">
+            <span data-orbit-focus-meta>Screenshot-led case study</span>
+            <a data-orbit-focus-link href={workItems[0].link} target="_blank" rel="noreferrer">
+              {workItems[0].linkLabel}
+            </a>
+          </div>
+        </div>
+      </article>
+    </div>
+  </section>
+</section>
+
+<script is:inline>
+  const initOrbitCarousel = () => {
+    const viewport = document.querySelector('[data-orbit-viewport]');
+    const ring = document.querySelector('[data-orbit-ring]');
+    const cards = Array.from(document.querySelectorAll('[data-orbit-card]'));
+    const focusImage = document.querySelector('[data-orbit-focus-image]');
+    const focusLabel = document.querySelector('[data-orbit-focus-label]');
+    const focusTitle = document.querySelector('[data-orbit-focus-title]');
+    const focusBody = document.querySelector('[data-orbit-focus-body]');
+    const focusLink = document.querySelector('[data-orbit-focus-link]');
+    const focusMeta = document.querySelector('[data-orbit-focus-meta]');
+    const position = document.querySelector('[data-orbit-position]');
+    const prevButton = document.querySelector('[data-orbit-prev]');
+    const nextButton = document.querySelector('[data-orbit-next]');
+    const toggleButton = document.querySelector('[data-orbit-toggle]');
+
+    if (!viewport || !ring || !cards.length || !focusImage || !focusLabel || !focusTitle || !focusBody || !focusLink || !focusMeta || !position || !prevButton || !nextButton || !toggleButton) {
+      return;
+    }
+
+    const items = cards.map((card) => ({
+      image: card.querySelector('img')?.getAttribute('src') ?? '',
+      alt: card.querySelector('img')?.getAttribute('alt') ?? '',
+      label: card.querySelector('.work-label')?.textContent ?? '',
+      title: card.querySelector('h3')?.textContent ?? '',
+      body: card.querySelector('p')?.textContent ?? '',
+      link: card.querySelector('a')?.getAttribute('href') ?? '#',
+      linkLabel: card.querySelector('a')?.textContent ?? 'Open project',
+      meta: card.querySelector('.muted')?.textContent ?? '',
+    }));
+
+    const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
+    const angleStep = 360 / cards.length;
+    let rotation = 0;
+    let activeIndex = 0;
+    let playing = !prefersReducedMotion.matches;
+    let rafId = null;
+    let lastTimestamp = 0;
+    let dragState = null;
+    let resumeTimer = null;
+
+    const normalize = (value) => {
+      const wrapped = value % 360;
+      return wrapped < 0 ? wrapped + 360 : wrapped;
+    };
+
+    const updateFocus = (index) => {
+      const item = items[index];
+      if (!item) return;
+
+      focusImage.src = item.image;
+      focusImage.alt = item.alt;
+      focusLabel.textContent = item.label;
+      focusTitle.textContent = item.title;
+      focusBody.textContent = item.body;
+      focusLink.href = item.link;
+      focusLink.textContent = item.linkLabel;
+      focusMeta.textContent = item.meta;
+      position.textContent = `${String(index + 1).padStart(2, '0')} / ${String(items.length).padStart(2, '0')}`;
+
+      cards.forEach((card, cardIndex) => {
+        const isActive = cardIndex === index;
+        card.dataset.active = String(isActive);
+        card.setAttribute('aria-hidden', isActive ? 'false' : 'true');
+      });
+    };
+
+    const sync = () => {
+      ring.style.setProperty('--orbit-rotation', `${rotation}deg`);
+      const current = normalize(rotation);
+      let bestIndex = 0;
+      let bestDistance = Infinity;
+
+      cards.forEach((card, index) => {
+        const cardAngle = index * angleStep;
+        const rawDistance = Math.abs(normalize(cardAngle - current));
+        const distance = Math.min(rawDistance, 360 - rawDistance);
+        const frontness = Math.max(0, Math.cos((distance * Math.PI) / 180));
+        const opacity = 0.14 + frontness * 0.86;
+        const brightness = 0.35 + frontness * 0.65;
+        const saturation = 0.45 + frontness * 0.55;
+        const scale = 0.82 + frontness * 0.18;
+        const lift = (1 - frontness) * 18;
+        const blur = (1 - frontness) * 1.6;
+
+        card.style.setProperty('--card-opacity', opacity.toFixed(3));
+        card.style.setProperty('--card-brightness', brightness.toFixed(3));
+        card.style.setProperty('--card-saturation', saturation.toFixed(3));
+        card.style.setProperty('--card-scale', scale.toFixed(3));
+        card.style.setProperty('--card-lift', `${lift.toFixed(2)}px`);
+        card.style.setProperty('--card-blur', `${blur.toFixed(2)}px`);
+        card.style.zIndex = String(Math.round(frontness * 1000));
+
+        if (distance < bestDistance) {
+          bestDistance = distance;
+          bestIndex = index;
+        }
+      });
+
+      if (bestIndex !== activeIndex) {
+        activeIndex = bestIndex;
+        updateFocus(activeIndex);
+      }
+    };
+
+    const nudge = (direction) => {
+      rotation += direction * angleStep;
+      sync();
+    };
+
+    const stopAutoplay = () => {
+      playing = false;
+      toggleButton.textContent = 'Play';
+      toggleButton.setAttribute('aria-pressed', 'false');
+      lastTimestamp = 0;
+      if (rafId) {
+        window.cancelAnimationFrame(rafId);
+        rafId = null;
+      }
+    };
+
+    const startAutoplay = () => {
+      if (prefersReducedMotion.matches) {
+        stopAutoplay();
+        return;
+      }
+
+      playing = true;
+      toggleButton.textContent = 'Pause';
+      toggleButton.setAttribute('aria-pressed', 'true');
+      lastTimestamp = 0;
+      if (rafId) return;
+
+      const tick = (timestamp) => {
+        if (!playing) {
+          rafId = null;
+          return;
+        }
+
+        if (!lastTimestamp) lastTimestamp = timestamp;
+        const delta = timestamp - lastTimestamp;
+        lastTimestamp = timestamp;
+        rotation += delta * 0.013;
+        sync();
+        rafId = window.requestAnimationFrame(tick);
+      };
+
+      rafId = window.requestAnimationFrame(tick);
+    };
+
+    const pauseTemporarily = () => {
+      window.clearTimeout(resumeTimer);
+      stopAutoplay();
+      resumeTimer = window.setTimeout(() => {
+        if (!prefersReducedMotion.matches) {
+          startAutoplay();
+        }
+      }, 5200);
+    };
+
+    viewport.addEventListener('pointerdown', (event) => {
+      if (event.button !== 0) return;
+      dragState = {
+        id: event.pointerId,
+        x: event.clientX,
+        rotation,
+      };
+      viewport.setPointerCapture(event.pointerId);
+      pauseTemporarily();
+    });
+
+    viewport.addEventListener('pointermove', (event) => {
+      if (!dragState || dragState.id !== event.pointerId) return;
+      const delta = event.clientX - dragState.x;
+      rotation = dragState.rotation + delta * 0.35;
+      sync();
+    });
+
+    const releasePointer = (event) => {
+      if (dragState && dragState.id === event.pointerId) {
+        dragState = null;
+      }
+    };
+
+    viewport.addEventListener('pointerup', releasePointer);
+    viewport.addEventListener('pointercancel', releasePointer);
+
+    viewport.addEventListener('focusin', pauseTemporarily);
+    viewport.addEventListener('focusout', () => {
+      window.clearTimeout(resumeTimer);
+      if (!prefersReducedMotion.matches) {
+        resumeTimer = window.setTimeout(() => startAutoplay(), 900);
+      }
+    });
+
+    viewport.addEventListener('keydown', (event) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        pauseTemporarily();
+        nudge(1);
+      }
+      if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        pauseTemporarily();
+        nudge(-1);
+      }
+      if (event.key === ' ' || event.key === 'Spacebar') {
+        event.preventDefault();
+        if (playing) {
+          stopAutoplay();
+        } else {
+          startAutoplay();
+        }
+      }
+    });
+
+    prevButton.addEventListener('click', () => {
+      pauseTemporarily();
+      nudge(-1);
+    });
+
+    nextButton.addEventListener('click', () => {
+      pauseTemporarily();
+      nudge(1);
+    });
+
+    toggleButton.addEventListener('click', () => {
+      if (playing) {
+        stopAutoplay();
+      } else {
+        window.clearTimeout(resumeTimer);
+        startAutoplay();
+      }
+    });
+
+    prefersReducedMotion.addEventListener?.('change', (event) => {
+      if (event.matches) {
+        stopAutoplay();
+      } else {
+        startAutoplay();
+      }
+    });
+
+    cards.forEach((card, index) => {
+      const angle = index * angleStep;
+      card.style.setProperty('--angle', `${angle}deg`);
+      card.addEventListener('click', () => {
+        const targetRotation = index * angleStep;
+        const current = normalize(rotation);
+        const delta = normalize(targetRotation - current);
+        const reverse = normalize(current - targetRotation);
+        rotation += delta <= reverse ? delta : -reverse;
+        pauseTemporarily();
+        sync();
+      });
+    });
+
+    updateFocus(0);
+    sync();
+    if (playing) {
+      startAutoplay();
+    }
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', initOrbitCarousel, { once: true });
+  } else {
+    initOrbitCarousel();
+  }
+</script>
+
+<style is:global>
+  :global(body.bg-black) {
+    margin: 0;
+    color: #e5e7eb;
+    background:
+      radial-gradient(circle at top left, rgba(92, 108, 255, 0.14), transparent 28%),
+      radial-gradient(circle at top right, rgba(33, 94, 99, 0.14), transparent 24%),
+      #09111f;
+    font-family: "Avenir Next", "Segoe UI", "Trebuchet MS", sans-serif;
+    line-height: 1.55;
+  }
+
+  :global(body.bg-black a) {
+    color: inherit;
+    text-decoration: none;
+  }
+
+  .research-shell {
+    position: relative;
+    width: min(calc(100% - 28px), 1480px);
+    margin: 14px auto 36px;
+    padding-bottom: 28px;
+  }
+
+  .page-glow {
+    position: absolute;
+    border-radius: 999px;
+    filter: blur(10px);
+    pointer-events: none;
+  }
+
+  .glow-left {
+    width: 240px;
+    height: 240px;
+    left: -60px;
+    top: 110px;
+    background: rgba(123, 145, 255, 0.18);
+  }
+
+  .glow-right {
+    width: 280px;
+    height: 280px;
+    right: -40px;
+    bottom: 60px;
+    background: rgba(195, 170, 255, 0.18);
+  }
+
+  .research-hero,
+  .section {
+    border: 1px solid rgba(120, 132, 164, 0.12);
+    background: rgba(10, 16, 29, 0.82);
+    box-shadow: 0 20px 60px rgba(2, 6, 23, 0.28);
+    backdrop-filter: blur(16px);
+  }
+
+  .research-hero {
+    border-radius: 26px;
+    padding: 24px 30px 28px;
+  }
+
+  .back-link {
+    display: inline-flex;
+    margin-bottom: 18px;
+    color: #a5b4fc;
+    font-weight: 700;
+  }
+
+  .eyebrow,
+  .section-kicker {
+    margin: 0 0 12px;
+    text-transform: uppercase;
+    letter-spacing: 0.16em;
+    font-size: 0.76rem;
+    font-weight: 700;
+    color: #8fa0ff;
+  }
+
+  h1,
+  h2,
+  h3 {
+    margin: 0;
+    letter-spacing: -0.04em;
+    color: #f8fafc;
+  }
+
+  h1 {
+    font-size: clamp(3rem, 6vw, 5.2rem);
+    line-height: 0.96;
+    max-width: 10ch;
+  }
+
+  .lede,
+  .section-note,
+  .work-body p,
+  .orbit-focus-copy p,
+  .system-card p {
+    color: rgba(226, 232, 240, 0.74);
+  }
+
+  .lede {
+    max-width: 60ch;
+    margin: 18px 0 0;
+    font-size: 1.12rem;
+  }
+
+  .section {
+    margin-top: 18px;
+    border-radius: 24px;
+    padding: 30px 30px 34px;
+  }
+
+  .section-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: end;
+    gap: 18px;
+    margin-bottom: 22px;
+  }
+
+  .section-copy h2,
+  .section-header h2,
+  .orbit-focus-copy h3 {
+    font-size: clamp(2rem, 3vw, 3rem);
+    line-height: 1.05;
+  }
+
+  .section-note {
+    max-width: 46ch;
+    margin: 4px 0 0;
+    font-size: 0.98rem;
+  }
+
+  .orbit-header {
+    align-items: start;
+  }
+
+  .orbit-controls {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    justify-content: flex-end;
+  }
+
+  .orbit-button {
+    min-height: 42px;
+    padding: 0 14px;
+    border-radius: 999px;
+    border: 1px solid rgba(120, 132, 164, 0.16);
+    background: rgba(255, 255, 255, 0.08);
+    color: #f8fafc;
+    font-weight: 700;
+  }
+
+  .orbit-button-primary {
+    background: linear-gradient(180deg, #f8fafc, #e2e8f0);
+    color: #0f172a;
+  }
+
+  .system-grid {
+    display: grid;
+    grid-template-columns: repeat(12, minmax(0, 1fr));
+    gap: 18px;
+  }
+
+  .system-card {
+    grid-column: span 3;
+    display: grid;
+    gap: 12px;
+    min-height: 220px;
+    padding: 22px;
+    overflow: hidden;
+    border-radius: 20px;
+    border: 1px solid rgba(120, 132, 164, 0.12);
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03), rgba(255, 255, 255, 0.02)),
+      rgba(15, 23, 42, 0.7);
+    box-shadow: 0 14px 30px rgba(15, 23, 42, 0.22);
+  }
+
+  .system-card-highlight {
+    grid-column: span 4;
+    background:
+      radial-gradient(circle at top right, rgba(92, 108, 255, 0.22), transparent 34%),
+      rgba(15, 23, 42, 0.78);
+  }
+
+  .system-card-visual {
+    grid-column: span 5;
+    background:
+      linear-gradient(160deg, rgba(18, 28, 48, 0.98), rgba(28, 42, 72, 0.94)),
+      #101827;
+    position: relative;
+  }
+
+  .system-card-visual::after {
+    content: "";
+    position: absolute;
+    inset: 14px;
+    border-radius: 16px;
+    border: 1px solid rgba(255, 255, 255, 0.08);
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.04) 1px, transparent 1px) 0 0 / 20px 20px,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px) 0 0 / 20px 20px;
+    pointer-events: none;
+  }
+
+  .system-index {
+    color: #8fa0ff;
+    font-size: 0.74rem;
+    font-weight: 800;
+    letter-spacing: 0.18em;
+  }
+
+  .system-card-visual h3,
+  .system-card-visual p,
+  .system-card-visual .system-index {
+    position: relative;
+    z-index: 1;
+  }
+
+  .orbit-layout {
+    display: grid;
+    grid-template-columns: minmax(0, 1.08fr) minmax(340px, 0.92fr);
+    gap: 22px;
+    align-items: stretch;
+  }
+
+  .orbit-stage {
+    display: grid;
+    gap: 14px;
+  }
+
+  .orbit-viewport {
+    position: relative;
+    min-height: 640px;
+    border-radius: 28px;
+    border: 1px solid rgba(120, 132, 164, 0.12);
+    background:
+      radial-gradient(circle at 50% 48%, rgba(92, 108, 255, 0.16), transparent 28%),
+      linear-gradient(180deg, rgba(11, 18, 32, 0.98), rgba(18, 26, 46, 0.98));
+    overflow: hidden;
+    perspective: 1400px;
+    transform-style: preserve-3d;
+    box-shadow: 0 24px 54px rgba(11, 18, 32, 0.22);
+    outline: none;
+  }
+
+  .orbit-grid,
+  .orbit-halo {
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+
+  .orbit-grid {
+    background:
+      linear-gradient(90deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px) 0 0 / 80px 80px,
+      linear-gradient(180deg, rgba(255, 255, 255, 0.02) 1px, transparent 1px) 0 0 / 80px 80px;
+    mask-image: radial-gradient(circle at center, black 38%, transparent 76%);
+    opacity: 0.75;
+  }
+
+  .orbit-halo {
+    background:
+      radial-gradient(circle at center, rgba(92, 108, 255, 0.22), transparent 18%),
+      radial-gradient(circle at center, rgba(255, 255, 255, 0.12), transparent 46%);
+    mix-blend-mode: screen;
+  }
+
+  .orbit-ring {
+    --orbit-rotation: 0deg;
+    --orbit-radius: clamp(230px, 34vw, 340px);
+    position: absolute;
+    inset: 0;
+    transform-style: preserve-3d;
+    transform: translateZ(0) rotateY(var(--orbit-rotation));
+  }
+
+  .orbit-card {
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    width: min(70vw, 320px);
+    transform-style: preserve-3d;
+    transform:
+      translate(-50%, -50%)
+      rotateY(var(--angle))
+      translateZ(var(--orbit-radius));
+    opacity: var(--card-opacity, 1);
+    filter:
+      brightness(var(--card-brightness, 1))
+      saturate(var(--card-saturation, 1))
+      blur(var(--card-blur, 0px));
+    transition: opacity 0.28s ease, filter 0.28s ease;
+    cursor: pointer;
+  }
+
+  .orbit-card[data-active="true"] {
+    opacity: 1;
+  }
+
+  .orbit-card-surface {
+    transform-style: preserve-3d;
+    backface-visibility: hidden;
+    transform:
+      rotateY(calc((var(--angle) + var(--orbit-rotation)) * -1))
+      translateY(var(--card-lift, 0px))
+      scale(var(--card-scale, 1));
+    border-radius: 22px;
+    overflow: hidden;
+    border: 1px solid rgba(255, 255, 255, 0.14);
+    background: rgba(255, 255, 255, 0.96);
+    box-shadow: 0 20px 38px rgba(11, 18, 32, 0.22);
+  }
+
+  .orbit-preview {
+    min-height: 168px;
+  }
+
+  .work-preview {
+    position: relative;
+    display: grid;
+    align-items: end;
+    min-height: 220px;
+    border-bottom: 1px solid rgba(120, 132, 164, 0.08);
+    background: var(--preview-bg);
+    overflow: hidden;
+  }
+
+  .work-preview-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+    filter: saturate(1.02) contrast(1.02);
+  }
+
+  .work-preview-overlay {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(255, 255, 255, 0.04), rgba(255, 255, 255, 0.1)),
+      linear-gradient(180deg, transparent 42%, rgba(11, 18, 32, 0.22));
+    pointer-events: none;
+  }
+
+  .work-preview::before {
+    content: "";
+    position: absolute;
+    inset: 18px;
+    border-radius: 18px;
+    border: 1px solid rgba(255, 255, 255, 0.16);
+  }
+
+  .work-number {
+    position: absolute;
+    top: 14px;
+    left: 14px;
+    z-index: 1;
+    padding: 8px 10px;
+    border-radius: 999px;
+    color: #fff;
+    background: rgba(10, 18, 25, 0.4);
+    font-size: 0.78rem;
+    font-weight: 800;
+    letter-spacing: 0.08em;
+  }
+
+  .work-body {
+    display: grid;
+    gap: 10px;
+    padding: 18px;
+  }
+
+  .work-label {
+    display: inline-block;
+    color: #5c6cff;
+    font-size: 0.8rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+  }
+
+  .work-body h3 {
+    font-size: 1.16rem;
+    line-height: 1.2;
+    color: #0f172a;
+  }
+
+  .work-links {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    align-items: center;
+    margin-top: 6px;
+    color: #475467;
+    font-size: 0.92rem;
+  }
+
+  .work-links a {
+    white-space: nowrap;
+    font-weight: 700;
+  }
+
+  .orbit-card[data-active="true"] .orbit-card-surface {
+    box-shadow: 0 28px 56px rgba(11, 18, 32, 0.34);
+  }
+
+  .orbit-readout {
+    display: flex;
+    justify-content: space-between;
+    gap: 12px;
+    color: rgba(226, 232, 240, 0.68);
+    font-size: 0.92rem;
+  }
+
+  .orbit-focus {
+    display: grid;
+    grid-template-rows: minmax(300px, 1fr) auto;
+    overflow: hidden;
+    border-radius: 28px;
+    border: 1px solid rgba(120, 132, 164, 0.12);
+    background: rgba(255, 255, 255, 0.95);
+    box-shadow: 0 24px 52px rgba(126, 143, 194, 0.12);
+  }
+
+  .orbit-focus-media {
+    position: relative;
+    min-height: 340px;
+    overflow: hidden;
+    background: linear-gradient(180deg, rgba(11, 18, 32, 0.08), rgba(11, 18, 32, 0.28));
+  }
+
+  .orbit-focus-image {
+    width: 100%;
+    height: 100%;
+    min-height: 340px;
+    object-fit: cover;
+    display: block;
+  }
+
+  .orbit-focus-screen {
+    position: absolute;
+    inset: 0;
+    background:
+      linear-gradient(180deg, rgba(11, 18, 32, 0.02), rgba(11, 18, 32, 0.28)),
+      radial-gradient(circle at top right, rgba(255, 255, 255, 0.18), transparent 26%);
+    pointer-events: none;
+  }
+
+  .orbit-focus-copy {
+    display: grid;
+    gap: 12px;
+    padding: 22px;
+  }
+
+  .orbit-focus-copy h3 {
+    font-size: 1.6rem;
+    line-height: 1.08;
+    color: #0f172a;
+  }
+
+  .orbit-focus-copy p {
+    margin: 0;
+    color: #667085;
+  }
+
+  .orbit-focus-footer {
+    display: flex;
+    justify-content: space-between;
+    gap: 14px;
+    align-items: center;
+    margin-top: 8px;
+    color: #475467;
+    font-size: 0.92rem;
+  }
+
+  .orbit-focus-footer a {
+    font-weight: 700;
+    white-space: nowrap;
+  }
+
+  @media (max-width: 1180px) {
+    .orbit-layout {
+      grid-template-columns: 1fr;
+    }
+
+    .system-card,
+    .system-card-highlight,
+    .system-card-visual {
+      grid-column: span 6;
+    }
+  }
+
+  @media (max-width: 800px) {
+    .research-shell {
+      width: min(calc(100% - 16px), 1480px);
+      margin-top: 8px;
+    }
+
+    .research-hero,
+    .section {
+      padding-left: 20px;
+      padding-right: 20px;
+    }
+
+    .section-header {
+      flex-direction: column;
+      align-items: start;
+    }
+
+    .orbit-controls {
+      justify-content: flex-start;
+    }
+
+    .system-grid {
+      grid-template-columns: 1fr;
+    }
+
+    .system-card,
+    .system-card-highlight,
+    .system-card-visual {
+      grid-column: auto;
+      min-height: auto;
+    }
+
+    .orbit-viewport {
+      min-height: 520px;
+    }
+
+    .orbit-card {
+      width: min(82vw, 300px);
+    }
+
+    .orbit-readout,
+    .orbit-focus-footer,
+    .work-links {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    .orbit-ring,
+    .orbit-card,
+    .orbit-button {
+      transition: none !important;
+    }
+  }
+</style>

@@ -12,6 +12,34 @@ Use it to avoid repeating experiments that already proved weak, misleading, or t
 
 ---
 
+## 2026-06-07: Portfolio experiments live on a dedicated Technology Research page
+
+### Context
+
+The public portfolio started to feel overloaded when the more technical work, system notes, and motion experiments lived directly on the homepage.
+
+### Decision
+
+Keep the main `lozknowles.com` page focused on profile, experience, and selected work, and move the more experimental build story to a dedicated `Technology Research` page.
+
+### Why
+
+- The homepage needs to lead with identity and credibility.
+- Technical demos and carousel mechanics deserve their own space.
+- Splitting the content makes the main page calmer without losing the experimental work.
+
+### Current implementation
+
+- homepage links to `/technology-research`
+- `Technology Research` page holds the system cards and orbit carousel
+- the orbit dims cards as they recede so the foreground card stays in focus
+
+### Do not repeat
+
+- Do not fold the build-system explanation back into the homepage unless the page is being deliberately re-aimed at technical audiences.
+
+---
+
 ## 2026-06-05: Manual and saved-advert intake is the default
 
 ### Context
