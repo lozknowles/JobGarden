@@ -285,8 +285,7 @@ const workItems = [
     let rotation = 0;
     let activeIndex = 0;
     let playing = !prefersReducedMotion.matches;
-    let rafId = null;
-    let lastTimestamp = 0;
+    let autoplayTimer = null;
     let dragState = null;
     let resumeTimer = null;
 
@@ -326,13 +325,13 @@ const workItems = [
         const cardAngle = index * angleStep;
         const rawDistance = Math.abs(normalize(cardAngle - current));
         const distance = Math.min(rawDistance, 360 - rawDistance);
-        const frontness = Math.max(0, Math.cos((distance * Math.PI) / 180));
-        const opacity = 0.14 + frontness * 0.86;
-        const brightness = 0.35 + frontness * 0.65;
-        const saturation = 0.45 + frontness * 0.55;
-        const scale = 0.82 + frontness * 0.18;
-        const lift = (1 - frontness) * 18;
-        const blur = (1 - frontness) * 1.6;
+        const frontness = Math.max(0, 1 - distance / 180);
+        const opacity = 0.08 + frontness * 0.92;
+        const brightness = 0.24 + frontness * 0.76;
+        const saturation = 0.34 + frontness * 0.66;
+        const scale = 0.78 + frontness * 0.22;
+        const lift = (1 - frontness) * 22;
+        const blur = (1 - frontness) * 1.1;
 
         card.style.setProperty('--card-opacity', opacity.toFixed(3));
         card.style.setProperty('--card-brightness', brightness.toFixed(3));
@@ -355,7 +354,7 @@ const workItems = [
     };
 
     const nudge = (direction) => {
-      rotation += direction * angleStep;
+      rotation = normalize(rotation + direction * angleStep);
       sync();
     };
 
@@ -363,10 +362,9 @@ const workItems = [
       playing = false;
       toggleButton.textContent = 'Play';
       toggleButton.setAttribute('aria-pressed', 'false');
-      lastTimestamp = 0;
-      if (rafId) {
-        window.cancelAnimationFrame(rafId);
-        rafId = null;
+      if (autoplayTimer) {
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = null;
       }
     };
 
@@ -379,24 +377,12 @@ const workItems = [
       playing = true;
       toggleButton.textContent = 'Pause';
       toggleButton.setAttribute('aria-pressed', 'true');
-      lastTimestamp = 0;
-      if (rafId) return;
+      if (autoplayTimer) return;
 
-      const tick = (timestamp) => {
-        if (!playing) {
-          rafId = null;
-          return;
-        }
-
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const delta = timestamp - lastTimestamp;
-        lastTimestamp = timestamp;
-        rotation += delta * 0.013;
-        sync();
-        rafId = window.requestAnimationFrame(tick);
-      };
-
-      rafId = window.requestAnimationFrame(tick);
+      autoplayTimer = window.setInterval(() => {
+        if (!playing || dragState) return;
+        nudge(1);
+      }, 2400);
     };
 
     const pauseTemporarily = () => {
@@ -460,13 +446,15 @@ const workItems = [
     viewport.addEventListener('pointermove', (event) => {
       if (!dragState || dragState.id !== event.pointerId) return;
       const delta = event.clientX - dragState.x;
-      rotation = dragState.rotation + delta * 0.35;
+      rotation = normalize(dragState.rotation + delta * 0.35);
       sync();
     });
 
     const releasePointer = (event) => {
       if (dragState && dragState.id === event.pointerId) {
         dragState = null;
+        rotation = Math.round(normalize(rotation) / angleStep) * angleStep;
+        sync();
       }
       viewport.dataset.dragging = 'false';
     };
@@ -516,11 +504,7 @@ const workItems = [
       const angle = index * angleStep;
       card.style.setProperty('--angle', `${angle}deg`);
       card.addEventListener('click', () => {
-        const targetRotation = index * angleStep;
-        const current = normalize(rotation);
-        const delta = normalize(targetRotation - current);
-        const reverse = normalize(current - targetRotation);
-        rotation += delta <= reverse ? delta : -reverse;
+        rotation = index * angleStep;
         pauseTemporarily();
         sync();
       });

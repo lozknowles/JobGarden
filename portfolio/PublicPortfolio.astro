@@ -307,8 +307,7 @@ const workItems = [
     let rotation = 0;
     let activeIndex = 0;
     let playing = !prefersReducedMotion.matches;
-    let rafId = null;
-    let lastTimestamp = 0;
+    let autoplayTimer = null;
     let dragState = null;
     let resumeTimer = null;
 
@@ -348,7 +347,7 @@ const workItems = [
     };
 
     const nudge = (direction) => {
-      rotation += direction * angleStep;
+      rotation = normalize(rotation + direction * angleStep);
       sync();
     };
 
@@ -356,10 +355,9 @@ const workItems = [
       playing = false;
       toggleButton.textContent = 'Play';
       toggleButton.setAttribute('aria-pressed', 'false');
-      lastTimestamp = 0;
-      if (rafId) {
-        window.cancelAnimationFrame(rafId);
-        rafId = null;
+      if (autoplayTimer) {
+        window.clearInterval(autoplayTimer);
+        autoplayTimer = null;
       }
     };
 
@@ -372,24 +370,12 @@ const workItems = [
       playing = true;
       toggleButton.textContent = 'Pause';
       toggleButton.setAttribute('aria-pressed', 'true');
-      lastTimestamp = 0;
-      if (rafId) return;
+      if (autoplayTimer) return;
 
-      const tick = (timestamp) => {
-        if (!playing) {
-          rafId = null;
-          return;
-        }
-
-        if (!lastTimestamp) lastTimestamp = timestamp;
-        const delta = timestamp - lastTimestamp;
-        lastTimestamp = timestamp;
-        rotation += delta * 0.013;
-        sync();
-        rafId = window.requestAnimationFrame(tick);
-      };
-
-      rafId = window.requestAnimationFrame(tick);
+      autoplayTimer = window.setInterval(() => {
+        if (!playing || dragState) return;
+        nudge(1);
+      }, 2400);
     };
 
     const pauseTemporarily = () => {
@@ -420,13 +406,15 @@ const workItems = [
     viewport.addEventListener('pointermove', (event) => {
       if (!dragState || dragState.id !== event.pointerId) return;
       const delta = event.clientX - dragState.x;
-      rotation = dragState.rotation + delta * 0.35;
+      rotation = normalize(dragState.rotation + delta * 0.35);
       sync();
     });
 
     const releasePointer = (event) => {
       if (dragState && dragState.id === event.pointerId) {
         dragState = null;
+        rotation = Math.round(normalize(rotation) / angleStep) * angleStep;
+        sync();
       }
     };
 
@@ -501,11 +489,7 @@ const workItems = [
       const angle = index * angleStep;
       card.style.setProperty('--angle', `${angle}deg`);
       card.addEventListener('click', () => {
-        const targetRotation = index * angleStep;
-        const current = normalize(rotation);
-        const delta = normalize(targetRotation - current);
-        const reverse = normalize(current - targetRotation);
-        rotation += delta <= reverse ? delta : -reverse;
+        rotation = index * angleStep;
         pauseTemporarily();
         sync();
       });
@@ -1138,7 +1122,10 @@ const workItems = [
       translate(-50%, -50%)
       rotateY(var(--angle))
       translateZ(var(--orbit-radius));
-    transition: opacity 0.3s ease, filter 0.3s ease;
+    transition:
+      opacity 0.36s ease,
+      filter 0.36s ease,
+      transform 0.78s cubic-bezier(0.2, 0.75, 0.2, 1);
     opacity: 0.54;
     filter: blur(0.2px) saturate(0.9);
     cursor: pointer;
@@ -1158,6 +1145,8 @@ const workItems = [
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(255, 255, 255, 0.96);
     box-shadow: 0 20px 38px rgba(11, 18, 32, 0.22);
+    transition: transform 0.78s cubic-bezier(0.2, 0.75, 0.2, 1), box-shadow 0.28s ease;
+    will-change: transform;
   }
 
   .orbit-preview {
@@ -1236,7 +1225,7 @@ const workItems = [
 
   .orbit-focus-copy p {
     margin: 0;
-    color: #667085;
+    color: rgba(226, 232, 240, 0.72);
   }
 
   .orbit-focus-footer {
@@ -1245,7 +1234,7 @@ const workItems = [
     gap: 14px;
     align-items: center;
     margin-top: 8px;
-    color: #475467;
+    color: rgba(226, 232, 240, 0.68);
     font-size: 0.92rem;
   }
 
