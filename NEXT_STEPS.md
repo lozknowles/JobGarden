@@ -34,4 +34,4 @@ Next step:
 5. Treat ATS form capture and form-fill as later-phase work.
 6. Keep the `lozknowles.com` main page focused while the 3D orbit carousel and build-system experiments live on the new Technology Research page.
 7. Keep `DECISIONS_LOG.md` updated whenever workflow defaults change.
-8. Review the refreshed portfolio page for spacing, motion feel, carousel interaction, and any copy tweaks before a live deployment.
+8. Review the refreshed portfolio page for spacing, motion feel, carousel interaction, theme coherence, and any copy tweaks before a live deployment.
