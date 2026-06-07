@@ -232,7 +232,7 @@ const workItems = [
   </section>
 </section>
 
-<script is:inline>
+<script is:inline data-astro-rerun>
   const initOrbitCarousel = () => {
     const viewport = document.querySelector('[data-orbit-viewport]');
     const ring = document.querySelector('[data-orbit-ring]');
@@ -248,9 +248,26 @@ const workItems = [
     const nextButton = document.querySelector('[data-orbit-next]');
     const toggleButton = document.querySelector('[data-orbit-toggle]');
 
-    if (!viewport || !ring || !cards.length || !focusImage || !focusLabel || !focusTitle || !focusBody || !focusLink || !focusMeta || !position || !prevButton || !nextButton || !toggleButton) {
+    if (
+      !viewport ||
+      viewport.dataset.orbitInitialised === 'true' ||
+      !ring ||
+      !cards.length ||
+      !focusImage ||
+      !focusLabel ||
+      !focusTitle ||
+      !focusBody ||
+      !focusLink ||
+      !focusMeta ||
+      !position ||
+      !prevButton ||
+      !nextButton ||
+      !toggleButton
+    ) {
       return;
     }
+
+    viewport.dataset.orbitInitialised = 'true';
 
     const items = cards.map((card) => ({
       image: card.querySelector('img')?.getAttribute('src') ?? '',
@@ -430,6 +447,7 @@ const workItems = [
 
     viewport.addEventListener('pointerdown', (event) => {
       if (event.button !== 0) return;
+      viewport.dataset.dragging = 'true';
       dragState = {
         id: event.pointerId,
         x: event.clientX,
@@ -450,6 +468,7 @@ const workItems = [
       if (dragState && dragState.id === event.pointerId) {
         dragState = null;
       }
+      viewport.dataset.dragging = 'false';
     };
 
     viewport.addEventListener('pointerup', releasePointer);
@@ -514,11 +533,17 @@ const workItems = [
     }
   };
 
-  if (document.readyState === 'loading') {
-    document.addEventListener('DOMContentLoaded', initOrbitCarousel, { once: true });
-  } else {
+  const bootOrbitCarousel = () => {
     initOrbitCarousel();
+  };
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', bootOrbitCarousel, { once: true });
+  } else {
+    bootOrbitCarousel();
   }
+
+  document.addEventListener('astro:page-load', bootOrbitCarousel);
 </script>
 
 <style is:global>
@@ -766,6 +791,12 @@ const workItems = [
     transform-style: preserve-3d;
     box-shadow: 0 24px 54px rgba(11, 18, 32, 0.22);
     outline: none;
+    touch-action: pan-y;
+    cursor: grab;
+  }
+
+  .orbit-viewport[data-dragging="true"] {
+    cursor: grabbing;
   }
 
   .orbit-grid,
@@ -797,6 +828,8 @@ const workItems = [
     inset: 0;
     transform-style: preserve-3d;
     transform: translateZ(0) rotateY(var(--orbit-rotation));
+    transition: transform 780ms cubic-bezier(0.2, 0.75, 0.2, 1);
+    will-change: transform;
   }
 
   .orbit-card {
@@ -814,7 +847,11 @@ const workItems = [
       brightness(var(--card-brightness, 1))
       saturate(var(--card-saturation, 1))
       blur(var(--card-blur, 0px));
-    transition: opacity 0.28s ease, filter 0.28s ease;
+    transition:
+      opacity 0.36s ease,
+      filter 0.36s ease,
+      transform 0.78s cubic-bezier(0.2, 0.75, 0.2, 1);
+    will-change: transform, opacity, filter;
     cursor: pointer;
   }
 
@@ -834,6 +871,8 @@ const workItems = [
     border: 1px solid rgba(255, 255, 255, 0.14);
     background: rgba(255, 255, 255, 0.96);
     box-shadow: 0 20px 38px rgba(11, 18, 32, 0.22);
+    transition: transform 0.78s cubic-bezier(0.2, 0.75, 0.2, 1), box-shadow 0.28s ease;
+    will-change: transform;
   }
 
   .orbit-preview {
@@ -1066,6 +1105,7 @@ const workItems = [
   @media (prefers-reduced-motion: reduce) {
     .orbit-ring,
     .orbit-card,
+    .orbit-card-surface,
     .orbit-button {
       transition: none !important;
     }
