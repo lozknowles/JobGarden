@@ -32,6 +32,6 @@ Next step:
 3. Add interview-question preparation based on the advert and fit evaluation.
 4. Keep `job_search_tracker.csv` focused on MVP value first.
 5. Treat ATS form capture and form-fill as later-phase work.
-6. Continue the `lozknowles.com` refresh with real project screenshots, titles, and short outcome captions for the new carousel.
+6. Continue the `lozknowles.com` refresh with the 3D orbit carousel, visible build-system section, and stronger project storytelling.
 7. Keep `DECISIONS_LOG.md` updated whenever workflow defaults change.
-8. Review the refreshed portfolio page for spacing, carousel feel, and any copy tweaks before a live deployment.
+8. Review the refreshed portfolio page for spacing, motion feel, and any copy tweaks before a live deployment.
