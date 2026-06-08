@@ -151,7 +151,7 @@ SECTOR_HINTS = {
 }
 
 ROLE_FAMILY_PATTERNS = [
-    ("ai_enablement", ("ai integration", "automation", "emerging technology", "prompt engineering", "ai tools", "train and support employees", "workshops", "adoption of ai")),
+    ("ai_enablement", ("applied ai science", "ai science", "ai offerings", "ai advisory services", "ai advisory", "ai solutions", "ai/ml", "machine learning", "artificial intelligence", "ai integration", "automation", "emerging technology", "prompt engineering", "ai tools", "train and support employees", "workshops", "adoption of ai")),
     ("data_migration_analyst", ("data migration", "migration analyst", "data mapping", "data reconciliation", "data cleansing", "successfactors")),
     ("product_marketing", ("product marketing", "go to market", "gtm", "positioning", "messaging")),
     ("functional_analyst", ("functional analyst", "functional consultant", "requirements gathering", "configuration")),
@@ -502,6 +502,10 @@ def infer_gaps(job_text: str) -> list[str]:
     lowered = job_text.lower()
     gaps: list[str] = []
 
+    if any(term in lowered for term in ("life sciences", "healthcare intelligence", "pharma", "pharmaceutical", "clinical research")):
+        gaps.append("Direct life-sciences domain depth is not obvious from Lawrence's profile; frame adjacent enterprise-software experience carefully.")
+    if any(term in lowered for term in ("applied ai science", "ai offerings", "ai advisory", "ai/ml", "machine learning")):
+        gaps.append("The advert expects applied AI science credibility; distinguish AI-adjacent interest from deep technical expertise.")
     if any(term in lowered for term in ("hands-on coding", "software engineer", "developer")):
         gaps.append("Role may lean too far toward hands-on engineering delivery.")
     if "visa" in lowered or "sponsorship" in lowered:
@@ -568,6 +572,13 @@ def supporting_statement_prompts(job_text: str) -> list[str]:
         "Match the strongest three requirements from the advert to concrete evidence from Lawrence's HR software, product, and implementation background.",
     ]
 
+    if any(term in lowered for term in ("applied ai science", "ai offerings", "ai advisory", "ai/ml", "machine learning", "life sciences")):
+        prompts.append(
+            "Translate AI science into customer-facing language: talk about trust, validation, adoption, and measurable impact rather than jargon."
+        )
+        prompts.append(
+            "If you keep the application strategic, acknowledge the life-sciences context and explain the adjacent value of enterprise-software leadership without overstating domain depth."
+        )
     if any(term in lowered for term in ("roadmap", "product vision", "strategy", "backlog")):
         prompts.append(
             "Include an example of shaping product direction, roadmap priorities, or delivery trade-offs."
@@ -620,6 +631,8 @@ def infer_cv_emphasis(job_text: str) -> list[str]:
     ]
     if any(term in lowered for term in ("ai integration", "automation", "prompt engineering", "workshops", "adoption of ai", "chatgpt", "claude", "gemini", "midjourney")):
         bullets.append("Make AI-tool adoption, workflow improvement, training, and practical experimentation highly visible.")
+    if any(term in lowered for term in ("applied ai science", "ai offerings", "ai advisory", "ai/ml", "machine learning", "life sciences")):
+        bullets.append("Bring forward current machine-learning study and any evidence of translating technical ideas into customer-facing or commercial language.")
     if any(term in lowered for term in ("data migration", "data mapping", "reconciliation", "cleansing", "successfactors", "uat", "parallel payroll")):
         bullets.append("Make any direct data-migration, audit, validation, or implementation-governance evidence easy to spot.")
     if any(term in lowered for term in ("roadmap", "product owner", "product manager", "okr")):
@@ -639,6 +652,9 @@ def infer_cover_letter_angles(job_text: str) -> list[str]:
         "Open with direct relevance to the employer's HR, payroll, or people-software context.",
         "Link product judgement to commercial credibility and customer outcomes.",
     ]
+    if any(term in lowered for term in ("applied ai science", "ai offerings", "ai advisory", "ai/ml", "machine learning", "life sciences")):
+        angles.append("Speak to applied AI enablement in a trust-sensitive setting: discovery, validation, adoption, and measurable outcomes.")
+        angles.append("Acknowledge the life-sciences context and connect transferable enterprise-software leadership to it without overstating domain depth.")
     if any(term in lowered for term in ("ai integration", "automation", "prompt engineering", "workshops", "adoption of ai")):
         angles.append("Emphasise practical AI enablement: workflow improvement, adoption, training, and measurable business usefulness.")
     if any(term in lowered for term in ("data migration", "data mapping", "validation", "reconciliation", "cleansing")):
@@ -656,6 +672,7 @@ def infer_interview_questions(metadata: dict, evaluation: Evaluation) -> list[st
     role = metadata.get("role", "this role")
     company = metadata.get("company", "the company")
     role_family = metadata.get("role_family", "unknown")
+    lowered_job_text = metadata.get("job_text", "").lower()
     if role_family == "data_migration_analyst":
         questions = [
             f"What attracted you to {role} at {company}?",
@@ -672,6 +689,8 @@ def infer_interview_questions(metadata: dict, evaluation: Evaluation) -> list[st
             "Describe how you decide whether an AI tool is genuinely useful rather than just interesting.",
             "Tell us about a time you trained or influenced teams across different functions.",
         ]
+        if any(term in lowered_job_text for term in ("life sciences", "healthcare intelligence", "pharma", "applied ai science")):
+            questions.append("How would you build credibility in a life-sciences AI environment where your direct domain background is adjacent rather than native?")
     else:
         questions = [
             f"What attracted you to {role} at {company}?",

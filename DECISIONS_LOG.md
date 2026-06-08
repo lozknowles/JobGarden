@@ -101,6 +101,32 @@ Role families currently inferred:
 
 ---
 
+## 2026-06-08: Applied AI science roles should map to the AI enablement family
+
+### Context
+
+The IQVIA role text used phrases like “applied AI science”, “AI offerings”, and “AI advisory services”, but the existing role-family inference only recognised more generic AI-adoption language.
+
+### Decision
+
+Treat applied AI science, AI advisory, AI offerings, and life-sciences AI platform work as part of the `ai_enablement` family.
+
+### Why
+
+- These roles are customer-facing AI advisory positions rather than pure engineering roles.
+- The broader workflow should recognise life-sciences AI platform and enablement language more reliably.
+- It improves the fit, tailoring, and interview-question prompts for roles like the IQVIA opening.
+
+### Current implementation
+
+- `role_family` inference now includes phrases such as `applied ai science`, `ai offerings`, `ai advisory`, `ai solutions`, and `ai/ml`
+
+### Do not repeat
+
+- Do not leave customer-facing AI platform roles in the generic `unknown` bucket when the advert clearly describes AI enablement work.
+
+---
+
 ## 2026-06-05: HR/payroll domain signals need heavier weighting
 
 ### Context
