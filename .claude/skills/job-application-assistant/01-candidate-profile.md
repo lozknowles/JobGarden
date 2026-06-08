@@ -97,14 +97,17 @@
 - **Cloud platforms**: Microsoft Azure, SaaS, IaaS, PaaS
 - **Leadership and management**: board-level reporting, executive management, team building
 - **Commercial strategy**: P&L, investment strategy, market positioning, business development
+- **AI-enabled platform development**: building and using AI across multiple platforms, with practical delivery focus
 
 ### Secondary
 - **Technology stack:** .NET, legacy-to-modern migration, security hardening, scalable architecture
+- **Infrastructure knowledge:** deployment, environments, hosting, performance, reliability, and platform operations
 - **Customer and supplier relationships:** director / CEO / president-level engagement
 - **Presentations:** keynote and board-level communication
 - **Software development lifecycle:** agile-style delivery, stand-ups, appraisals, roadmap planning
 - **HR and payroll implementations:** selection, current state audit, oversight and assurance
 - **Analytics and data:** HRMS and data analytics
+- **Labour market / skills intelligence:** Burning Glass and related talent-insight work
 
 ### Domain Knowledge
 - HR software

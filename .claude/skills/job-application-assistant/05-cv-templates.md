@@ -107,15 +107,24 @@ Write 5-7 lines that function as an "elevator pitch": a concise, compelling intr
 
 <!-- SETUP: These are populated based on your background -->
 **For product leadership / HR software roles:**
-> Commercial and technology leader with deep HR software experience across product strategy, cloud platform delivery, and enterprise growth. I have led teams, shaped roadmaps, and helped organisations modernise payroll and HR platforms while improving customer experience, security, and scalability.
+> Commercial and technology leader with deep HR software experience across product strategy, cloud platform delivery, AI-enabled platforms, and enterprise growth. I have led teams, shaped roadmaps, and helped organisations modernise payroll and HR platforms while improving customer experience, security, scalability, and operational confidence.
 
 **For implementation assurance / project audit roles:**
 > Senior HR software executive with hands-on experience of system selection, current-state audit, implementation oversight, and legacy-to-modern platform transitions. I help organisations reduce delivery risk, improve stakeholder alignment, and make practical decisions that lead to successful HR technology outcomes.
+
+**For AI platform / advisory roles:**
+> Senior technology and product leader with hands-on AI use across multiple platforms, strong infrastructure awareness, and a bias toward practical delivery. I turn complex systems into customer-facing outcomes, improve workflow usefulness, and help teams adopt technology with confidence.
 
 ### Core Competencies / Skills Section (Best Practice)
 Reorder and emphasize based on the role. Use bold category labels.
 
 List **5-7 key competencies** in bullet format, tailored to the specific job. For each competency, briefly explain how it adds value to the position.
+
+For AI-adjacent roles, surface:
+- AI-enabled platform development and practical workflow improvement
+- Infrastructure awareness: deployment, reliability, environments, and scaling
+- Ability to translate technical ideas into customer-facing language
+- Trusted advisory work with senior stakeholders and partners
 
 ### Education
 - Always include your highest degrees
